@@ -1,0 +1,77 @@
+$accent-color: #f5c2e7;
+$base-color: #1e1e2e;
+$crust-color: #11111b;
+$mantle-color: #181825;
+$text-color: #cdd6f4;
+$warning-color: #f38ba8;
+
+$gap-sml: .5em;
+$gap-med: 1em;
+
+$border-radius: 3px
+$border-width: 2px
+
+@mixin text-color {
+  color: $text-color;
+  font-weight: bold;
+}
+
+.bar {
+  background-color: $base-color;
+  .app-title {
+    @include text-color;
+  }
+  .clock {
+    @include text-color;
+  }
+  .workspaces {
+    .workspace {
+      border-radius: $border-radius;
+      background-color: $crust-color;
+      margin-bottom: $gap-sml;
+      margin-right: $gap-sml;
+      margin-top: $gap-sml;
+      @include text-color;
+    }
+    .workspace:first-child {
+      margin-left: $gap-sml;
+    }
+    button.active {
+      background-color: $accent-color;
+      color: $crust-color;
+    }
+  }
+}
+
+.notifications {
+  .notifications-list {
+    margin: $gap-med;
+    min-height: 2000px;
+    .notification {
+      background-color: $base-color;
+      border-color: $accent-color;
+      border-radius: $border-radius;
+      border-style: solid;
+      border-width: $border-width;
+      margin-bottom: $gap-med;
+      min-width: 400px;
+      padding: $gap-sml;
+      .icon image {
+        color: $accent-color;
+        font-size: 58px;
+      }
+      .title {
+        font-size: 1.5em;
+      }
+      .body {
+        margin: $gap-sml;
+      }
+      .action-button {
+        margin: $gap-sml;
+      }
+    }
+    .notification.critical {
+      border-color: $warning-color;
+    }
+  }
+}
