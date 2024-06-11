@@ -14,7 +14,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, catppuccin, nixpkgs, nur, home-manager, ... }:
+  outputs = inputs@{ self, catppuccin, home-manager, nixpkgs, nur, ... }:
       let
         system = "x86_64-linux";
       in {

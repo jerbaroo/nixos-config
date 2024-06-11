@@ -1,4 +1,4 @@
-{ config, inputs, system, ... }:
+{ config, inputs, pkgs, system, ... }:
 
 let
   accent = "pink";
@@ -26,6 +26,7 @@ in {
         inherit flavor;
         inherit hostname;
         inherit inputs;
+        inherit pkgs;
         inherit stateVersion;
         inherit system;
         inherit username;

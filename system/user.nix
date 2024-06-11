@@ -1,4 +1,4 @@
-{ accent, config, flavor, inputs, stateVersion, system, username, ... }: {
+{ accent, config, flavor, inputs, stateVersion, pkgs, system, username, ... }: {
   home-manager = {
     backupFileExtension = ".backup";
     extraSpecialArgs = { inherit inputs; };
@@ -14,7 +14,7 @@
         ../user/fonts.nix
         (import ../user/firefox.nix { inherit config; inherit username; })
         ../user/git.nix
-        (import ../user/hyprland.nix { inherit inputs; inherit system; })
+        (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })
         ../user/kitty.nix
         ../user/lsd.nix
         ../user/neovim.nix

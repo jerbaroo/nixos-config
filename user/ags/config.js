@@ -1,6 +1,7 @@
 import { AppLauncher } from "./AppLauncher.js"
 import { Bar } from "./Bar.js"
 import { Notifications } from "./Notifications.js"
+import { PowerMenu } from "./PowerMenu.js"
 
 const notify = () => Utils.timeout(300, () => Utils.notify({
   summary: "Notification Popup Example",
@@ -31,5 +32,5 @@ const buildCss = () => {
 
 App.config({
   style: buildCss(),
-  windows: [AppLauncher(), Bar(), Notifications()]
+  windows: [AppLauncher(), Bar(), Notifications(), PowerMenu()]
 })

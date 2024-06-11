@@ -1,4 +1,10 @@
-{ inputs, system, ... }: {
+{ inputs, pkgs, system, ... }: {
+  home.packages = with pkgs; [
+    grim
+    slurp
+    swappy
+    wl-clipboard
+  ];
   programs.hyprlock = {
     enable = true;
     settings = {
@@ -27,9 +33,9 @@
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
           "$mod, M, exec, ags -t applauncher"
-          "$mod, Q, exec, hyprlock"
+          "$mod, Q, exec, ags -t powermenu"
           "$mod, RETURN, exec, kitty"
-          "$mod, S, exec, 'grim -g \"\$(slurp)\" - | swappy -f -'" # TODO: fix
+          "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -" # TODO: fix
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, togglefloating"
           "$mod, W, exec, firefox"

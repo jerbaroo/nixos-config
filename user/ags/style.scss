@@ -8,8 +8,8 @@ $warning-color: #f38ba8;
 $gap-sml: .5em;
 $gap-med: 1em;
 
-$border-radius: 3px
-$border-width: 2px
+$border-radius: 3px;
+$border-width: 2px;
 
 @mixin text-color {
   color: $text-color;
@@ -73,5 +73,13 @@ $border-width: 2px
     .notification.critical {
       border-color: $warning-color;
     }
+  }
+}
+
+.powermenu-box {
+  border: $border-width solid $accent-color;
+  border-radius: $border-radius;
+  .powermenu-icon {
+    margin: 10em;
   }
 }
