@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   programs.kitty = {
     enable = true;
-    font.size = 18;
+    font.size = 22;
     font.name = "JetBrainsMono";
     font.package = pkgs.jetbrains-mono;
     settings = {

@@ -1,4 +1,4 @@
-![Screenshot](./image.png)
+![image](https://github.com/jerbaroo/nixos/assets/6631452/a53036a8-82a4-4287-acfd-e6edaac9eb00)
 
 - Install NixOS 24.05.
 - Install this NixOS configuration:

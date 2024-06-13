@@ -24,7 +24,7 @@ const PowerMenuBox = ({ height, spacing, width }) =>
 
 export const PowerMenu = () => Widget.Window({
   // Spacing should be a multiple of 2.
-  child: PowerMenuBox({ height: 300, spacing: 20, width: 500 }),
+  child: PowerMenuBox({ height: 200, spacing: 20, width: 300 }),
   keymode: "exclusive",
   name: WindowName,
   setup: self => self.keybind("Escape", () => App.closeWindow(WindowName)),

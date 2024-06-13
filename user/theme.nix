@@ -5,11 +5,9 @@
     flavor = "${flavor}";
   };
   gtk.enable = true;
-  # ls /etc/profiles/per-user/jer/share/themes
-  gtk.theme.name = "Catppuccin-Mocha-Standard-Pink-Dark";
-  gtk.theme.package = (pkgs.catppuccin-gtk.override {
-    accents = ["${accent}"]; variant = "${flavor}";
-  });
+  gtk.font.name = "Atkinson Hyperlegible";
+  gtk.font.package = pkgs.atkinson-hyperlegible;
+  gtk.font.size = 16;
   # ls /etc/profiles/per-user/jer/share/icons
   gtk.iconTheme.name = "WhiteSur-dark";
   gtk.iconTheme.package = (pkgs.whitesur-icon-theme.override {
@@ -23,4 +21,9 @@
     package = pkgs.catppuccin-cursors.mochaPink;
     x11.enable = true;
   };
+  # ls /etc/profiles/per-user/jer/share/themes
+  gtk.theme.name = "Catppuccin-Mocha-Standard-Pink-Dark";
+  gtk.theme.package = (pkgs.catppuccin-gtk.override {
+    accents = ["${accent}"]; variant = "${flavor}";
+  });
 }
