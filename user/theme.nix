@@ -19,10 +19,8 @@
   # ls /etc/profiles/per-user/jer/share/icons
   home.pointerCursor = {
     gtk.enable = true;
-    name = "oreo_pink_cursors";
-    package = (pkgs.oreo-cursors-plus.override {
-      cursorsConf = "pink = #f5c2e7";
-    });
+    name = "Catppuccin-Mocha-Pink-Cursors";
+    package = pkgs.catppuccin-cursors.mochaPink;
     x11.enable = true;
   };
 }

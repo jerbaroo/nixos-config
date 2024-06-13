@@ -14,10 +14,10 @@ const PowerMenuIcon = ({ icon, command }) =>
 const PowerMenuBox = ({ height, spacing, width }) =>
   Widget.Box({
     children: [
-      PowerMenuIcon({ icon: "system-shutdown-symbolic", command: "poweroff" }),
-      PowerMenuIcon({ icon: "system-reboot-symbolic", command: "reboot" }),
-      PowerMenuIcon({ icon: "logout-symbolic", command: "hyprctl dispatch exit" }),
       PowerMenuIcon({ icon: "object-locked-symbolic", command: "hyprlock" }),
+      PowerMenuIcon({ icon: "logout-symbolic", command: "hyprctl dispatch exit" }),
+      PowerMenuIcon({ icon: "system-reboot-symbolic", command: "reboot" }),
+      PowerMenuIcon({ icon: "system-shutdown-symbolic", command: "poweroff" }),
     ],
     class_name: "powermenu-box"
   })

@@ -1,7 +1,13 @@
-{ inputs, pkgs, system, ... }: {
+{ inputs, pkgs, system, ... }:
+let
+  wallpaper = pkgs.fetchurl {
+    hash = "sha256-8FaX9qSTZ9Nw12IGwRKPwB1s765dQ/sTPImx6jN4BXE=";
+    url = "https://raw.githubusercontent.com/vinceliuice/Orchis-theme/master/wallpaper/4k.jpg";
+  };
+in
+{
   home.packages = with pkgs; [
     grim
-    hyprpaper
     slurp
     swappy
     wl-clipboard
@@ -23,6 +29,15 @@
         inner_color = "rgb(49, 50, 68)";
         outer_color = "rgb(24, 24, 37)";
       }];
+    };
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = "off";
+      preload = [(builtins.toString wallpaper)];
+      splash = false;
+      wallpaper = [",${(builtins.toString wallpaper)}"];
     };
   };
   wayland.windowManager.hyprland = {
