@@ -48,6 +48,10 @@
           "$mod, K, movefocus, u"
           "$mod, L, movefocus, r"
           # Window navigation.
+          "$mod CTRL, H, movewindow, l"
+          "$mod CTRL, J, movewindow, d"
+          "$mod CTRL, K, movewindow, u"
+          "$mod CTRL, L, movewindow, r"
           "$mod SHIFT, H, swapwindow, l"
           "$mod SHIFT, J, swapwindow, d"
           "$mod SHIFT, K, swapwindow, u"

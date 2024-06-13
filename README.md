@@ -4,7 +4,6 @@
 - Install this NixOS configuration:
   - `sudo rm -rf /etc/nixos`
   - Clone this repo into some directory `d` and then `cd d`.
-  - Update username in `nixos.nix`.
   - `sudo nixos-generate-config --show-hardware-config > system/hardware-configuration.nix`
   - `git commit -am "install" && sudo nixos-rebuild switch --flake .#nixos`
 - Install Doom Emacs:

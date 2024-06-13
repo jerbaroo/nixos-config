@@ -21,7 +21,7 @@
         ../user/protonvpn.nix
         ../user/starship.nix
         ../user/tex.nix
-        (import ../user/theme.nix { inherit accent; inherit flavor; })
+        (import ../user/theme.nix { inherit accent; inherit flavor; inherit pkgs; })
         ../user/tmux.nix
       ];
       home.stateVersion = stateVersion;
