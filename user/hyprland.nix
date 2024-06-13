@@ -82,7 +82,11 @@
           "$mod SHIFT, 9, movetoworkspace, 9"
           "$mod SHIFT, 0, movetoworkspace, 0"
         ];
-      decoration.rounding = 3;
+      decoration = {
+        active_opacity = 0.90;
+        inactive_opacity = 0.90;
+        rounding = 3;
+      };
       dwindle.preserve_split = true;
       exec-once = [ "ags" ];
       general = {
