@@ -1,6 +1,7 @@
 { inputs, pkgs, system, ... }: {
   home.packages = with pkgs; [
     grim
+    hyprpaper
     slurp
     swappy
     wl-clipboard
