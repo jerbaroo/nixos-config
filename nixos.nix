@@ -9,7 +9,7 @@ let
 in {
   imports =
     [ ./system/boot.nix
-      (import ./system/graphics.nix { inherit inputs; inherit system; })
+      (import ./system/graphics.nix { inherit inputs; inherit pkgs; inherit system; })
       ./system/hardware-configuration.nix
       ./system/keyboard.nix
       ./system/locale.nix

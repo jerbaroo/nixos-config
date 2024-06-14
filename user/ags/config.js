@@ -24,11 +24,11 @@ const buildCss = () => {
 }
 
 // Uncomment when developing to hot-reload CSS changes.
-// Utils.monitorFile(scss, () => {
-//   const css = buildCss()
-//   App.resetCss()
-//   App.applyCss(css)
-// })
+Utils.monitorFile(scss, () => {
+  const css = buildCss()
+  App.resetCss()
+  App.applyCss(css)
+})
 
 App.config({
   style: buildCss(),

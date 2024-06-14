@@ -51,7 +51,7 @@ in
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, ags -t powermenu"
           "$mod, RETURN, exec, kitty"
-          "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -" # TODO: fix
+          "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, togglefloating"
           "$mod, W, exec, firefox"
@@ -113,6 +113,7 @@ in
         gaps_out = 0;
         resize_on_border = true;
       };
+      misc.disable_hyprland_logo = true;
     };
   };
 }

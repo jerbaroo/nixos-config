@@ -11,33 +11,35 @@ $gap-med: 1em;
 $border-radius: 3px;
 $border-width: 2px;
 
-@mixin text-color {
+@mixin text-style {
   color: $text-color;
 }
 
 .bar {
   background-color: $base-color;
+  opacity: 0.9;
   .app-title {
-    @include text-color;
+    @include text-style;
   }
   .clock {
-    @include text-color;
+    @include text-style;
   }
   .workspaces {
     .workspace {
       border-radius: 50%;
-      background-color: $crust-color;
+      background-color: $mantle-color;
+      min-width: 20px;
       margin-bottom: $gap-sml;
       margin-right: $gap-sml;
       margin-top: $gap-sml;
-      @include text-color;
+      @include text-style;
     }
     .workspace:first-child {
       margin-left: $gap-sml;
     }
-    button.active {
+    .workspace.active {
       background-color: $accent-color;
-      color: $crust-color;
+      color: $base-color;
     }
   }
 }
@@ -53,7 +55,7 @@ $border-width: 2px;
       border-style: solid;
       border-width: $border-width;
       margin-bottom: $gap-med;
-      min-width: 400px;
+      min-width: 500px;
       padding: $gap-sml;
       .icon image {
         color: $accent-color;
