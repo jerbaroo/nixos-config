@@ -8,6 +8,7 @@ in
 {
   home.packages = with pkgs; [
     grim
+    hyprpicker
     slurp
     swappy
     wl-clipboard
@@ -51,6 +52,8 @@ in
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, ags -t powermenu"
           "$mod, RETURN, exec, kitty"
+          "$mod, P, exec, hyprpicker --autocopy"
+          "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
           "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, togglefloating"
@@ -101,7 +104,7 @@ in
       decoration = {
         active_opacity = 0.90;
         inactive_opacity = 0.90;
-        rounding = 3;
+        rounding = 5;
       };
       dwindle.preserve_split = true;
       exec-once = [ "ags" ];
