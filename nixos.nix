@@ -7,6 +7,7 @@ let
   stateVersion = "24.05";
   username = "jer";
 in {
+  # TODO extraSpecialArgs
   imports =
     [ ./system/boot.nix
       (import ./system/graphics.nix { inherit inputs; inherit pkgs; inherit system; })

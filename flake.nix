@@ -5,11 +5,19 @@
     ags.url = "github:Aylur/ags";
     catppuccin.url = "github:catppuccin/nix";
     home-manager = {
-      inputs.nixpkgs.follows  = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-24.05";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-    matugen.url = "github:InioX/matugen?ref=v2.2.0";
+    hyprland = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      submodules = true;
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland/";
+    };
+    hyprland-plugins = {
+      inputs.hyprland.follows = "hyprland";
+      url = "github:hyprwm/hyprland-plugins";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nur.url = "github:nix-community/NUR";
   };

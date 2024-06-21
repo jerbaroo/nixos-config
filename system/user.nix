@@ -6,6 +6,7 @@
     useUserPackages = true;
     users.${username} = {
       imports = [
+        # TODO: specialArgs
         inputs.catppuccin.homeManagerModules.catppuccin
         ../user/ags.nix
         ../user/direnv.nix

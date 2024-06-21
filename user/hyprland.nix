@@ -8,6 +8,7 @@ in
 {
   home.packages = with pkgs; [
     grim
+    # hyprexpo
     hyprpicker
     slurp
     swappy
@@ -43,12 +44,17 @@ in
   };
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${system}.hyprland;
+    plugins = [
+      # inputs.hyprland-plugins.packages.${system}.hyprexpo
+    ];
     settings = {
       "$mod" = "SUPER";
       bind = 
         [ "$mod, C, killactive"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
+          # "$mod, T, hyprexpo:expo, toggle"
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, ags -t powermenu"
           "$mod, RETURN, exec, kitty"
@@ -102,11 +108,14 @@ in
           "$mod SHIFT, 0, movetoworkspace, 0"
         ];
       decoration = {
-        active_opacity = 0.90;
-        inactive_opacity = 0.90;
-        rounding = 5;
+        active_opacity = 0.85;
+        inactive_opacity = 0.85;
+        rounding = 0;
       };
-      dwindle.preserve_split = true;
+      dwindle = {
+        # no_gaps_when_only = 1;
+        preserve_split = true;
+      };
       exec-once = [ "ags" ];
       general = {
         border_size = 2;
