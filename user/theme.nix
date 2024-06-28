@@ -9,12 +9,16 @@
   gtk.font.package = pkgs.atkinson-hyperlegible;
   gtk.font.size = 16;
   # ls /etc/profiles/per-user/jer/share/icons
-  gtk.iconTheme.name = "WhiteSur-dark";
-  gtk.iconTheme.package = (pkgs.whitesur-icon-theme.override {
-    alternativeIcons = true;
-    boldPanelIcons = true;
-  });
+  gtk.catppuccin.icon.enable = false;
+  gtk.iconTheme = {
+    name = "WhiteSur-dark";
+    package = (pkgs.whitesur-icon-theme.override {
+      alternativeIcons = true;
+      boldPanelIcons = true;
+    });
+  };
   # ls /etc/profiles/per-user/jer/share/icons
+  catppuccin.pointerCursor.enable = false;
   home.pointerCursor = {
     gtk.enable = true;
     name = "Catppuccin-Mocha-Pink-Cursors";
@@ -22,7 +26,7 @@
     x11.enable = true;
   };
   # ls /etc/profiles/per-user/jer/share/themes
-  gtk.theme.name = "Catppuccin-Mocha-Standard-Pink-Dark";
+  gtk.theme.name = "catppuccin-mocha-pink-standard+default";
   gtk.theme.package = (pkgs.catppuccin-gtk.override {
     accents = ["${accent}"]; variant = "${flavor}";
   });
