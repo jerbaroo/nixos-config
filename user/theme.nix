@@ -21,12 +21,12 @@
   catppuccin.pointerCursor.enable = false;
   home.pointerCursor = {
     gtk.enable = true;
-    name = "Catppuccin-Mocha-Pink-Cursors";
+    name = "catppuccin-mocha-pink-cursors";
     package = pkgs.catppuccin-cursors.mochaPink;
     x11.enable = true;
   };
   # ls /etc/profiles/per-user/jer/share/themes
-  gtk.theme.name = "catppuccin-mocha-pink-standard+default";
+  gtk.theme.name = "catppuccin-mocha-pink-standard";
   gtk.theme.package = (pkgs.catppuccin-gtk.override {
     accents = ["${accent}"]; variant = "${flavor}";
   });
