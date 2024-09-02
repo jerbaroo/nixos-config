@@ -1,8 +1,11 @@
 { inputs, pkgs, system, ... }: {
+  # imports = [ inputs.nixos-cosmic.nixosModules.default ];
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${system}.hyprland;
   };
+  services.desktopManager.cosmic.enable = true;
+  # services.displayManager.cosmic-greeter.enable = true;
   services.xserver = {
     enable = true;
     desktopManager.gnome.enable = true;
