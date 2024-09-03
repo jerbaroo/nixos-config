@@ -1,4 +1,4 @@
-{ accent, config, flavor, inputs, stateVersion, pkgs, system, username, ... }: {
+{ accent, config, flavor, inputs, pkgs-unstable, stateVersion, pkgs, system, username, ... }: {
   home-manager = {
     backupFileExtension = ".backup";
     extraSpecialArgs = { inherit inputs; };
@@ -6,7 +6,6 @@
     useUserPackages = true;
     users.${username} = {
       imports = [
-        # TODO: specialArgs
         inputs.catppuccin.homeManagerModules.catppuccin
         ../user/ags.nix
         ../user/direnv.nix
@@ -18,7 +17,7 @@
         (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })
         ../user/kitty.nix
         ../user/lsd.nix
-        ../user/neovim.nix
+        (import ../user/neovim.nix { inherit pkgs; inherit pkgs-unstable; })
         ../user/protonvpn.nix
         ../user/starship.nix
         ../user/tex.nix

@@ -23,23 +23,25 @@
       url = "github:lilyinstarlight/nixos-cosmic";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, catppuccin, home-manager, nixos-cosmic, nixpkgs, nur, ... }:
-      let
-        system = "x86_64-linux";
-      in {
-        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-          modules = [
-            ./nixos.nix
-            catppuccin.nixosModules.catppuccin
-            home-manager.nixosModules.home-manager
-            nixos-cosmic.nixosModules.default
-            nur.nixosModules.nur
-          ];
-          specialArgs = { inherit inputs; inherit system; };
-          inherit system;
-        };
+  outputs = inputs:
+    let
+      pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
+      system = "x86_64-linux";
+    in {
+      nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./nixos.nix
+          inputs.catppuccin.nixosModules.catppuccin
+          inputs.home-manager.nixosModules.home-manager
+          inputs.nixos-cosmic.nixosModules.default
+          inputs.nur.nixosModules.nur
+        ];
+        specialArgs = { inherit inputs; inherit pkgs-unstable; inherit system; };
       };
+    };
 }

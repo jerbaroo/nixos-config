@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, system, ... }:
+{ config, inputs, pkgs, pkgs-unstable, system, ... }:
 
 let
   accent = "pink";
@@ -7,7 +7,6 @@ let
   stateVersion = "24.05";
   username = "jer";
 in {
-  # TODO extraSpecialArgs
   imports =
     [ ./system/boot.nix
       (import ./system/graphics.nix { inherit inputs; inherit pkgs; inherit system; })
@@ -28,6 +27,7 @@ in {
         inherit hostname;
         inherit inputs;
         inherit pkgs;
+        inherit pkgs-unstable;
         inherit stateVersion;
         inherit system;
         inherit username;
