@@ -9,7 +9,8 @@
       url = "github:nix-community/home-manager/release-24.05";
     };
     hyprland = {
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      # ref = "refs/tags/v0.41.0";
       submodules = true;
       type = "git";
       url = "https://github.com/hyprwm/Hyprland/";
