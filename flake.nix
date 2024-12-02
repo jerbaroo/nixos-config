@@ -6,10 +6,10 @@
     catppuccin.url = "github:catppuccin/nix";
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
     };
     hyprland = {
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       # ref = "refs/tags/v0.41.0";
       submodules = true;
       type = "git";
@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
   };
