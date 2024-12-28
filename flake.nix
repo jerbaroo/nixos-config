@@ -14,6 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-24.11";
     };
+    ignis.url = "github:linkfrg/ignis";
     hyprland = {
       inputs.nixpkgs.follows = "nixpkgs";
       # ref = "refs/tags/v0.41.0";
@@ -43,7 +44,6 @@
         modules = [
           ./nixos.nix
           inputs.catppuccin.nixosModules.catppuccin
-          # inputs.ghostty-hm.homeModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.nixos-cosmic.nixosModules.default
         ];
