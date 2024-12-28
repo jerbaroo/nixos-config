@@ -8,14 +8,13 @@
       imports = [
         inputs.catppuccin.homeManagerModules.catppuccin
         inputs.ghostty-hm.homeModules.default
-        inputs.nur.modules.homeManager.default
 
         ../user/ags.nix
         ../user/direnv.nix
         ../user/emacs.nix
         ../user/fish.nix
         ../user/fonts.nix
-        (import ../user/firefox.nix { inherit inputs; inherit username; })
+        (import ../user/firefox.nix { inherit username; })
         ../user/git.nix
         (import ../user/ghostty.nix { inherit inputs; inherit pkgs; inherit system; })
         (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })

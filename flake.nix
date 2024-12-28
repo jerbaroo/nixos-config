@@ -31,7 +31,6 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/NUR";
   };
 
   outputs = inputs:
@@ -47,8 +46,6 @@
           # inputs.ghostty-hm.homeModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.nixos-cosmic.nixosModules.default
-          inputs.nur.modules.nixos.default
-          # inputs.nur.modules.homeManager.default
         ];
         specialArgs = { inherit inputs; inherit pkgs-unstable; inherit system; };
       };
