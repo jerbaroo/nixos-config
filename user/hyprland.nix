@@ -1,8 +1,8 @@
 { inputs, pkgs, system, ... }:
 let
   wallpaper = pkgs.fetchurl {
-    hash = "sha256-8FaX9qSTZ9Nw12IGwRKPwB1s765dQ/sTPImx6jN4BXE=";
-    url = "https://raw.githubusercontent.com/vinceliuice/Orchis-theme/master/wallpaper/4k.jpg";
+    hash = "sha256-/yjmpeE65gh6vW2sMcxKlwMz5VXsMoDJ2WCaHnyINQA=";
+    url = "https://raw.githubusercontent.com/linkfrg/wallpapers/refs/heads/main/nature/sakura-13.png";
   };
 in
 {

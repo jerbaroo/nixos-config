@@ -1,3 +1,44 @@
+* {
+    font-family: JetBrainsMono;
+    font-weight: bold;
+}
+
 .app-launcher {
     min-width: 400px;
 }
+
+$surface: rgb(30, 30, 46);
+$surfaceContainer: rgb(30, 30, 46);
+$surfaceContainerHigh: rgb(30, 30, 46);
+$onSurface: black;
+$primaryContainer: black;
+$primary: black;
+$secondaryContainer: black;
+$shadow: black;
+$darkmode: false;
+
+@mixin hover($bg) {
+    background-color: $bg;
+
+    &:hover {
+        @if $darkmode == true {
+            background-color: lighten($bg, 5%);
+        }
+        @else {
+            background-color: darken($bg, 5%);
+        }
+    }
+}
+
+@mixin window {
+    background-color: $surface;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: $onSurface;
+    box-shadow: 0 0 4px 2px $shadow;
+    margin: 1rem;
+}
+
+@import "./scss/lib.scss";
+
+@import "./scss/notification_popup.scss";
