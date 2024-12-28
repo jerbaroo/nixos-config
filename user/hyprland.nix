@@ -57,7 +57,7 @@ in
           # "$mod, T, hyprexpo:expo, toggle"
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, ags -t powermenu"
-          "$mod, RETURN, exec, kitty"
+          "$mod, RETURN, exec, ghostty"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
           "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"

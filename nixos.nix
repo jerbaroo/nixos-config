@@ -9,6 +9,7 @@ let
 in {
   imports =
     [ ./system/boot.nix
+      ./system/docker.nix
       (import ./system/graphics.nix { inherit inputs; inherit pkgs; inherit system; })
       ./system/hardware-configuration.nix
       ./system/keyboard.nix

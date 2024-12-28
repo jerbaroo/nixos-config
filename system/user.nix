@@ -7,6 +7,8 @@
     users.${username} = {
       imports = [
         inputs.catppuccin.homeManagerModules.catppuccin
+        inputs.ghostty-hm.homeModules.default
+
         ../user/ags.nix
         ../user/direnv.nix
         ../user/emacs.nix
@@ -14,6 +16,7 @@
         ../user/fonts.nix
         (import ../user/firefox.nix { inherit config; inherit username; })
         ../user/git.nix
+        (import ../user/ghostty.nix { inherit inputs; inherit pkgs; inherit system; })
         (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })
         ../user/kitty.nix
         ../user/lsd.nix
@@ -29,7 +32,7 @@
   };
 
   users.users.${username} = {
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "docker" "networkmanager" "wheel" ];
     isNormalUser = true;
   };
 }

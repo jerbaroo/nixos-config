@@ -4,6 +4,12 @@
   inputs = {
     ags.url = "github:Aylur/ags";
     catppuccin.url = "github:catppuccin/nix";
+    color-schemes = {
+      url = "github:mbadolato/iTerm2-Color-Schemes";
+      flake = false;
+    };
+    ghostty.url = "github:ghostty-org/ghostty";
+    ghostty-hm.url = "github:clo4/ghostty-hm-module";
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-24.11";
@@ -38,6 +44,7 @@
         modules = [
           ./nixos.nix
           inputs.catppuccin.nixosModules.catppuccin
+          # inputs.ghostty-hm.homeModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.nixos-cosmic.nixosModules.default
           inputs.nur.nixosModules.nur
