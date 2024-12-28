@@ -47,7 +47,8 @@
           # inputs.ghostty-hm.homeModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.nixos-cosmic.nixosModules.default
-          inputs.nur.nixosModules.nur
+          inputs.nur.modules.nixos.default
+          # inputs.nur.modules.homeManager.default
         ];
         specialArgs = { inherit inputs; inherit pkgs-unstable; inherit system; };
       };

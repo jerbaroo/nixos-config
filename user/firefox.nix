@@ -1,14 +1,14 @@
-{ config, username, ... }: {
+{ inputs, username, ... }: {
   programs.firefox = {
     enable = true;
     profiles.${username} = {
-      extensions = with config.nur.repos.rycee.firefox-addons; [
-        decentraleyes
-        flagfox
-        privacy-badger
-        ublock-origin
-        vimium
-      ];
+      # extensions = with inputs.nur.repos.rycee.firefox-addons; [
+      #   decentraleyes
+      #   flagfox
+      #   privacy-badger
+      #   ublock-origin
+      #   vimium
+      # ];
       settings = {
         "browser.contentblocking.cryptomining.preferences.ui.enabled"   = true;
         "browser.contentblocking.fingerprinting.preferences.ui.enabled" = true;

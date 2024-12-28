@@ -9,7 +9,7 @@
   gtk.font.package = pkgs.atkinson-hyperlegible;
   gtk.font.size = 16;
   # ls /etc/profiles/per-user/jer/share/icons
-  gtk.catppuccin.icon.enable = false;
+  catppuccin.gtk.icon.enable = false;
   gtk.iconTheme = {
     name = "WhiteSur-dark";
     package = (pkgs.whitesur-icon-theme.override {
@@ -18,7 +18,7 @@
     });
   };
   # ls /etc/profiles/per-user/jer/share/icons
-  catppuccin.pointerCursor.enable = false;
+  catppuccin.cursors.enable = false;
   home.pointerCursor = {
     gtk.enable = true;
     name = "catppuccin-mocha-pink-cursors";
