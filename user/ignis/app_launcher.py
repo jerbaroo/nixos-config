@@ -4,7 +4,7 @@ from ignis.services.applications import Application, ApplicationsService
 from ignis.widgets import Widget
 
 appService = ApplicationsService.get_default()
-appLauncherName = "app-launcher"
+appLauncherName = "ignis-app-launcher"
 
 
 def close_launcher(app):

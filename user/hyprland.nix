@@ -19,17 +19,24 @@ in
     settings = {
       background = [{ color = "rgb(30, 30, 46)"; }];
       general.hide_cursor = true;
+      # label = [{
+      #   font_size = 32;
+      #   font = "Atkinson Hyperlegible";
+      #   text = "$TIME";
+      # }];
       input-field = [{
         fade_on_empty = false;
         outline_thickness = 5;
         placeholder_text = "Enter password";
-        shadow_passes = 2;
+        blur_passes = 0;
+        shadow_passes = 0;
         # Colours.
         check_color = "rgb(245, 194, 231)";
         fail_color = "rgb(245, 194, 231)";
         font_color = "rgb(205, 214, 244)";
         inner_color = "rgb(49, 50, 68)";
         outer_color = "rgb(24, 24, 37)";
+        font_family = "Atkinson Hyperlegible";
       }];
     };
   };
@@ -56,7 +63,7 @@ in
           "$mod, F, fullscreen"
           # "$mod, T, hyprexpo:expo, toggle"
           "$mod, M, exec, ags -t applauncher"
-          "$mod, Q, exec, ignis open app-launcher"
+          "$mod, Q, exec, hyprlock"
           "$mod, O, exec, ignis open app-launcher"
           "$mod, RETURN, exec, ghostty"
           "$mod, P, exec, hyprpicker --autocopy"
@@ -109,8 +116,8 @@ in
           "$mod SHIFT, 0, movetoworkspace, 0"
         ];
       decoration = {
-        active_opacity = 0.85;
-        inactive_opacity = 0.85;
+        active_opacity = 0.95;
+        inactive_opacity = 0.95;
         rounding = 0;
       };
       dwindle = {
@@ -119,7 +126,7 @@ in
       };
       exec-once = [ "ignis init" ];
       general = {
-        border_size = 2;
+        border_size = 3;
         "col.active_border" = "rgb(f5c2e7)"; # Catppuccin mocha pink.
         # "col.inactive_border" = "rgb(282a36)";
         gaps_in = 0;
