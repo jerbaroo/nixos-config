@@ -13,8 +13,8 @@
   - `git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs`
   - `~/.config/emacs/bin/doom install`
 
-# Ags
+# Ignis
 
 ``` bash
-ags run -d /path/to/user/ags
+ignis init -c ./user/ignis/config.py
 ```

@@ -64,7 +64,7 @@ in
           # "$mod, T, hyprexpo:expo, toggle"
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, hyprlock"
-          "$mod, O, exec, ignis open app-launcher"
+          "$mod, O, exec, ignis open ignis-app-launcher"
           "$mod, RETURN, exec, ghostty"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
@@ -124,7 +124,12 @@ in
         # no_gaps_when_only = 1;
         preserve_split = true;
       };
-      exec-once = [ "ignis init" ];
+      exec-once = [
+        "ignis init"
+        "[workspace 1 silent] emacs"
+        "[workspace 1 silent] ghostty"
+        "[workspace 2 silent] firefox"
+      ];
       general = {
         border_size = 3;
         "col.active_border" = "rgb(f5c2e7)"; # Catppuccin mocha pink.

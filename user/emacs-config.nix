@@ -68,10 +68,10 @@
 ;; they are implemented.
 
 (setq display-line-numbers-type t
-      doom-font (font-spec :family "JetBrainsMono" :size 22 :weight 'semi-bold)
+      doom-font (font-spec :family "JetBrainsMono" :size 24)
       doom-theme 'catppuccin
       ;; doom-themes-treemacs-theme "doom-colors"
-      ;; doom-variable-pitch-font (font-spec :family "JetBrainsMono" :size 22 :weight 'semi-bold)
+      ;; doom-variable-pitch-font (font-spec :family "JetBrainsMono" :size 24)
       ;; lsp-enable-file-watchers nil
       lsp-haskell-server-path "haskell-language-server"
       lsp-ui-doc-enable t

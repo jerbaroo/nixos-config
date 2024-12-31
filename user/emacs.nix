@@ -4,6 +4,6 @@
     ./emacs-init.nix
     ./emacs-package.nix
   ];
-  home.packages = [ pkgs.ripgrep ];
   programs.emacs.enable = true;
+  programs.ripgrep.enable = true;
 }
