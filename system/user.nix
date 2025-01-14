@@ -7,8 +7,8 @@
     users.${username} = {
       imports = [
         inputs.catppuccin.homeManagerModules.catppuccin
-        inputs.ghostty-hm.homeModules.default
 
+        ../user/apps.nix
         (import ../user/ignis.nix { inherit inputs; inherit pkgs; inherit system; })
         ../user/direnv.nix
         ../user/emacs.nix

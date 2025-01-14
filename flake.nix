@@ -8,8 +8,6 @@
       url = "github:mbadolato/iTerm2-Color-Schemes";
       flake = false;
     };
-    ghostty.url = "github:ghostty-org/ghostty";
-    ghostty-hm.url = "github:clo4/ghostty-hm-module";
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-24.11";

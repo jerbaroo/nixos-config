@@ -1,7 +1,6 @@
 { inputs, pkgs, system, ... }: {
   programs.ghostty = {
     enable = true;
-    package = inputs.ghostty.packages.${system}.default;
     settings = {
       command = "${pkgs.fish}/bin/fish";
       config-file = [
