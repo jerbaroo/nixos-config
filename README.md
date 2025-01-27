@@ -1,6 +1,6 @@
 ![image](https://github.com/jerbaroo/nixos/assets/6631452/a53036a8-82a4-4287-acfd-e6edaac9eb00)
 
-- Includes DEs: Gnome 47, Cosmic Alpha 4, Hyprland 0.46
+- Includes DEs: Gnome 47, Cosmic Alpha 5.1, Hyprland 0.46
 
 # Install
 - Install NixOS 24.11.

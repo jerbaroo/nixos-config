@@ -23,7 +23,7 @@ def workspace_button(workspace: dict) -> Widget.Button:
     id_ = workspace["id"]
     return Widget.Button(
         css_classes=[
-            "workspace",
+            "workspace-button ",
             "active" if id_ == hyprlandService.active_workspace["id"] else ""],
         on_click=lambda x: hyprlandService.switch_to_workspace(id_),
         child=Widget.Label(label=str(id_)),
@@ -48,40 +48,42 @@ def left() -> Widget.Box:
 
 
 def power_menu() -> Widget.Button:
-   menu = Widget.PopoverMenu(
-       items=[
-           Widget.MenuItem(
-               label="Lock",
-               on_activate=lambda x: Utils.exec_sh_async("hyprlock"),
-           ),
-           Widget.Separator(),
-           Widget.MenuItem(
-               label="Sleep",
-               on_activate=lambda x: Utils.exec_sh_async("hyprlock & systemctl suspend"),
-           ),
-           Widget.Separator(),
-           Widget.MenuItem(
-               label="Reboot",
-               on_activate=lambda x: Utils.exec_sh_async("reboot"),
-           ),
-           Widget.Separator(),
-           Widget.MenuItem(
-               label="Shutdown",
-               on_activate=lambda x: Utils.exec_sh_async("poweroff"),
-           ),
-           Widget.Separator(),
-           Widget.MenuItem(
-               label="Logout",
-               on_activate=lambda x: Utils.exec_sh_async("hyprctl dispatch exit"),
-           ),
-       ]
-   )
-   return Widget.Button(
-       child=Widget.Box(
-           child=[Widget.Icon(image="system-shutdown-symbolic", pixel_size=20), menu]
-       ),
-       on_click=lambda x: menu.popup(),
-   )
+    menu = Widget.PopoverMenu(
+        css_classes=["powermenu-menu"],
+        items=[
+            Widget.MenuItem(
+                label="Lock",
+                on_activate=lambda x: Utils.exec_sh_async("hyprlock"),
+            ),
+            Widget.Separator(),
+            Widget.MenuItem(
+                label="Sleep",
+                on_activate=lambda x: Utils.exec_sh_async("hyprlock & systemctl suspend"),
+            ),
+            Widget.Separator(),
+            Widget.MenuItem(
+                label="Reboot",
+                on_activate=lambda x: Utils.exec_sh_async("reboot"),
+            ),
+            Widget.Separator(),
+            Widget.MenuItem(
+                label="Shutdown",
+                on_activate=lambda x: Utils.exec_sh_async("poweroff"),
+            ),
+            Widget.Separator(),
+            Widget.MenuItem(
+                label="Logout",
+                on_activate=lambda x: Utils.exec_sh_async("hyprctl dispatch exit"),
+            ),
+        ]
+     )
+    return Widget.Button(
+        css_classes=["powermenu-button"],
+        child=Widget.Box(
+            child=[Widget.Icon(image="system-shutdown-symbolic", pixel_size=20), menu]
+        ),
+        on_click=lambda x: menu.popup(),
+     )
 
 
 def right() -> Widget.Box:
@@ -94,11 +96,12 @@ def right() -> Widget.Box:
 def bar(monitor: int) -> Widget.Window:
     return Widget.Window(
         anchor=["left", "top", "right"],
+        css_classes=["bar-window"],
         exclusivity="exclusive",
         namespace=namespace(monitor),
         monitor=monitor,
         child=Widget.CenterBox(
-            css_classes=["bar"],
+            css_classes=["bar-center-box"],
             start_widget=left(),
             end_widget=right(),
         ),

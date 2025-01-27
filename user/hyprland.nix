@@ -57,6 +57,11 @@ in
     ];
     settings = {
       "$mod" = "SUPER";
+      animations = {
+        enabled = true;
+        first_launch_animation = true;
+        # bezier = ["wind, 0.05, 0.9, 0.1, 1.05"];
+      };
       bind = 
         [ "$mod, C, killactive"
           "$mod, E, exec, emacs"
@@ -118,7 +123,7 @@ in
       decoration = {
         active_opacity = 0.95;
         inactive_opacity = 0.95;
-        rounding = 0;
+        rounding = 5;
       };
       dwindle = {
         # no_gaps_when_only = 1;
@@ -134,8 +139,8 @@ in
         border_size = 3;
         "col.active_border" = "rgb(f5c2e7)"; # Catppuccin mocha pink.
         # "col.inactive_border" = "rgb(282a36)";
-        gaps_in = 0;
-        gaps_out = 0;
+        gaps_in = 5;
+        gaps_out = 5;
         resize_on_border = true;
       };
       misc.disable_hyprland_logo = true;
