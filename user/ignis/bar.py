@@ -13,18 +13,18 @@ med_spacing     = 5
 
 
 def scroll_workspaces(f) -> None:
-    target = f(hyprlandService.active_workspace["id"])
-    if target == 11:
+    target = f(hyprlandService.active_workspace.id)
+    if target == 11:  # Max 10 workspaces
         return
     hyprlandService.switch_to_workspace(target)
 
 
 def workspace_button(workspace: dict) -> Widget.Button:
-    id_ = workspace["id"]
+    id_ = workspace.id
     return Widget.Button(
         css_classes=[
             "workspace-button ",
-            "active" if id_ == hyprlandService.active_workspace["id"] else ""],
+            "active" if id_ == hyprlandService.active_workspace.id else ""],
         on_click=lambda x: hyprlandService.switch_to_workspace(id_),
         child=Widget.Label(label=str(id_)),
     )
@@ -36,8 +36,8 @@ def workspaces() -> Widget.EventBox:
         on_scroll_down=lambda x: scroll_workspaces(lambda y: y - 1),
         css_classes=["workspaces"],
         spacing=sml_spacing,
-        child=hyprlandService.bind(
-            "workspaces",
+        child=hyprlandService.bind_many(
+            ["workspaces", "active_workspace"],
             transform=lambda x: [workspace_button(i) for i in x]
         )
     )
