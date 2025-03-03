@@ -14,7 +14,7 @@
         ../user/emacs.nix
         ../user/fish.nix
         ../user/fonts.nix
-        (import ../user/firefox.nix { inherit username; })
+        (import ../user/librewolf.nix { inherit username; })
         ../user/git.nix
         (import ../user/ghostty.nix { inherit inputs; inherit pkgs; inherit system; })
         (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })

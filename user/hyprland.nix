@@ -76,7 +76,7 @@ in
           "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, togglefloating"
-          "$mod, W, exec, firefox"
+          "$mod, W, exec, librewolf"
           # Scratch pad.
           # "$mod, S, togglespecialworkspace, magic"
           # "$mod SHIFT, S, movetoworkspace, special:magic"
@@ -133,7 +133,7 @@ in
         "ignis init"
         "[workspace 1 silent] emacs"
         "[workspace 1 silent] ghostty"
-        "[workspace 2 silent] firefox"
+        "[workspace 2 silent] librewolf"
       ];
       general = {
         border_size = 3;

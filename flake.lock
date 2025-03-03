@@ -480,15 +480,16 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1740836522,
-        "narHash": "sha256-eL6F5cfAZq7/h8f7V8y1p6nSU7E0GoSSdEFf40DQgI8=",
+        "lastModified": 1740926776,
+        "narHash": "sha256-P+BiAxGT80Rd+OtQ3rxQyW+BFPuwg+EBJtZyM3Gjts0=",
         "owner": "linkfrg",
         "repo": "ignis",
-        "rev": "c59f09b7feaae2730dd99a558894e69af1d0bba4",
+        "rev": "870ddcd43330ce300c98423389eb2700658a8379",
         "type": "github"
       },
       "original": {
         "owner": "linkfrg",
+        "ref": "fix/hyprland-obj-hasattr",
         "repo": "ignis",
         "type": "github"
       }

@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-24.11";
     };
-    ignis.url = "github:linkfrg/ignis";
+    ignis.url = "github:linkfrg/ignis/fix/hyprland-obj-hasattr";
     hyprland = {
       inputs.nixpkgs.follows = "nixpkgs";
       # ref = "refs/tags/v0.41.0";
