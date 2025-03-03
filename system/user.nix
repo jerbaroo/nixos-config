@@ -1,4 +1,4 @@
-{ accent, config, flavor, inputs, pkgs-unstable, stateVersion, pkgs, system, username, ... }: {
+{ accent, config, flavor, inputs, pkgs, pkgs-unstable, stateVersion, system, username, ... }: {
   home-manager = {
     backupFileExtension = ".backup";
     extraSpecialArgs = { inherit inputs; };
