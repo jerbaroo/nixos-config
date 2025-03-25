@@ -1,4 +1,5 @@
 { username, ... }: {
+  programs.brave.enable = true;
   programs.librewolf = {
     enable = true;
     policies = {

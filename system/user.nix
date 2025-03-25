@@ -9,12 +9,12 @@
         inputs.catppuccin.homeManagerModules.catppuccin
 
         ../user/apps.nix
+        (import ../user/browser.nix { inherit username; })
         (import ../user/ignis.nix { inherit inputs; inherit pkgs; inherit system; })
         ../user/direnv.nix
         ../user/emacs.nix
         ../user/fish.nix
         ../user/fonts.nix
-        (import ../user/librewolf.nix { inherit username; })
         ../user/git.nix
         (import ../user/ghostty.nix { inherit inputs; inherit pkgs; inherit system; })
         (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })
