@@ -14,11 +14,12 @@
     };
     ignis.url = "github:linkfrg/ignis";
     hyprland = {
-      inputs.nixpkgs.follows = "nixpkgs";
+      # https://github.com/hyprwm/Hyprland/issues/9820
+      # inputs.nixpkgs.follows = "nixpkgs";
       # ref = "refs/tags/v0.41.0";
-      submodules = true;
-      type = "git";
-      url = "https://github.com/hyprwm/Hyprland/";
+      # submodules = true;
+      # type = "git";
+      url = "github:hyprwm/Hyprland";
     };
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";

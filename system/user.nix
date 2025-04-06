@@ -6,7 +6,7 @@
     useUserPackages = true;
     users.${username} = {
       imports = [
-        inputs.catppuccin.homeManagerModules.catppuccin
+        inputs.catppuccin.homeModules.catppuccin
 
         ../user/apps.nix
         (import ../user/browser.nix { inherit username; })
