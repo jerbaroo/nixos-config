@@ -55,7 +55,7 @@
       require("mini.statusline").setup({})
       require("mini.starter").setup({})
     '';
-    package = pkgs-unstable.neovim-unwrapped;
+    package = pkgs.neovim-unwrapped;
     plugins = with pkgs-unstable.vimPlugins; [
       catppuccin-nvim
       mini-nvim
