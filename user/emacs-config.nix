@@ -70,6 +70,7 @@
 (setq display-line-numbers-type t
       doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 24)
       doom-theme 'catppuccin
+      catppuccin-flavor 'mocha
       ;; doom-themes-treemacs-theme "doom-colors"
       ;; doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 24)
       ;; lsp-enable-file-watchers nil

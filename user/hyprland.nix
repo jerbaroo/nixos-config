@@ -1,4 +1,4 @@
-{ inputs, pkgs, system, ... }:
+{ accent, flavor, inputs, pkgs, system, ... }:
 let
   wallpaper = pkgs.fetchurl {
     hash = "sha256-MxEgvzWmdqMeI5GeI6Hzci6yd5iL44NDXyKQOuw+fLY=";
@@ -19,11 +19,6 @@ in
     settings = {
       background = [{ color = "rgb(30, 30, 46)"; }];
       general.hide_cursor = true;
-      # label = [{
-      #   font_size = 32;
-      #   font = "Atkinson Hyperlegible";
-      #   text = "$TIME";
-      # }];
       input-field = [{
         fade_on_empty = false;
         outline_thickness = 5;
@@ -59,7 +54,7 @@ in
       "$mod" = "SUPER";
       animations = {
         enabled = true;
-        first_launch_animation = true;
+        first_launch_animation = false;
         # bezier = ["wind, 0.05, 0.9, 0.1, 1.05"];
       };
       bind = 
@@ -136,7 +131,8 @@ in
       ];
       general = {
         border_size = 3;
-        "col.active_border" = "rgb(f5c2e7)"; # Catppuccin mocha pink.
+        # Catppuccin mocha yellow. TODO
+        "col.active_border" = "rgb(f9e2af)";
         # "col.inactive_border" = "rgb(282a36)";
         gaps_in = 5;
         gaps_out = 5;

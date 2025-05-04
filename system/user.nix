@@ -8,6 +8,7 @@
       imports = [
         inputs.catppuccin.homeModules.catppuccin
 
+        # TODO better way to pass args to modules.
         ../user/apps.nix
         (import ../user/browser.nix { inherit username; })
         (import ../user/ignis.nix { inherit inputs; inherit pkgs; inherit system; })
@@ -17,7 +18,7 @@
         ../user/fonts.nix
         ../user/git.nix
         (import ../user/ghostty.nix { inherit inputs; inherit pkgs; inherit system; })
-        (import ../user/hyprland.nix { inherit inputs; inherit pkgs; inherit system; })
+        (import ../user/hyprland.nix { inherit accent; inherit flavor; inherit inputs; inherit pkgs; inherit system; })
         ../user/kitty.nix
         ../user/lsd.nix
         (import ../user/neovim.nix { inherit pkgs; inherit pkgs-unstable; })

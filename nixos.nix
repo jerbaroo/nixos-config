@@ -1,7 +1,7 @@
 { config, inputs, pkgs, pkgs-unstable, system, ... }:
 
 let
-  accent = "pink";
+  accent = "yellow";
   flavor = "mocha";
   hostname = "nixos";
   stateVersion = "24.05";
