@@ -2,7 +2,7 @@
   programs.kitty = {
     enable = true;
     font.size = 22;
-    font.name = "JetBrainsMono";
+    font.name = "JetBrainsMono Nerd Font";
     font.package = pkgs.nerd-fonts.jetbrains-mono;
     settings = {
       confirm_os_window_close = 0;
