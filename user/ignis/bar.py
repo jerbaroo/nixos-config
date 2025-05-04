@@ -39,9 +39,11 @@ def workspaces() -> Widget.EventBox:
         on_scroll_down=lambda x: scroll_workspaces(lambda y: y - 1),
         css_classes=["workspaces"],
         spacing=sml_spacing,
-        child=hyprlandService.bind(
-            "workspaces",
-            transform=lambda x: [workspace_button(i) for i in x]
+        # Bind also to active_workspace to regenerate workspaces list when
+        # active workspace changes.
+        child=hyprlandService.bind_many(
+            ["active_workspace", "workspaces"],
+            transform=lambda _, workspaces: [workspace_button(i) for i in workspaces]
         )
     )
 
