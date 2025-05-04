@@ -1,5 +1,6 @@
 import re
 import subprocess
+from ignis.menu_model import IgnisMenuItem, IgnisMenuModel, IgnisMenuSeparator
 from ignis.services.applications import Application, ApplicationsService
 from ignis.services.hyprland import HyprlandService
 from ignis.utils import Utils
@@ -23,8 +24,10 @@ def workspace_button(workspace: dict) -> Widget.Button:
     id_ = workspace.id
     return Widget.Button(
         css_classes=[
-            "workspace-button ",
-            "active" if id_ == hyprlandService.active_workspace.id else ""],
+            "active" if id_ == hyprlandService.active_workspace.id else ""
+            "bar-button ",
+            "workspace-button "
+            ],
         on_click=lambda x: hyprlandService.switch_to_workspace(id_),
         child=Widget.Label(label=str(id_)),
     )
@@ -49,36 +52,35 @@ def left() -> Widget.Box:
 
 def power_menu() -> Widget.Button:
     menu = Widget.PopoverMenu(
-        css_classes=["powermenu-menu"],
-        items=[
-            Widget.MenuItem(
+        model=IgnisMenuModel(
+            IgnisMenuItem(
                 label="Lock",
                 on_activate=lambda x: Utils.exec_sh_async("hyprlock"),
             ),
-            Widget.Separator(),
-            Widget.MenuItem(
+            IgnisMenuSeparator(),
+            IgnisMenuItem(
                 label="Sleep",
                 on_activate=lambda x: Utils.exec_sh_async("hyprlock & systemctl suspend"),
             ),
-            Widget.Separator(),
-            Widget.MenuItem(
+            IgnisMenuSeparator(),
+            IgnisMenuItem(
                 label="Reboot",
                 on_activate=lambda x: Utils.exec_sh_async("reboot"),
             ),
-            Widget.Separator(),
-            Widget.MenuItem(
+            IgnisMenuSeparator(),
+            IgnisMenuItem(
                 label="Shutdown",
                 on_activate=lambda x: Utils.exec_sh_async("poweroff"),
             ),
-            Widget.Separator(),
-            Widget.MenuItem(
+            IgnisMenuSeparator(),
+            IgnisMenuItem(
                 label="Logout",
                 on_activate=lambda x: Utils.exec_sh_async("hyprctl dispatch exit"),
             ),
-        ]
+        )
      )
     return Widget.Button(
-        css_classes=["powermenu-button"],
+        css_classes=["bar-button ", "powermenu-button"],
         child=Widget.Box(
             child=[Widget.Icon(image="system-shutdown-symbolic", pixel_size=20), menu]
         ),

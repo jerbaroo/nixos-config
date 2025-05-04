@@ -1,8 +1,8 @@
 { inputs, pkgs, system, ... }:
 let
   wallpaper = pkgs.fetchurl {
-    hash = "sha256-/yjmpeE65gh6vW2sMcxKlwMz5VXsMoDJ2WCaHnyINQA=";
-    url = "https://raw.githubusercontent.com/linkfrg/wallpapers/refs/heads/main/nature/sakura-13.png";
+    hash = "sha256-MxEgvzWmdqMeI5GeI6Hzci6yd5iL44NDXyKQOuw+fLY=";
+    url = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/wallpapers/nix-wallpaper-binary-black_8k.png";
   };
 in
 {
@@ -121,12 +121,11 @@ in
           "$mod SHIFT, 0, movetoworkspace, 0"
         ];
       decoration = {
-        active_opacity = 0.95;
-        inactive_opacity = 0.95;
-        rounding = 5;
+        active_opacity = 1;
+        inactive_opacity = 1;
+        rounding = 3;
       };
       dwindle = {
-        # no_gaps_when_only = 1;
         preserve_split = true;
       };
       exec-once = [

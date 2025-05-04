@@ -1,13 +1,10 @@
 .bar-window {
-    background-color: transparent;
-
-    .workspaces {
-        background-color: red;
-        border-radius: 50%;
-
-        .workspace-button {
-            background-color: green;
-            border-radius: 50%;
-        }
+  .workspaces {
+    background-color: black;
+    border-radius: 10%;
+    margin: 5px;
+    .active {
+      border: 3px solid #f5c2e7;
     }
+  }
 }
