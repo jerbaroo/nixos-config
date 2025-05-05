@@ -3,18 +3,8 @@
     font-weight: bold;
 }
 
-.app-launcher {
-    min-width: 400px;
-}
+@import "/home/jer/.config/ignis/colors.scss";
 
-$surface: rgb(30, 30, 46);
-$surfaceContainer: rgb(30, 30, 46);
-$surfaceContainerHigh: rgb(30, 30, 46);
-$onSurface: black;
-$primaryContainer: black;
-$primary: black;
-$secondaryContainer: black;
-$shadow: black;
 $darkmode: false;
 
 @mixin hover($bg) {
@@ -31,15 +21,15 @@ $darkmode: false;
 }
 
 @mixin window {
-    background-color: $surface;
+    background-color: $base;
     border-radius: 1rem;
-    box-shadow: 0 0 4px 2px $shadow;
-    color: $onSurface;
+    box-shadow: 0 0 4px 2px $crust;
+    color: $crust;
     margin: 1rem;
     padding: 1rem;
 }
 
-@import "./scss/lib.scss";
-
+@import "./scss/app_launcher.scss";
 @import "./scss/bar.scss";
+@import "./scss/lib.scss";
 @import "./scss/notification_popup.scss";

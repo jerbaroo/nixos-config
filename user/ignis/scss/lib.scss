@@ -10,7 +10,7 @@
 
 tooltip {
     all: unset;
-    background-color: $surface;
+    background-color: $base;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
 }
@@ -18,7 +18,7 @@ tooltip {
 .toggle-box {
     padding: 0.75rem 1rem;
     border-radius: 1rem;
-    background-color: $primaryContainer;
+    background-color: $crust;
 }
 
 .material-slider {
@@ -31,14 +31,14 @@ tooltip {
 
 .material-slider trough,
 .material-slider trough highlight {
-    background-color: $secondaryContainer;
+    background-color: $base;
     border-radius: 1rem;
     min-height: 1rem;
 }
 
 
 .material-slider trough highlight {
-    background-color: $primary;
+    background-color: $crust;
 }
 
 .material-slider-icon {
@@ -59,13 +59,13 @@ tooltip {
 }
 
 .hover-surface {
-    @include hover($surface);
+    @include hover($base);
     transition: 0.3s;
 }
 
 .control-center-menu {
     margin-top: 1rem;
-    background-color: $surfaceContainerHigh;
+    background-color: $base;
     border-radius: 1rem;
     padding: 1rem;
 

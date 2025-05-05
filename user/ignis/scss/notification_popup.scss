@@ -3,10 +3,10 @@
     min-width: 25rem;
 
     & .notification-close {
-        @include hover($surface);
+        @include hover($base);
     }
 
     & .notification-action {
-        @include hover($surfaceContainer);
+        @include hover($base);
     }
 }

@@ -11,7 +11,7 @@
         # TODO better way to pass args to modules.
         ../user/apps.nix
         (import ../user/browser.nix { inherit username; })
-        (import ../user/ignis.nix { inherit inputs; inherit palette; inherit pkgs; inherit system; })
+        (import ../user/ignis.nix { inherit accent; inherit inputs; inherit palette; inherit pkgs; inherit system; })
         ../user/direnv.nix
         (import ../user/emacs.nix { inherit codeFontName; inherit flavor; inherit pkgs; })
         ../user/fish.nix
