@@ -1,4 +1,4 @@
-{ inputs, pkgs, system, ... }: {
+{ inputs, palette, pkgs, system, ... }: {
   home.file.".config/ignis/" = {
     source = ./ignis;
     recursive = true;

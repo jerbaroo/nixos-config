@@ -1,9 +1,8 @@
-{ pkgs, ... }: {
+{ codeFontName, pkgs, ... }: {
   programs.kitty = {
     enable = true;
     font.size = 22;
-    font.name = "JetBrainsMono Nerd Font";
-    font.package = pkgs.nerd-fonts.jetbrains-mono;
+    font.name = codeFontName;
     settings = {
       confirm_os_window_close = 0;
       clipboard_control = "clipboard_control write-clipboard write-primary read-clipboard-ask read-primary-ask no_append";

@@ -24,14 +24,14 @@
   catppuccin.cursors.enable = false;
   home.pointerCursor = {
     gtk.enable = true;
-    name = "catppuccin-mocha-${accent}-cursors";
+    name = "catppuccin-${flavor}-${accent}-cursors";
     package = pkgs.catppuccin-cursors."${flavor}${pkgs.lib.strings.toSentenceCase(accent)}";
     x11.enable = true;
   };
 
   # GTK Theme.
   # ls /etc/profiles/per-user/jer/share/themes
-  gtk.theme.name = "catppuccin-mocha-${accent}-standard";
+  gtk.theme.name = "catppuccin-${flavor}-${accent}-standard";
   gtk.theme.package = (pkgs.catppuccin-gtk.override {
     accents = ["${accent}"]; variant = "${flavor}";
   });

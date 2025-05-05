@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
+{ codeFontName, flavor, pkgs, ... }: {
   imports = [
-    ./emacs-config.nix
+    (import ./emacs-config.nix { inherit codeFontName; inherit flavor; })
     ./emacs-init.nix
     ./emacs-package.nix
   ];

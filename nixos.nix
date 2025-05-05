@@ -2,8 +2,10 @@
 
 let
   accent = "yellow";
+  codeFontName = "JetBrainsMono Nerd Font";
   flavor = "mocha";
   hostname = "nixos";
+  palette = (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
   stateVersion = "24.05";
   username = "jer";
 in {
@@ -22,11 +24,14 @@ in {
       (import ./system/system.nix { inherit stateVersion; })
       (import ./system/theme.nix { inherit accent; inherit flavor; })
       (import ./system/user.nix {
+        # TODO: do we need to pass accent and flavor if they are set in config.catppuccin?
         inherit accent;
+        inherit codeFontName;
         inherit config;
         inherit flavor;
         inherit hostname;
         inherit inputs;
+        inherit palette;
         inherit pkgs;
         inherit pkgs-unstable;
         inherit stateVersion;
