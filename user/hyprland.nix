@@ -17,22 +17,7 @@ in
   programs.hyprlock = {
     enable = true;
     settings = {
-      background = [{ color = "rgb(30, 30, 46)"; }];
       general.hide_cursor = true;
-      input-field = [{
-        fade_on_empty = false;
-        outline_thickness = 5;
-        placeholder_text = "Enter password";
-        blur_passes = 0;
-        shadow_passes = 0;
-        # Colours.
-        check_color = "rgb(245, 194, 231)";
-        fail_color = "rgb(245, 194, 231)";
-        font_color = "rgb(205, 214, 244)";
-        inner_color = "rgb(49, 50, 68)";
-        outer_color = "rgb(24, 24, 37)";
-        font_family = "Atkinson Hyperlegible";
-      }];
     };
   };
   services.hyprpaper = {
