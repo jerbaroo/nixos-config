@@ -68,31 +68,37 @@
 ;; they are implemented.
 
 (setq display-line-numbers-type t
-      doom-font (font-spec :family "${codeFontName}" :size 24)
-      doom-theme 'catppuccin
-      catppuccin-flavor '${flavor}
-      ;; doom-themes-treemacs-theme "doom-colors"
-      ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 24)
-      ;; lsp-enable-file-watchers nil
-      lsp-haskell-server-path "haskell-language-server"
-      lsp-ui-doc-enable t
-      org-directory "~/org/"
-      org-latex-pdf-process
-        '("xelatex -shell-escape -interaction nonstopmode %f"
-          "bibtex %b"
-          "xelatex -shell-escape -interaction nonstopmode %f")
-      user-full-name "jerbaroo"
-      user-mail-address "jerbaroo.work@pm.me"
-      which-key-idle-delay 0.0
-      zoom-size '(0.60 . 0.60)
-      )
+    doom-font (font-spec :family "${codeFontName}" :size 26)
+    doom-theme 'catppuccin
+    catppuccin-flavor '${flavor}
+    ;; doom-themes-treemacs-theme "doom-colors"
+    ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 26)
+    ;; lsp-enable-file-watchers nil
+    lsp-haskell-server-path "haskell-language-server"
+    lsp-ui-doc-enable t
+    org-directory "~/org/"
+    org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode %f"
+        "bibtex %b"
+        "xelatex -shell-escape -interaction nonstopmode %f")
+    user-full-name "jerbaroo"
+    user-mail-address "jerbaroo.work@pm.me"
+    which-key-idle-delay 0.0
+    zoom-size '(0.60 . 0.60)
+)
 
 (global-display-fill-column-indicator-mode)
 
-(map! "C-h" #'evil-window-left
-      "C-j" #'evil-window-down
-      "C-k" #'evil-window-up
-      "C-l" #'evil-window-right
-      )
+(map!
+    "C-h" #'evil-window-left
+    "C-j" #'evil-window-down
+    "C-k" #'evil-window-up
+    "C-l" #'evil-window-right
+)
+
+(custom-set-faces!
+    ;; '(font-lock-comment-face :family "MonaspiceRn Nerd Font")
+    '(font-lock-comment-face :family "Cascadia Code" :slant italic)
+)
   '';
 }
