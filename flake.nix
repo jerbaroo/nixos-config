@@ -10,7 +10,7 @@
     };
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
     };
     ignis.url = "github:linkfrg/ignis";
     hyprland = {
@@ -29,7 +29,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 

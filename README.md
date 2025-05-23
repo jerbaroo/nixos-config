@@ -3,7 +3,7 @@
 - Includes DEs: Gnome 47, Cosmic Alpha 5.1, Hyprland 0.46
 
 # Install
-- Install NixOS 24.11.
+- Install NixOS 25.05.
 - Install this NixOS configuration:
   - `sudo rm -rf /etc/nixos`
   - Clone this repo into some directory `d` and then `cd d`.

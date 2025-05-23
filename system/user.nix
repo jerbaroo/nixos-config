@@ -9,7 +9,6 @@
         inputs.catppuccin.homeModules.catppuccin
 
         # TODO better way to pass args to modules.
-        ../user/apps.nix
         (import ../user/browser.nix { inherit username; })
         (import ../user/ignis.nix { inherit accent; inherit inputs; inherit palette; inherit pkgs; inherit system; })
         ../user/direnv.nix
@@ -22,9 +21,9 @@
         (import ../user/kitty.nix { inherit codeFontName; inherit pkgs; })
         ../user/lsd.nix
         (import ../user/neovim.nix { inherit pkgs; inherit pkgs-unstable; })
+        ../user/packages.nix
         ../user/protonvpn.nix
         ../user/starship.nix
-        ../user/tex.nix
         (import ../user/theme.nix { inherit accent; inherit flavor; inherit pkgs; })
         ../user/tmux.nix
       ];
@@ -33,7 +32,7 @@
   };
 
   users.users.${username} = {
-    extraGroups = [ "docker" "networkmanager" "wheel" ];
+    extraGroups = [ "adbusers" "docker" "kvm" "networkmanager" "wheel" ];
     isNormalUser = true;
   };
 }

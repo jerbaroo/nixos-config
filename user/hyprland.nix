@@ -44,6 +44,7 @@ in
       };
       bind = 
         [ "$mod, C, killactive"
+          "$mod, B, exec, brave"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
           # "$mod, T, hyprexpo:expo, toggle"
