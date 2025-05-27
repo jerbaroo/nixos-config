@@ -5,7 +5,7 @@
     ./emacs-package.nix
   ];
   programs.emacs = {
-    enable = true;
+    enable  = true;
     # package = pkgs.emacs30;
   };
   programs.ripgrep.enable = true;

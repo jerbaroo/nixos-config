@@ -3,5 +3,6 @@
   home.packages = with pkgs; [
     cascadia-code
     nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
   ];
 }
