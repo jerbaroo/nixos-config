@@ -20,6 +20,7 @@ in {
       ./system/openrgb.nix
       ./system/printing.nix
       ./system/sound.nix
+      ./system/steam.nix
       ./system/store.nix
       (import ./system/system.nix { inherit stateVersion; })
       (import ./system/theme.nix { inherit accent; inherit flavor; })
@@ -39,4 +40,9 @@ in {
         inherit username;
       })
     ];
+  programs.adb.enable = true;
+  services.transmission = {
+    enable = true;
+    package = pkgs.transmission_4-gtk;
+  };
 }

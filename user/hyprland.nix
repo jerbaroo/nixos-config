@@ -44,12 +44,13 @@ in
       };
       bind = 
         [ "$mod, C, killactive"
+          "$mod, B, exec, brave"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
           # "$mod, T, hyprexpo:expo, toggle"
           "$mod, M, exec, ags -t applauncher"
           "$mod, Q, exec, hyprlock"
-          "$mod, O, exec, ignis open ignis-app-launcher"
+          "$mod, O, exec, ignis open-window ignis-app-launcher"
           "$mod, RETURN, exec, ghostty"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
