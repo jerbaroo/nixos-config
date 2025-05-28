@@ -1,3 +1,8 @@
 .app-launcher {
+    background-color: $base;
     min-width: 400px;
+}
+
+.app-launcher-entry, .app-launcher-list > * {
+    margin: 10px;
 }

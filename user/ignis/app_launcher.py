@@ -19,16 +19,17 @@ class AppItem(Widget.Button):
         super().__init__(
             on_click=lambda x: self.launch(),
             child=Widget.Box(
+                css_classes=["app-launcher-app"],
                 child=[
                     Widget.Icon(image=app.icon, pixel_size=48),
                     Widget.Label(
                         ellipsize="end",
                         label=app.name,
                         max_width_chars=30,
-                        css_classes=["app-launcher-app-label"]
+                        css_classes=["app-launcher-app-label"],
                     ),
-                ]
-            )
+                ],
+            ),
         )
 
     def launch(self, app):
@@ -49,6 +50,7 @@ def app_launcher(app) -> Widget.Window:
             app_list.child[0].launch(app)
 
     app_list = Widget.Box(
+        css_classes=["app-launcher-list"],
         vertical=True,
         child=[],
     )
@@ -75,23 +77,33 @@ def app_launcher(app) -> Widget.Window:
 
     main_box = Widget.Box(
         css_classes=["app-launcher"],
+        halign="center",
+        valign="center",
         vertical=True,
         child=[search, app_list],
     )
 
     def on_open(window):
-        if not window.visible:
-            return
+        # if not window.visible:
+        #     return
         entry.text = ""
         entry.grab_focus()
 
     return Widget.Window(
-        kb_mode="exclusive",
+        anchor=["top", "right", "bottom", "left"],
         namespace=appLauncherName,
-        popup=True,
-        visible=False,
-        setup=lambda self: self.connect(
-            "notify::visible", lambda x, y: on_open(self)
+        kb_mode="on_demand",
+        setup=lambda self: self.connect("notify::visible", lambda x, y: on_open(self)),
+        popup=True,  # Close on ESC.
+        visible=False,  # Initially not open.
+        style="background: transparent;",
+        child=Widget.Overlay(
+            overlays=[main_box],
+            child=Widget.Button(
+                hexpand=True,
+                on_click=lambda x: app.close_window(appLauncherName),
+                style="background: transparent;",
+                vexpand=True,
+            ),
         ),
-        child=main_box,
     )
