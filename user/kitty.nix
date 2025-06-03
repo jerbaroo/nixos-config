@@ -1,4 +1,5 @@
-{ codeFontName, pkgs, ... }: {
+{ codeFontName, pkgs, ... }:
+{
   programs.kitty = {
     enable = true;
     font.size = 22;

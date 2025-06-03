@@ -24,6 +24,7 @@
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";
       url = "github:hyprwm/hyprland-plugins";
+
     };
     nixos-cosmic = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,11 +34,13 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     let
       pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
       system = "x86_64-linux";
-    in {
+    in
+    {
       nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
@@ -46,7 +49,11 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.nixos-cosmic.nixosModules.default
         ];
-        specialArgs = { inherit inputs; inherit pkgs-unstable; inherit system; };
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs-unstable;
+          inherit system;
+        };
       };
     };
 }

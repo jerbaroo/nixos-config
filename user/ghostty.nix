@@ -1,4 +1,12 @@
-{ codeFontName, flavor, inputs, pkgs, system, ... }: {
+{
+  codeFontName,
+  flavor,
+  inputs,
+  pkgs,
+  system,
+  ...
+}:
+{
   programs.ghostty = {
     enable = true;
     settings = {

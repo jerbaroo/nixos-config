@@ -1,4 +1,5 @@
-{ accent, flavor, ... }: {
+{ accent, flavor, ... }:
+{
   catppuccin = {
     accent = accent;
     enable = true;
