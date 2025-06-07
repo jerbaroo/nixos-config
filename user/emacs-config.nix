@@ -75,10 +75,9 @@
         ;; doom-themes-treemacs-theme "doom-colors"
         ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 26)
         ;; lsp-enable-file-watchers nil
-        lsp-haskell-server-path "haskell-language-server"
-        lsp-ui-doc-enable t
-        lsp-ui-doc-show-with-cursor t
         lsp-eldoc-enable-hover nil
+        lsp-haskell-server-path "haskell-language-server"
+        lsp-lens-enable nil
         org-directory "~/org/"
         org-latex-pdf-process
           '("xelatex -shell-escape -interaction nonstopmode %f"
@@ -91,7 +90,13 @@
     )
 
     (after! lsp-ui
-       (setq lsp-ui-doc-delay 0.2)
+        (setq
+            lsp-ui-doc-delay 0.2
+            lsp-ui-doc-enable t
+            lsp-ui-doc-show-with-cursor t
+            lsp-ui-doc-side 'right
+            lsp-ui-doc-position 'top
+        )
     )
 
     (global-display-fill-column-indicator-mode)
