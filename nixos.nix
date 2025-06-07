@@ -28,6 +28,7 @@ in
     })
     ./system/hardware-configuration.nix
     ./system/keyboard.nix
+    ./system/llm.nix
     ./system/locale.nix
     (import ./system/network.nix { inherit hostname; })
     ./system/openrgb.nix
@@ -40,6 +41,7 @@ in
       inherit accent;
       inherit flavor;
     })
+    ./system/transmission.nix
     (import ./system/user.nix {
       # TODO: do we need to pass accent and flavor if they are set in config.catppuccin?
       inherit accent;
@@ -57,8 +59,4 @@ in
     })
   ];
   programs.adb.enable = true;
-  services.transmission = {
-    enable = true;
-    package = pkgs.transmission_4-gtk;
-  };
 }

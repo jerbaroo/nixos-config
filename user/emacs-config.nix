@@ -77,6 +77,8 @@
         ;; lsp-enable-file-watchers nil
         lsp-haskell-server-path "haskell-language-server"
         lsp-ui-doc-enable t
+        lsp-ui-doc-show-with-cursor t
+        lsp-eldoc-enable-hover nil
         org-directory "~/org/"
         org-latex-pdf-process
           '("xelatex -shell-escape -interaction nonstopmode %f"
@@ -86,6 +88,10 @@
         user-mail-address "jerbaroo.work@pm.me"
         which-key-idle-delay 0.0
         zoom-size '(0.60 . 0.60)
+    )
+
+    (after! lsp-ui
+       (setq lsp-ui-doc-delay 0.2)
     )
 
     (global-display-fill-column-indicator-mode)
