@@ -51,6 +51,7 @@
           inherit accent;
           inherit flavor;
           inherit inputs;
+          inherit palette;
           inherit pkgs;
           inherit system;
         })

@@ -89,6 +89,8 @@
         zoom-size '(0.60 . 0.60)
     )
 
+    (doom/set-frame-opacity 0.8)
+
     (after! lsp-ui
         (setq
             lsp-ui-doc-delay 0.2

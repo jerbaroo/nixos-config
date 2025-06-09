@@ -1,19 +1,7 @@
 {
-  programs.bat.enable = true; # Required to avoid '[bat warning]: Unknown theme'.
+  # Required to avoid '[bat warning]: Unknown theme' when using delta.
+  programs.bat.enable = true;
   programs.git = {
-    aliases = {
-      a = "add";
-      b = "branch";
-      co = "checkout";
-      c = "commit";
-      cl = "clone";
-      d = "diff";
-      l = "log";
-      p = "pull";
-      pu = "push";
-      r = "reset";
-      s = "status";
-    };
     delta.enable = true;
     enable = true;
     extraConfig = {

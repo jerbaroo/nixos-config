@@ -19,6 +19,7 @@
           (extension "decentraleyes" "jid1-BoFifL9Vbdl2zQ@jetpack")
           (extension "flagfox" "{1018e4d6-728f-4b20-ad56-37578a4de76b}")
           (extension "privacy-badger17" "jid1-MnnxcxisBPnSXQ@jetpack")
+          # Comes with LibreWolf.
           # (extension "ublock-origin" "uBlock0@raymondhill.net")
           (extension "vimium-ff" "{d7742d87-e61d-4b78-b8a1-b469842139fa}")
         ];
@@ -44,6 +45,7 @@
         "privacy.trackingprotection.enabled" = true;
         "privacy.trackingprotection.cryptomining.enabled" = true;
         "privacy.trackingprotection.socialtracking.enabled" = true;
+        "sidebar.verticalTabs" = true;
         "signon.rememberSignons" = false;
       };
     };

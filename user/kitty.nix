@@ -5,6 +5,7 @@
     font.size = 22;
     font.name = codeFontName;
     settings = {
+      background_opacity = 0.8;
       confirm_os_window_close = 0;
       clipboard_control = "clipboard_control write-clipboard write-primary read-clipboard-ask read-primary-ask no_append";
       enable_audio_bell = false;

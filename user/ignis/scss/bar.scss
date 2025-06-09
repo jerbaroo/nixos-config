@@ -1,8 +1,11 @@
 .bar-window {
+  margin: 10px;
+  margin-bottom: 0;
+  .bar-button {
+    background-color: $base;
+  }
   .workspaces {
-    background-color: black;
     border-radius: 10%;
-    margin: 5px;
     .active {
       border: 3px solid $accent;
     }

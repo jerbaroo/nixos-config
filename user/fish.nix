@@ -2,7 +2,18 @@
   programs.fish = {
     enable = true;
     shellAbbrs = {
-      g = "git";
+      dr = "direnv reload";
+      ga = "git add";
+      gb = "git branch";
+      gc = "git commit";
+      gd = "git diff";
+      gf = "git pull";
+      gl = "git log";
+      go = "git checkout";
+      gp = "git push";
+      gr = "git reset";
+      gs = "git status";
+      rebuild = "sudo nixos-rebuild switch --flake .#nixos";
     };
     shellInit = ''
       fish_vi_key_bindings

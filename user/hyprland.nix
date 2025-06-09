@@ -2,14 +2,15 @@
   accent,
   flavor,
   inputs,
+  palette,
   pkgs,
   system,
   ...
 }:
 let
   wallpaper = pkgs.fetchurl {
-    hash = "sha256-MxEgvzWmdqMeI5GeI6Hzci6yd5iL44NDXyKQOuw+fLY=";
-    url = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/wallpapers/nix-wallpaper-binary-black_8k.png";
+    hash = "sha256-zHeCa5pStkUQqanUVww3KMehog5tSXrfEKPgd0fqgME=";
+    url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/mountain/a_mountain_range_with_dark_clouds.jpg";
   };
 in
 {
@@ -126,10 +127,10 @@ in
       general = {
         border_size = 3;
         # Catppuccin mocha yellow. TODO
-        "col.active_border" = "rgb(f9e2af)";
+        "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
         # "col.inactive_border" = "rgb(282a36)";
         gaps_in = 5;
-        gaps_out = 5;
+        gaps_out = 10; # Should be double of 'gaps_in'.
         resize_on_border = true;
       };
       misc.disable_hyprland_logo = true;
