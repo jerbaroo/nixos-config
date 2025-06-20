@@ -69,7 +69,7 @@
     ;; they are implemented.
 
     (setq display-line-numbers-type t
-        doom-font (font-spec :family "${codeFontName}" :size 26)
+        doom-font (font-spec :family "${codeFontName}" :size 28)
         doom-theme 'catppuccin
         catppuccin-flavor '${flavor}
         ;; doom-themes-treemacs-theme "doom-colors"

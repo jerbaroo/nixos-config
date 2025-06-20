@@ -69,7 +69,7 @@ def app_launcher(app) -> Widget.Window:
             Widget.Icon(
                 css_classes=["app-launcher-search-icon"],
                 icon_name="system-search-symbolic",
-                pixel_size=24,
+                pixel_size=32,
             ),
             entry,
         ],

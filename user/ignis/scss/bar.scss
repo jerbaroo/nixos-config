@@ -3,10 +3,13 @@
   margin-bottom: 0;
   .bar-button {
     background-color: $base;
+    border-radius: 10px;
   }
   .workspaces {
-    border-radius: 10%;
-    .active {
+    .workspace-button {
+      border: 3px solid transparent;
+    }
+    .workspace-button.active {
       border: 3px solid $accent;
     }
   }

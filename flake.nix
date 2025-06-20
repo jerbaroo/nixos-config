@@ -2,7 +2,6 @@
   description = "NixOS";
 
   inputs = {
-    ags.url = "github:Aylur/ags";
     catppuccin.url = "github:catppuccin/nix";
     color-schemes = {
       url = "github:mbadolato/iTerm2-Color-Schemes";
@@ -13,19 +12,29 @@
       url = "github:nix-community/home-manager/release-25.05";
     };
     ignis.url = "github:linkfrg/ignis";
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.hyprland.follows = "hyprland";
+    };
     hyprland = {
-      # https://github.com/hyprwm/Hyprland/issues/9820
-      # inputs.nixpkgs.follows = "nixpkgs";
-      # ref = "refs/tags/v0.41.0";
-      # submodules = true;
-      # type = "git";
       url = "github:hyprwm/Hyprland";
     };
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";
       url = "github:hyprwm/hyprland-plugins";
-
     };
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
+      inputs.hyprland.follows = "hyprland";
+    };
+    hyprtasking = {
+      url = "github:raybbian/hyprtasking";
+      inputs.hyprland.follows = "hyprland";
+    };
+    # quickshell = {
+    #   url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?ref=v0.1.0";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixos-cosmic = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";

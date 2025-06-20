@@ -1,8 +1,32 @@
 .app-launcher {
-    background-color: $base;
-    min-width: 400px;
+    background-color: $crust;
+    border-radius: 10px;
+    min-width: 600px;
 }
 
-.app-launcher-entry, .app-launcher-list > * {
-    margin: 10px;
+.app-launcher-list > * {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.app-launcher-list > *:first-child {
+    margin-top: 0px;
+}
+
+.app-launcher-list > *:last-child {
+    margin-bottom: 20px;
+}
+
+.app-launcher-entry {
+    margin: 20px;
+}
+
+.app-launcher-search-icon {
+    margin-left: 20px;
+}
+
+.app-launcher-app-label {
+    margin-left: 20px;
 }

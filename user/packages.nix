@@ -12,7 +12,7 @@
     libreoffice
     nixfmt-rfc-style
     obs-studio
-    pandoc # TODO
+    pandoc
     pavucontrol
     shellcheck
     shfmt
