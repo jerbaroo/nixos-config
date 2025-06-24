@@ -6,18 +6,26 @@
     dart
     dockfmt
     editorconfig-core-c
+    fastfetch
     fd
     feh
+    ffmpeg
+    footage
     jq
     libreoffice
+    niv
     nixfmt-rfc-style
     obs-studio
     pandoc
     pavucontrol
     shellcheck
     shfmt
+    spotify
     texliveFull
     vlc
+    wev
+    wireguard-tools
+    ydotool
     zoom-us
 
     # Haskell
