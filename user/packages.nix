@@ -11,6 +11,7 @@
     feh
     ffmpeg
     footage
+    grc
     jq
     libreoffice
     niv

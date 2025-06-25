@@ -65,8 +65,6 @@
           inherit pkgs-unstable;
         })
         ../user/packages.nix
-        ../user/protonvpn.nix
-        ../user/starship.nix
         (import ../user/theme.nix {
           inherit accent;
           inherit flavor;
