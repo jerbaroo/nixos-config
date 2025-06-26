@@ -41,7 +41,6 @@ in
     enable = true;
     package = inputs.hyprland.packages.${system}.hyprland;
     plugins = [
-      inputs.hypr-dynamic-cursors.packages.${system}.hypr-dynamic-cursors
       inputs.hyprsplit.packages.${system}.hyprsplit
       inputs.hyprtasking.packages.${pkgs.system}.hyprtasking
     ];
@@ -161,15 +160,6 @@ in
         resize_on_border = true;
       };
       misc.disable_hyprland_logo = true;
-      "plugin:dynamic-cursors" = {
-        mode = "tilt";
-        threshold = 1;
-        tilt = {
-          # function = "quadratic";
-          limit = 200;
-        };
-        shaperule = [ "text, none" ];
-      };
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
         border_size = 5;

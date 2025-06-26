@@ -1,6 +1,5 @@
 {
   description = "NixOS";
-
   inputs = {
     catppuccin.url = "github:catppuccin/nix";
     color-schemes = {
@@ -12,10 +11,6 @@
       url = "github:nix-community/home-manager/release-25.05";
     };
     ignis.url = "github:linkfrg/ignis";
-    hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland";
-    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
@@ -31,10 +26,6 @@
       url = "github:raybbian/hyprtasking";
       inputs.hyprland.follows = "hyprland";
     };
-    # quickshell = {
-    #   url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?ref=v0.1.0";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixos-cosmic = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";
@@ -42,7 +33,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
-
   outputs =
     inputs:
     let
