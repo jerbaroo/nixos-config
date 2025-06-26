@@ -1,20 +1,22 @@
 import re
 import subprocess
+from ignis.app import IgnisApp
 from ignis.services.applications import Application, ApplicationsService
 from ignis.widgets import Widget
 
-appService = ApplicationsService.get_default()
-appLauncherName = "ignis-app-launcher"
+app_service = ApplicationsService.get_default()
+app_launcher_name = "ignis-app-launcher"
 
 
-def close_launcher(app):
-    app.close_window(appLauncherName)
+def close_launcher(ignis_app: IgnisApp):
+    ignis_app.close_window(app_launcher_name)
 
 
 class AppItem(Widget.Button):
 
-    def __init__(self, app: Application):
+    def __init__(self, app: Application, ignis_app):
         self.app = app
+        self.ignis_app = ignis_app
 
         super().__init__(
             on_click=lambda x: self.launch(),
@@ -32,22 +34,22 @@ class AppItem(Widget.Button):
             ),
         )
 
-    def launch(self, app):
+    def launch(self):
         exec_string = re.sub(r"%\S*", "", self.app.exec_string)
         print(f"Launching {exec_string}")
-        close_launcher(app)
+        close_launcher(self.ignis_app)
         subprocess.Popen(exec_string, shell=True)
 
 
-def app_launcher(app) -> Widget.Window:
+def app_launcher(ignis_app: IgnisApp) -> Widget.Window:
 
     def on_change(x, app_list):
-        apps = appService.search(appService.apps, x.text)
-        app_list.child = [AppItem(i) for i in apps[:6]]
+        apps = app_service.search(app_service.apps, x.text)
+        app_list.child = [AppItem(app, ignis_app) for app in apps[:6]]
 
     def on_accept(x, app_list):
         if len(app_list.child) >= 1:
-            app_list.child[0].launch(app)
+            app_list.child[0].launch()
 
     app_list = Widget.Box(
         css_classes=["app-launcher-list"],
@@ -91,7 +93,7 @@ def app_launcher(app) -> Widget.Window:
 
     return Widget.Window(
         anchor=["top", "right", "bottom", "left"],
-        namespace=appLauncherName,
+        namespace=app_launcher_name,
         kb_mode="on_demand",
         setup=lambda self: self.connect("notify::visible", lambda x, y: on_open(self)),
         popup=True,  # Close on ESC.
@@ -101,7 +103,7 @@ def app_launcher(app) -> Widget.Window:
             overlays=[main_box],
             child=Widget.Button(
                 hexpand=True,
-                on_click=lambda x: app.close_window(appLauncherName),
+                on_click=lambda x: close_launcher(ignis_app),
                 style="background: transparent;",
                 vexpand=True,
             ),
