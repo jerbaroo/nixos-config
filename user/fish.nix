@@ -11,20 +11,20 @@ in
     shellAbbrs = {
       dr = "direnv reload";
       grep = "batgrep";
+      ls = "lsd";
       man = "batman";
       rebuild = "sudo nixos-rebuild switch --flake .#nixos";
       watch = "batwatch";
     };
-    plugins = with pkgs.fishPlugins; [
-      (plugin "autopair")
-      (plugin "bang-bang")
-      (plugin "done")
-      (plugin "forgit")
-      (plugin "fzf-fish")
-      (plugin "grc")
-      (plugin "humantime-fish")
-      (plugin "tide")
-      (plugin "z")
+    plugins = map plugin [
+      "autopair"
+      "bang-bang"
+      "done"
+      "forgit"
+      "fzf-fish"
+      "grc"
+      "humantime-fish"
+      "z"
     ];
     shellInit = ''
       fish_vi_key_bindings

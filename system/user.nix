@@ -23,7 +23,7 @@
         inputs.catppuccin.homeModules.catppuccin
 
         # TODO better way to pass args to modules.
-        (import ../user/browser.nix { inherit username; })
+        ../user/browser.nix
         (import ../user/ignis.nix {
           inherit accent;
           inherit inputs;

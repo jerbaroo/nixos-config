@@ -1,4 +1,3 @@
-{ username, ... }:
 {
   programs.brave.enable = true;
   programs.librewolf = {
@@ -24,7 +23,8 @@
           (extension "vimium-ff" "{d7742d87-e61d-4b78-b8a1-b469842139fa}")
         ];
     };
-    profiles.${username} = {
+    profiles.default = {
+      extensions.force = true;
       settings = {
         "browser.contentblocking.cryptomining.preferences.ui.enabled" = true;
         "browser.contentblocking.fingerprinting.preferences.ui.enabled" = true;

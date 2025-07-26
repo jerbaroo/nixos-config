@@ -45,20 +45,24 @@ def workspace_button(monitor: int, workspace: dict) -> Optional[Widget.Button]:
 
 
 def workspaces(monitor: int) -> Widget.EventBox:
-    return Widget.EventBox(
+    # Bind also to active_workspace to regenerate workspaces list when active
+    # workspace changes.
+    # TODO WIP: fix flickering..
+    child = hyprlandService.bind_many(
+        ["active_workspace", "workspaces"],
+        transform=lambda _, workspaces: filter(
+            lambda x: x is not None,
+            [workspace_button(monitor, i) for i in workspaces],
+        ),
+    )
+    event_box = Widget.EventBox(
         on_scroll_up=lambda x: scroll_workspaces(lambda y: y + 1),
         on_scroll_down=lambda x: scroll_workspaces(lambda y: y - 1),
         css_classes=["workspaces"],
         spacing=sml_spacing,
-        # Bind also to active_workspace to regenerate workspaces list when
-        # active workspace changes.
-        child=hyprlandService.bind_many(
-            ["active_workspace", "workspaces"],
-            transform=lambda _, workspaces: [
-                workspace_button(monitor, i) for i in workspaces
-            ],
-        ),
+        child=child,
     )
+    return event_box
 
 
 def left(monitor: int) -> Widget.Box:

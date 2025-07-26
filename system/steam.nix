@@ -1,4 +1,3 @@
-{ ... }:
 {
   programs.steam = {
     dedicatedServer.openFirewall = true;

@@ -8,10 +8,10 @@
   ...
 }:
 let
-  wallpaper = pkgs.fetchurl {
+  wallpaper = builtins.toString (pkgs.fetchurl {
     hash = "sha256-zHeCa5pStkUQqanUVww3KMehog5tSXrfEKPgd0fqgME=";
     url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/mountain/a_mountain_range_with_dark_clouds.jpg";
-  };
+  });
 in
 {
   home.packages = with pkgs; [
@@ -32,9 +32,9 @@ in
     enable = true;
     settings = {
       ipc = "off";
-      preload = [ (builtins.toString wallpaper) ];
+      preload = [ wallpaper ];
       splash = false;
-      wallpaper = [ ",${builtins.toString wallpaper}" ];
+      wallpaper = [ ",${wallpaper}" ];
     };
   };
   wayland.windowManager.hyprland = {
@@ -121,19 +121,22 @@ in
         # Application shortcuts.
         "$mod, SPACE, exec, ignis open-window ignis-app-launcher"
         "$mod, RETURN, hyprtasking:if_not_active, exec ghostty"
+        "$mod, B, exec, blueman-manager"
         "$mod, C, killactive"
-        "$mod, B, exec, brave"
         "$mod, E, exec, emacs"
         "$mod, F, fullscreen"
+        "$mod, G, togglefloating"
         "$mod SHIFT, F, fullscreenstate, 1"
         "$mod, P, exec, hyprpicker --autocopy"
         "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
         "$mod, Q, exec, hyprlock"
+        "$mod SHIFT, Q, exec, poweroff"
         # "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
         "$mod, S, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mod, T, togglesplit, # dwindle"
-        "$mod, V, togglefloating"
+        "$mod, V, exec, pavucontrol"
         "$mod, W, exec, librewolf"
+        "$mod SHIFT, W, exec, brave"
       ];
       decoration = {
         active_opacity = 1;
@@ -147,8 +150,6 @@ in
         "hyprsunset -t 5000"
         "openrgb -m static -c ff1e00"
         "ignis init"
-        "[workspace 1 silent] emacs"
-        "[workspace 1 silent] ghostty"
       ];
       general = {
         border_size = 3;
