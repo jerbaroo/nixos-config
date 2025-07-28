@@ -11,8 +11,10 @@
     feh
     ffmpeg
     footage
+    google-chrome
     grc
     jq
+    htop
     libreoffice
     niv
     nixfmt-rfc-style
@@ -22,7 +24,9 @@
     shellcheck
     shfmt
     spotify
+    stack
     texliveFull
+    unzip
     vlc
     wev
     wireguard-tools
