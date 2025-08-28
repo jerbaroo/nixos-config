@@ -37,21 +37,30 @@
     inputs:
     let
       pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
+      hostname = "nixos";
       system = "x86_64-linux";
+      username = "jer";
     in
     {
-      nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./nixos.nix
-          inputs.catppuccin.nixosModules.catppuccin
-          inputs.home-manager.nixosModules.home-manager
-          inputs.nixos-cosmic.nixosModules.default
-        ];
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-unstable;
+      nixosConfigurations = {
+        ${hostname} = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
+          modules = [
+            ./nixos.nix
+            inputs.catppuccin.nixosModules.catppuccin
+            inputs.home-manager.nixosModules.home-manager
+            inputs.nixos-cosmic.nixosModules.default
+          ];
+          specialArgs = {
+            inherit inputs;
+            inherit pkgs-unstable;
+            inherit system;
+          };
+        };
+      };
+      homeConfigurations = {
+        "${username}@${hostname}" = inputs.home-manager.lib.homeManagerConfiguration {
+          modules = [ ./user/home.nix ];
         };
       };
     };

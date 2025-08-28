@@ -18,6 +18,23 @@ let
   username = "jer";
 in
 {
+  home-manager = {
+    backupFileExtension = ".backup";
+    extraSpecialArgs = {
+      inherit accent;
+      inherit codeFontName;
+      inherit flavor;
+      inherit inputs;
+      inherit palette;
+      inherit pkgs-unstable;
+      inherit stateVersion;
+      inherit system;
+      inherit username;
+    };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.${username} = import ./user/home.nix;
+  };
   imports = [
     ./system/boot.nix
     ./system/docker.nix
@@ -42,21 +59,16 @@ in
       inherit flavor;
     })
     ./system/transmission.nix
-    (import ./system/user.nix {
-      # TODO: do we need to pass accent and flavor if they are set in config.catppuccin?
-      inherit accent;
-      inherit codeFontName;
-      inherit config;
-      inherit flavor;
-      inherit hostname;
-      inherit inputs;
-      inherit palette;
-      inherit pkgs;
-      inherit pkgs-unstable;
-      inherit stateVersion;
-      inherit system;
-      inherit username;
-    })
   ];
-  programs.adb.enable = true;
+  programs.adb.enable = true; # TODO
+  users.users.${username} = {
+    extraGroups = [
+      "adbusers"
+      "docker"
+      "kvm"
+      "networkmanager"
+      "wheel"
+    ];
+    isNormalUser = true;
+  };
 }

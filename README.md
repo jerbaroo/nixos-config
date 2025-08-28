@@ -6,12 +6,13 @@
 - Install NixOS 25.05.
 - Install this NixOS configuration:
   - `sudo rm -rf /etc/nixos`
-  - Clone this repo into some directory `d` and then `cd d`.
+  - `git clone https://github.com/jerbaroo/nixos-config && cd nixos-config`
   - `sudo nixos-generate-config --show-hardware-config > system/hardware-configuration.nix`
   - `sudo nixos-rebuild switch --flake .#nixos`
 - Install Doom Emacs:
   - `git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs`
   - `~/.config/emacs/bin/doom install`
+  - gen envar N
 
 # Ignis
 

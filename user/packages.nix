@@ -55,4 +55,5 @@
     nodejs_24
     stylelint
   ];
+  programs.home-manager.enable = true;
 }
