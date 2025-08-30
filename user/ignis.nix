@@ -1,6 +1,6 @@
 {
   accent,
-  inputs,
+  ignis,
   palette,
   pkgs,
   system,
@@ -18,7 +18,7 @@
     $mantle: ${palette.mantle.hex};
   '';
   home.packages = with pkgs; [
-    inputs.ignis.packages.${system}.ignis
+    ignis.packages.${system}.ignis
     libnotify
   ];
 }

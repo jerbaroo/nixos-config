@@ -1,7 +1,9 @@
 {
   accent,
   flavor,
-  inputs,
+  hyprland,
+  hyprsplit,
+  hyprtasking,
   palette,
   pkgs,
   system,
@@ -39,10 +41,10 @@ in
   };
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${system}.hyprland;
+    package = hyprland.packages.${system}.hyprland;
     plugins = [
-      inputs.hyprsplit.packages.${system}.hyprsplit
-      inputs.hyprtasking.packages.${pkgs.system}.hyprtasking
+      hyprsplit.packages.${system}.hyprsplit
+      hyprtasking.packages.${pkgs.system}.hyprtasking
     ];
     settings = {
       # "env" = "GTK_THEME, catppuccin-${flavor}-${accent}-standard";

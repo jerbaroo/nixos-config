@@ -1,31 +1,21 @@
 {
+  accent,
   config,
-  inputs,
+  flavor,
+  hyprland,
   pkgs,
   pkgs-unstable,
+  stateVersion,
   system,
+  username,
   ...
-}:
-
-let
-  accent = "yellow";
-  codeFontName = "JetBrainsMono Nerd Font";
-  flavor = "mocha";
-  hostname = "nixos";
-  palette =
-    (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
-  stateVersion = "24.05";
-  username = "jer";
-in
-{
+}: {
   home-manager = {
     backupFileExtension = ".backup";
     extraSpecialArgs = {
       inherit accent;
       inherit codeFontName;
       inherit flavor;
-      inherit inputs;
-      inherit palette;
       inherit pkgs-unstable;
       inherit stateVersion;
       inherit system;
@@ -39,7 +29,7 @@ in
     ./system/boot.nix
     ./system/docker.nix
     (import ./system/graphics.nix {
-      inherit inputs;
+      inherit hyprland;
       inherit pkgs;
       inherit system;
     })

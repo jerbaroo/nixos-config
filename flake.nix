@@ -1,3 +1,4 @@
+
 {
   description = "NixOS";
   inputs = {
@@ -11,9 +12,7 @@
       url = "github:nix-community/home-manager/release-25.05";
     };
     ignis.url = "github:linkfrg/ignis";
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-    };
+    hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";
       url = "github:hyprwm/hyprland-plugins";
@@ -26,6 +25,7 @@
       url = "github:raybbian/hyprtasking";
       inputs.hyprland.follows = "hyprland";
     };
+    nixgl.url = "github:nix-community/nixGL";
     nixos-cosmic = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";
@@ -36,8 +36,17 @@
   outputs =
     inputs:
     let
-      pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
+      accent = "yellow";
+      allowUnfree = true;
+      codeFontName = "JetBrainsMono Nerd Font";
+      flavor = "mocha";
       hostname = "nixos";
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        overlays = [ inputs.nixgl.overlay ];
+      };
+      pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
+      stateVersion = "24.05";
       system = "x86_64-linux";
       username = "jer";
     in
@@ -52,14 +61,39 @@
             inputs.nixos-cosmic.nixosModules.default
           ];
           specialArgs = {
-            inherit inputs;
+            inherit accent;
+            inherit allowUnfree;
+            inherit codeFontName;
+            inherit flavor;
             inherit pkgs-unstable;
+            inherit stateVersion;
             inherit system;
+            inherit username;
+            hyprland = inputs.hyprland;
           };
         };
       };
       homeConfigurations = {
         "${username}@${hostname}" = inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgs;
+          extraSpecialArgs = {
+            inherit accent;
+            inherit allowUnfree;
+            inherit codeFontName;
+            inherit flavor;
+            inherit pkgs-unstable;
+            inherit stateVersion;
+            inherit system;
+            inherit username;
+            catppuccin = inputs.catppuccin;
+            color-schemes = inputs.color-schemes;
+            hyprland = inputs.hyprland;
+            hyprsplit = inputs.hyprsplit;
+            hyprtasking = inputs.hyprtasking;
+            ignis = inputs.ignis;
+            nixgl = inputs.nixgl;
+            wrapGL = true;
+          };
           modules = [ ./user/home.nix ];
         };
       };

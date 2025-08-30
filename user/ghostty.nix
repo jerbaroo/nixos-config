@@ -1,19 +1,23 @@
 {
   codeFontName,
+  color-schemes,
+  config,
   flavor,
-  inputs,
   pkgs,
   system,
+  wrapGL,
   ...
 }:
 {
   programs.ghostty = {
     enable = true;
+    package =
+      (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
     settings = {
       background-opacity = 0.7;
       command = "${pkgs.fish}/bin/fish";
       config-file = [
-        (inputs.color-schemes + "/ghostty/catppuccin-${flavor}")
+        (color-schemes + "/ghostty/catppuccin-${flavor}")
       ];
       confirm-close-surface = false;
       font-family = codeFontName;

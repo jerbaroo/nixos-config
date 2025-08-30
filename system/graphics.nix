@@ -1,5 +1,5 @@
 {
-  inputs,
+  hyprland,
   pkgs,
   system,
   ...
@@ -7,7 +7,7 @@
 {
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${system}.hyprland;
+    package = hyprland.packages.${system}.hyprland;
   };
   # services.desktopManager.cosmic.enable = true;
   # services.displayManager.cosmic-greeter.enable = true;

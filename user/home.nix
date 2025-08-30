@@ -1,30 +1,32 @@
 {
   accent,
+  allowUnfree,
+  catppuccin,
   codeFontName,
+  color-schemes,
   config,
   flavor,
-  inputs,
-  palette,
+  hyprland,
+  hyprsplit,
+  hyprtasking,
+  ignis,
+  nixgl,
   pkgs,
   pkgs-unstable,
   stateVersion,
   system,
   username,
+  wrapGL,
   ...
 }:
-{
+let
+  palette =
+    (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
+in {
   imports = [
-    inputs.catppuccin.homeModules.catppuccin
+    catppuccin.homeModules.catppuccin
 
-    # TODO better way to pass args to modules.
     ../user/browser.nix
-    (import ../user/ignis.nix {
-      inherit accent;
-      inherit inputs;
-      inherit palette;
-      inherit pkgs;
-      inherit system;
-    })
     ../user/direnv.nix
     (import ../user/emacs.nix {
       inherit codeFontName;
@@ -33,25 +35,38 @@
     })
     ../user/fish.nix
     ../user/fonts.nix
-    ../user/git.nix
     (import ../user/ghostty.nix {
       inherit codeFontName;
+      inherit color-schemes;
+      inherit config;
       inherit flavor;
-      inherit inputs;
       inherit pkgs;
       inherit system;
+      inherit wrapGL;
     })
+    ../user/git.nix
     (import ../user/hyprland.nix {
       inherit accent;
       inherit flavor;
-      inherit inputs;
+      inherit hyprland;
+      inherit hyprsplit;
+      inherit hyprtasking;
+      inherit palette;
+      inherit pkgs;
+      inherit system;
+    })
+    (import ../user/ignis.nix {
+      inherit accent;
+      inherit ignis;
       inherit palette;
       inherit pkgs;
       inherit system;
     })
     (import ../user/kitty.nix {
       inherit codeFontName;
+      inherit config;
       inherit pkgs;
+      inherit wrapGL;
     })
     ../user/lsd.nix
     (import ../user/neovim.nix {
@@ -71,5 +86,11 @@
     homeDirectory = "/home/${username}";
     stateVersion = stateVersion;
     username = "${username}";
+  };
+  nixGL.packages = nixgl.packages;
+  nixpkgs = {
+    config = {
+      inherit allowUnfree;
+    };
   };
 }
