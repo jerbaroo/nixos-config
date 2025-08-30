@@ -1,7 +1,10 @@
 {
   accent,
+  allowUnfree,
+  codeFontName,
   config,
   flavor,
+  hostname,
   hyprland,
   pkgs,
   pkgs-unstable,
@@ -9,7 +12,8 @@
   system,
   username,
   ...
-}: {
+}:
+{
   home-manager = {
     backupFileExtension = ".backup";
     extraSpecialArgs = {
@@ -23,34 +27,49 @@
     };
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${username} = import ./user/home.nix;
+    users.${username} = import ../user/home.nix;
   };
   imports = [
-    ./system/boot.nix
-    ./system/docker.nix
-    (import ./system/graphics.nix {
+    ./boot.nix
+    ./docker.nix
+    (import ./graphics.nix {
       inherit hyprland;
       inherit pkgs;
       inherit system;
     })
-    ./system/hardware-configuration.nix
-    ./system/keyboard.nix
-    ./system/llm.nix
-    ./system/locale.nix
-    (import ./system/network.nix { inherit hostname; })
-    ./system/openrgb.nix
-    ./system/printing.nix
-    ./system/sound.nix
-    ./system/steam.nix
-    ./system/store.nix
-    (import ./system/system.nix { inherit stateVersion; })
-    (import ./system/theme.nix {
+    ./hardware-configuration.nix
+    ./keyboard.nix
+    ./llm.nix
+    ./locale.nix
+    (import ./network.nix { inherit hostname; })
+    ./openrgb.nix
+    ./printing.nix
+    ./sound.nix
+    ./steam.nix
+    ./store.nix
+    (import ./theme.nix {
       inherit accent;
       inherit flavor;
     })
-    ./system/transmission.nix
+    ./transmission.nix
   ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    substituters = [
+      "https://cosmic.cachix.org/"
+      "https://nixcache.reflex-frp.org"
+    ];
+    trusted-public-keys = [
+      "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+      "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
+    ];
+  };
+  nixpkgs.config.allowUnfree = allowUnfree;
   programs.adb.enable = true; # TODO
+  system.stateVersion = stateVersion;
   users.users.${username} = {
     extraGroups = [
       "adbusers"

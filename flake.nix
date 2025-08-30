@@ -1,4 +1,3 @@
-
 {
   description = "NixOS";
   inputs = {
@@ -55,7 +54,7 @@
         ${hostname} = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            ./nixos.nix
+            ./system/nixos.nix
             inputs.catppuccin.nixosModules.catppuccin
             inputs.home-manager.nixosModules.home-manager
             inputs.nixos-cosmic.nixosModules.default
@@ -75,7 +74,7 @@
       };
       homeConfigurations = {
         "${username}@${hostname}" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
+          inherit pkgs;
           extraSpecialArgs = {
             inherit accent;
             inherit allowUnfree;
@@ -92,6 +91,7 @@
             hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
+            plugins = false;
             wrapGL = true;
           };
           modules = [ ./user/home.nix ];

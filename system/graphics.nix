@@ -1,6 +1,5 @@
 {
   hyprland,
-  pkgs,
   system,
   ...
 }:

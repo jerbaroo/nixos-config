@@ -13,6 +13,7 @@
   nixgl,
   pkgs,
   pkgs-unstable,
+  plugins,
   stateVersion,
   system,
   username,
@@ -22,7 +23,8 @@
 let
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
-in {
+in
+{
   imports = [
     catppuccin.homeModules.catppuccin
 
@@ -47,13 +49,16 @@ in {
     ../user/git.nix
     (import ../user/hyprland.nix {
       inherit accent;
+      inherit config;
       inherit flavor;
       inherit hyprland;
       inherit hyprsplit;
       inherit hyprtasking;
       inherit palette;
       inherit pkgs;
+      inherit plugins;
       inherit system;
+      inherit wrapGL;
     })
     (import ../user/ignis.nix {
       inherit accent;
@@ -87,10 +92,14 @@ in {
     stateVersion = stateVersion;
     username = "${username}";
   };
-  nixGL.packages = nixgl.packages;
+  nixGL = {
+    defaultWrapper = "mesa";
+    packages = nixgl.packages;
+  };
   nixpkgs = {
     config = {
       inherit allowUnfree;
     };
   };
+  programs.home-manager.enable = true;
 }
