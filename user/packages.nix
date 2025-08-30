@@ -17,6 +17,7 @@
     htop
     libreoffice
     niv
+    nix
     nixfmt-rfc-style
     obs-studio
     pandoc
