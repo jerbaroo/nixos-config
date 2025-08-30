@@ -15,7 +15,6 @@
 let
   ifPlugins = a: if plugins then a else "";
   ifNotPlugins = a: if plugins then "" else a;
-  ifPlugins' = a: b: if plugins then a else b;
   wallpaper = builtins.toString (
     pkgs.fetchurl {
       hash = "sha256-zHeCa5pStkUQqanUVww3KMehog5tSXrfEKPgd0fqgME=";
@@ -190,8 +189,9 @@ in
         gaps_use_aspect_ratio = true;
       };
     };
+    xwayland.enable = false;
   };
-  # xdg.configFile."environment.d/envvars.conf".text = ''
-  #   PATH="$HOME/.nix-profile/bin:$PATH"
-  # '';
+  xdg.configFile."environment.d/envvars.conf".text = ''
+    PATH="$HOME/.nix-profile/bin:$PATH"
+  '';
 }

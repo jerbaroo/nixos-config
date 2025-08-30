@@ -15,7 +15,7 @@
   ];
   programs.emacs = {
     enable = true;
-    # package = pkgs.emacs30;
+    package = pkgs.emacs-pgtk;
   };
   programs.ripgrep.enable = true;
 }

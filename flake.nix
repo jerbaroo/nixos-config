@@ -86,6 +86,7 @@
             inherit username;
             catppuccin = inputs.catppuccin;
             color-schemes = inputs.color-schemes;
+            genericLinux = true;
             hyprland = inputs.hyprland;
             hyprsplit = inputs.hyprsplit;
             hyprtasking = inputs.hyprtasking;

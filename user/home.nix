@@ -9,6 +9,7 @@
   hyprland,
   hyprsplit,
   hyprtasking,
+  genericLinux,
   ignis,
   nixgl,
   pkgs,
@@ -96,10 +97,9 @@ in
     defaultWrapper = "mesa";
     packages = nixgl.packages;
   };
-  nixpkgs = {
-    config = {
-      inherit allowUnfree;
-    };
+  nixpkgs.config = {
+    inherit allowUnfree;
   };
   programs.home-manager.enable = true;
+  targets.genericLinux.enable = genericLinux;
 }
