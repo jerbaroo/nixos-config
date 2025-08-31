@@ -17,6 +17,7 @@
   plugins,
   stateVersion,
   system,
+  systemPAM,
   username,
   wrapGL,
   ...
@@ -59,6 +60,7 @@ in
       inherit pkgs;
       inherit plugins;
       inherit system;
+      inherit systemPAM;
       inherit wrapGL;
     })
     (import ../user/ignis.nix {
@@ -102,4 +104,7 @@ in
   };
   programs.home-manager.enable = true;
   targets.genericLinux.enable = genericLinux;
+  xdg.configFile."environment.d/envvars.conf".text = ''
+    PATH="$HOME/.nix-profile/bin:$PATH"
+  '';
 }

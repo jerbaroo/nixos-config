@@ -9,12 +9,33 @@
   pkgs,
   plugins,
   system,
+  systemPAM,
   wrapGL,
   ...
 }:
 let
   ifPlugins = a: if plugins then a else "";
   ifNotPlugins = a: if plugins then "" else a;
+  hyprlock-systempam = (
+    # Written by ChatGPT 5:
+    pkgs.writeShellScriptBin "hyprlock" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      # Use the Hyprlock binary that Nix built
+      REAL="${pkgs.hyprlock}/bin/hyprlock"
+      # Force it to run under Ubuntu's dynamic loader instead of Nix's
+      # (different distros may use /lib64 or /lib/x86_64-linux-gnu)
+      LOADER="/lib64/ld-linux-x86-64.so.2"
+      [ -x "$LOADER" ] || LOADER="/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"
+      # Tell the loader where to look for shared libraries first
+      # These are Ubuntu's system lib dirs, so pam_unix & friends are found here
+      export LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
+      # Extra safety: preload system libpam.so explicitly, so we never use Nix's
+      export LD_PRELOAD="/lib/x86_64-linux-gnu/libpam.so.0"
+      # Finally, exec Hyprlock through the system loader with the correct libs
+      exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
+    ''
+  );
   wallpaper = builtins.toString (
     pkgs.fetchurl {
       hash = "sha256-zHeCa5pStkUQqanUVww3KMehog5tSXrfEKPgd0fqgME=";
@@ -33,9 +54,8 @@ in
   ];
   programs.hyprlock = {
     enable = true;
-    settings = {
-      general.hide_cursor = true;
-    };
+    package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
+    settings.general.hide_cursor = true;
   };
   services.hyprpaper = {
     enable = true;
@@ -189,9 +209,6 @@ in
         gaps_use_aspect_ratio = true;
       };
     };
-    xwayland.enable = false;
+    xwayland.enable = true;
   };
-  xdg.configFile."environment.d/envvars.conf".text = ''
-    PATH="$HOME/.nix-profile/bin:$PATH"
-  '';
 }

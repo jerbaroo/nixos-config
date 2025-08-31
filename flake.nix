@@ -97,6 +97,7 @@
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
             plugins = false;
+            systemPAM = true;
             wrapGL = true;
           };
           modules = [ ./user/home.nix ];

@@ -69,11 +69,11 @@
     ;; they are implemented.
 
     (setq display-line-numbers-type t
-        doom-font (font-spec :family "${codeFontName}" :size 22)
+        doom-font (font-spec :family "${codeFontName}" :size 18)
         doom-theme 'catppuccin
         catppuccin-flavor '${flavor}
         ;; doom-themes-treemacs-theme "doom-colors"
-        ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 26)
+        ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 18)
         ;; lsp-enable-file-watchers nil
         lsp-eldoc-enable-hover nil
         lsp-haskell-server-path "haskell-language-server"
