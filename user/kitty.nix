@@ -1,11 +1,16 @@
-{ codeFontName, config, pkgs, wrapGL, ... }:
+{
+  codeFontName,
+  config,
+  pkgs,
+  wrapGL,
+  ...
+}:
 {
   programs.kitty = {
     enable = true;
-    font.size = 22;
+    font.size = 18;
     font.name = codeFontName;
-    package =
-      (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.kitty;
+    package = (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.kitty;
     settings = {
       background_opacity = 0.8;
       confirm_os_window_close = 0;

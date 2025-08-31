@@ -31,18 +31,22 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nur.url = "github:nix-community/NUR";
   };
   outputs =
     inputs:
     let
       accent = "yellow";
-      allowUnfree = true;
+      allowUnfree = false;
       codeFontName = "JetBrainsMono Nerd Font";
       flavor = "mocha";
       hostname = "nixos";
       pkgs = import inputs.nixpkgs {
         inherit system;
-        overlays = [ inputs.nixgl.overlay ];
+        overlays = [
+          inputs.nixgl.overlay
+          inputs.nur.overlays.default
+        ];
       };
       pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
       stateVersion = "24.05";

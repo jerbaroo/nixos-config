@@ -1,16 +1,16 @@
 .bar-window {
-  margin: 10px;
+  margin: 6px;
   margin-bottom: 0;
   .bar-button {
     background-color: $base;
-    border-radius: 10px;
+    border-radius: 6px;
   }
   .workspaces {
     .workspace-button {
-      border: 3px solid transparent;
+      border: 2px solid transparent;
     }
     .workspace-button.active {
-      border: 3px solid $accent;
+      border: 2px solid $accent;
     }
   }
 }

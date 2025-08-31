@@ -16,19 +16,19 @@
 - Install this home-manager config:
   - `git clone https://github.com/jerbaroo/nixos-config && cd nixos-config`
   - `home-manager --flake .#jer@nixos switch`
-
-## Doom Emacs
-- `git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs`
-- `~/.config/emacs/bin/doom install` (No envvar file)
-- If necessary: `rm -rf ~/.emacs.d`
-
+- Add hyprland desktop entry:
 ``` yaml
 [Desktop Entry]
 Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=sh -c 'exec /home/jer/.nix-profile/bin/Hyprland > ~/.local/share/hyprland.log 2>&1'
+Exec=/home/jer/.nix-profile/bin/Hyprland
 Type=Application
 ```
+
+## Doom Emacs
+- `git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs`
+- `~/.config/emacs/bin/doom install` (no envvar file)
+- If necessary: `rm -rf ~/.emacs.d`
 
 # Develop ignis components
 ``` bash

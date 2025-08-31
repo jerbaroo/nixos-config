@@ -11,7 +11,6 @@
     feh
     ffmpeg
     footage
-    google-chrome
     grc
     jq
     htop
@@ -24,7 +23,6 @@
     pavucontrol
     shellcheck
     shfmt
-    spotify
     stack
     texliveFull
     unzip
@@ -32,7 +30,6 @@
     wev
     wireguard-tools
     ydotool
-    zoom-us
 
     # Haskell
     cabal-install

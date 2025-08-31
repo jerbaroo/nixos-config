@@ -173,12 +173,12 @@ in
         "ignis init"
       ];
       general = {
-        border_size = 3;
+        border_size = 2;
         "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
         "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.crust.hex})";
         # "col.inactive_border" = "rgb(282a36)";
-        gaps_in = 5;
-        gaps_out = 10; # Should be double of 'gaps_in'.
+        gaps_in = 3;
+        gaps_out = 6; # Should be double of 'gaps_in'.
         resize_on_border = true;
       };
       misc.disable_hyprland_logo = true;

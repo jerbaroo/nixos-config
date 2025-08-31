@@ -11,8 +11,7 @@
 {
   programs.ghostty = {
     enable = true;
-    package =
-      (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
+    package = (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
     settings = {
       background-opacity = 0.7;
       command = "${pkgs.fish}/bin/fish";
@@ -21,7 +20,7 @@
       ];
       confirm-close-surface = false;
       font-family = codeFontName;
-      font-size = 26;
+      font-size = 18;
       scrollback-limit = 1000000;
     };
   };
