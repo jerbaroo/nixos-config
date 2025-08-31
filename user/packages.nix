@@ -3,6 +3,7 @@
   home.packages = with pkgs; [
     android-tools
     blueman
+    cargo
     dart
     dockfmt
     editorconfig-core-c
@@ -11,6 +12,7 @@
     feh
     ffmpeg
     footage
+    gcc
     grc
     jq
     htop
@@ -21,6 +23,7 @@
     obs-studio
     pandoc
     pavucontrol
+    rustc
     shellcheck
     shfmt
     stack
@@ -53,5 +56,4 @@
     nodejs_24
     stylelint
   ];
-  programs.home-manager.enable = true;
 }
