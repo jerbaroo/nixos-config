@@ -100,7 +100,6 @@ in
           "linear, 1, 1, 1, 1"
         ];
         enabled = true;
-        first_launch_animation = true;
       };
       bind =
         (
