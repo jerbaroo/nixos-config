@@ -20,5 +20,6 @@
   home.packages = with pkgs; [
     ignis.packages.${system}.ignis
     libnotify
+    sass
   ];
 }

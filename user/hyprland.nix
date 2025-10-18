@@ -171,6 +171,7 @@ in
           "$mod, W, exec, librewolf"
           "$mod SHIFT, W, exec, firefox"
         ];
+      cursor.no_hardware_cursors = true;
       debug.disable_logs = false;
       decoration = {
         active_opacity = 1;
@@ -182,6 +183,7 @@ in
         "hyprsunset -t 4500"
         "openrgb -m static -c ff1e00"
         "ignis init"
+        "sleep 1 && source ~/.config/hypr/hyprsplit.conf"
       ];
       general = {
         border_size = 2;

@@ -93,8 +93,8 @@
             genericLinux = true;
             hyprland = inputs.hyprland;
             hyprsplit = null;
-            hyprtasking = null;
             # hyprsplit = inputs.hyprsplit;
+            hyprtasking = null;
             # hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
