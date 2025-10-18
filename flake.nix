@@ -92,11 +92,13 @@
             color-schemes = inputs.color-schemes;
             genericLinux = true;
             hyprland = inputs.hyprland;
-            hyprsplit = inputs.hyprsplit;
-            hyprtasking = inputs.hyprtasking;
+            hyprsplit = null;
+            hyprtasking = null;
+            # hyprsplit = inputs.hyprsplit;
+            # hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
-            plugins = false;
+            plugins = true;
             systemPAM = true;
             wrapGL = true;
           };

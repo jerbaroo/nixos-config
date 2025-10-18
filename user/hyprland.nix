@@ -7,15 +7,14 @@
   hyprtasking,
   palette,
   pkgs,
-  plugins,
   system,
   systemPAM,
   wrapGL,
   ...
 }:
 let
-  ifPlugins = a: if plugins then a else "";
-  ifNotPlugins = a: if plugins then "" else a;
+  ifPlugin = p: a: if p == null then "" else a;
+  ifNotPlugin = p: a: if p == null then a else "";
   hyprlock-systempam = (
     # Written by ChatGPT 5:
     pkgs.writeShellScriptBin "hyprlock" ''
@@ -70,13 +69,8 @@ in
     enable = true;
     package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) hyprland.packages.${system}.hyprland);
     plugins =
-      if plugins then
-        [
-          hyprsplit.packages.${system}.hyprsplit
-          hyprtasking.packages.${pkgs.system}.hyprtasking
-        ]
-      else
-        [ ];
+         (if isNull hyprtasking then [] else [hyprtasking.packages.${pkgs.system}.hyprtasking])
+      ++ (if isNull hyprsplit   then [] else [hyprsplit.packages.${system}.hyprsplit]);
     settings = {
       # "env" = "GTK_THEME, catppuccin-${flavor}-${accent}-standard";
       env = "GDK_BACKEND,wayland,x11,*";
@@ -103,7 +97,7 @@ in
       };
       bind =
         (
-          if plugins then
+          if isNull hyprtasking then [ ] else
             [
               "$mod, O, hyprtasking:toggle, cursor"
               "$mod, RETURN, hyprtasking:if_active, hyprtasking:toggle cursor"
@@ -117,16 +111,14 @@ in
               "$mod, L     , hyprtasking:if_active, hyprtasking:move right"
               "    , L     , hyprtasking:if_active, hyprtasking:move right"
             ]
-          else
-            [ ]
         )
         ++ [
           # Overview controls.
           # Move focus in direction.
-          "$mod, H, ${ifPlugins "hyprtasking:if_not_active, "}movefocus${ifNotPlugins ","} l"
-          "$mod, J, ${ifPlugins "hyprtasking:if_not_active, "}movefocus${ifNotPlugins ","} d"
-          "$mod, K, ${ifPlugins "hyprtasking:if_not_active, "}movefocus${ifNotPlugins ","} u"
-          "$mod, L, ${ifPlugins "hyprtasking:if_not_active, "}movefocus${ifNotPlugins ","} r"
+          "$mod, H, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} l"
+          "$mod, J, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} d"
+          "$mod, K, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} u"
+          "$mod, L, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} r"
           # Swap windows in direction.
           "$mod SHIFT, H, movewindow, l"
           "$mod SHIFT, J, movewindow, d"
@@ -138,30 +130,30 @@ in
           # "$mod CTRL, K, ${ifPlugins "hyprtasking:move" "movefocus"}, up"
           # "$mod CTRL, L, ${ifPlugins "hyprtasking:move" "movefocus"}, right"
           # Move focus to workspace by ID.
-          "$mod, 1, ${ifPlugins "split:"}workspace, 1"
-          "$mod, 2, ${ifPlugins "split:"}workspace, 2"
-          "$mod, 3, ${ifPlugins "split:"}workspace, 3"
-          "$mod, 4, ${ifPlugins "split:"}workspace, 4"
-          "$mod, 5, ${ifPlugins "split:"}workspace, 5"
-          "$mod, 6, ${ifPlugins "split:"}workspace, 6"
-          "$mod, 7, ${ifPlugins "split:"}workspace, 7"
-          "$mod, 8, ${ifPlugins "split:"}workspace, 8"
-          "$mod, 9, ${ifPlugins "split:"}workspace, 9"
-          "$mod, 0, ${ifPlugins "split:"}workspace, 0"
+          "$mod, 1, ${ifPlugin hyprsplit "split:"}workspace, 1"
+          "$mod, 2, ${ifPlugin hyprsplit "split:"}workspace, 2"
+          "$mod, 3, ${ifPlugin hyprsplit "split:"}workspace, 3"
+          "$mod, 4, ${ifPlugin hyprsplit "split:"}workspace, 4"
+          "$mod, 5, ${ifPlugin hyprsplit "split:"}workspace, 5"
+          "$mod, 6, ${ifPlugin hyprsplit "split:"}workspace, 6"
+          "$mod, 7, ${ifPlugin hyprsplit "split:"}workspace, 7"
+          "$mod, 8, ${ifPlugin hyprsplit "split:"}workspace, 8"
+          "$mod, 9, ${ifPlugin hyprsplit "split:"}workspace, 9"
+          "$mod, 0, ${ifPlugin hyprsplit "split:"}workspace, 0"
           # Move window to workspace by ID.
-          "$mod SHIFT, 1, ${ifPlugins "split:"}movetoworkspace, 1"
-          "$mod SHIFT, 2, ${ifPlugins "split:"}movetoworkspace, 2"
-          "$mod SHIFT, 3, ${ifPlugins "split:"}movetoworkspace, 3"
-          "$mod SHIFT, 4, ${ifPlugins "split:"}movetoworkspace, 4"
-          "$mod SHIFT, 5, ${ifPlugins "split:"}movetoworkspace, 5"
-          "$mod SHIFT, 6, ${ifPlugins "split:"}movetoworkspace, 6"
-          "$mod SHIFT, 7, ${ifPlugins "split:"}movetoworkspace, 7"
-          "$mod SHIFT, 8, ${ifPlugins "split:"}movetoworkspace, 8"
-          "$mod SHIFT, 9, ${ifPlugins "split:"}movetoworkspace, 9"
-          "$mod SHIFT, 0, ${ifPlugins "split:"}movetoworkspace, 0"
+          "$mod SHIFT, 1, ${ifPlugin hyprsplit "split:"}movetoworkspace, 1"
+          "$mod SHIFT, 2, ${ifPlugin hyprsplit "split:"}movetoworkspace, 2"
+          "$mod SHIFT, 3, ${ifPlugin hyprsplit "split:"}movetoworkspace, 3"
+          "$mod SHIFT, 4, ${ifPlugin hyprsplit "split:"}movetoworkspace, 4"
+          "$mod SHIFT, 5, ${ifPlugin hyprsplit "split:"}movetoworkspace, 5"
+          "$mod SHIFT, 6, ${ifPlugin hyprsplit "split:"}movetoworkspace, 6"
+          "$mod SHIFT, 7, ${ifPlugin hyprsplit "split:"}movetoworkspace, 7"
+          "$mod SHIFT, 8, ${ifPlugin hyprsplit "split:"}movetoworkspace, 8"
+          "$mod SHIFT, 9, ${ifPlugin hyprsplit "split:"}movetoworkspace, 9"
+          "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
           # Application shortcuts.
           "$mod, SPACE, exec, ignis open-window ignis-app-launcher"
-          "$mod, RETURN, ${ifPlugins "hyprtasking:if_not_active, "}exec${ifNotPlugins ","} ghostty"
+          "$mod, RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
           "$mod, B, exec, blueman-manager"
           "$mod, C, killactive"
           "$mod, E, exec, emacs"
