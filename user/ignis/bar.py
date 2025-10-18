@@ -28,10 +28,12 @@ def workspace_button(monitor: int, workspace: dict) -> Optional[Widget.Button]:
     print(
         f"Workspace {workspace.id} on monitor {type(workspace_monitor)}. Bar monitor = {type(monitor)}"
     )
+    print(f"Current monitor {monitor}")
+    print(f"Workspace monitor {workspace_monitor} (workspace.id {str(workspace.id)})")
 
     # Only return a workspace button if on the current monitor.
-    if workspace_monitor != monitor:
-        return None
+    # if workspace_monitor != monitor:
+    #     return None
 
     return Widget.Button(
         css_classes=[

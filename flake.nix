@@ -51,7 +51,7 @@
       pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
       stateVersion = "24.05";
       system = "x86_64-linux";
-      username = "jer";
+      username = "jeremy-barisch-rooney";
     in
     {
       nixosConfigurations = {

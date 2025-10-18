@@ -171,14 +171,14 @@ in
           "$mod SHIFT, F, fullscreenstate, 1"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
-          "$mod, Q, exec, hyprlock"
+          "$mod, Q, exec, swaylock & systemctl suspend"
           "$mod SHIFT, Q, exec, poweroff"
           # "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
           "$mod, S, exec, grim -g \"$(slurp)\" - | wl-copy"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, exec, pavucontrol"
           "$mod, W, exec, librewolf"
-          "$mod SHIFT, W, exec, brave"
+          "$mod SHIFT, W, exec, firefox"
         ];
       debug.disable_logs = false;
       decoration = {
@@ -188,7 +188,7 @@ in
       };
       dwindle.preserve_split = true;
       exec-once = [
-        "hyprsunset -t 5000"
+        "hyprsunset -t 4500"
         "openrgb -m static -c ff1e00"
         "ignis init"
       ];
@@ -201,6 +201,7 @@ in
         gaps_out = 6; # Should be double of 'gaps_in'.
         resize_on_border = true;
       };
+      input.kb_options = "caps:swapescape";
       misc.disable_hyprland_logo = true;
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
