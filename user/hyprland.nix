@@ -44,6 +44,7 @@ let
 in
 {
   home.packages = with pkgs; [
+    brightnessctl
     grim
     hyprpicker
     hyprsunset
@@ -113,7 +114,8 @@ in
             ]
         )
         ++ [
-          # Overview controls.
+          ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+          ",XF86MonBrightnessUp  , exec, brightnessctl s +10%"
           # Move focus in direction.
           "$mod, H, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} l"
           "$mod, J, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} d"
