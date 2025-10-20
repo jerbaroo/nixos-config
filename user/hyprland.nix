@@ -181,9 +181,8 @@ in
       dwindle.preserve_split = true;
       exec-once = [
         "hyprsunset -t 4500"
-        "openrgb -m static -c ff1e00"
+        # "openrgb -m static -c ff1e00"
         "ignis init"
-        "sleep 1 && source ~/.config/hypr/hyprsplit.conf"
       ];
       general = {
         border_size = 2;

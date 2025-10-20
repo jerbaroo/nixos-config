@@ -18,8 +18,8 @@
     $mantle: ${palette.mantle.hex};
   '';
   home.packages = with pkgs; [
+    dart-sass 
     ignis.packages.${system}.ignis
     libnotify
-    sass
   ];
 }
