@@ -32,7 +32,7 @@
     gtk.enable = true;
     name = "catppuccin-${flavor}-${accent}-cursors";
     package = pkgs.catppuccin-cursors."${flavor}${pkgs.lib.strings.toSentenceCase accent}";
-    x11.enable = true;
+    # x11.enable = true;
   };
 
   # GTK Theme.

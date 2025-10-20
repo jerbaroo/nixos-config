@@ -50,6 +50,7 @@ in
     hyprsunset
     slurp
     swappy
+    wdisplays
     wl-clipboard
   ];
   programs.hyprlock = {
@@ -74,7 +75,7 @@ in
       ++ (if isNull hyprsplit   then [] else [hyprsplit.packages.${system}.hyprsplit]);
     settings = {
       # "env" = "GTK_THEME, catppuccin-${flavor}-${accent}-standard";
-      env = "GDK_BACKEND,wayland,x11,*";
+      env = "GDK_BACKEND, wayland";
       "$mod" = "SUPER";
       animations = {
         # https://github.com/mylinuxforwork/dotfiles/blob/main/share/dotfiles/.config/hypr/conf/animations/animations-dynamic.conf
@@ -171,8 +172,8 @@ in
           "$mod, S, exec, grim -g \"$(slurp)\" - | wl-copy"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, exec, pavucontrol"
-          "$mod, W, exec, librewolf"
-          "$mod SHIFT, W, exec, firefox"
+          "$mod, W, exec, firefox"
+          "$mod SHIFT, W, exec, librewolf"
         ];
       debug.disable_logs = false;
       decoration = {
@@ -204,6 +205,6 @@ in
         gaps_use_aspect_ratio = true;
       };
     };
-    xwayland.enable = true;
+    # xwayland.enable = true;
   };
 }
