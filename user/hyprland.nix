@@ -156,6 +156,7 @@ in
           "$mod, RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
           "$mod, B, exec, blueman-manager"
           "$mod, C, killactive"
+          "$mod, D, exec, wdisplays"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
           "$mod, G, togglefloating"
@@ -171,7 +172,6 @@ in
           "$mod, W, exec, librewolf"
           "$mod SHIFT, W, exec, firefox"
         ];
-      cursor.no_hardware_cursors = true;
       debug.disable_logs = false;
       decoration = {
         active_opacity = 1;

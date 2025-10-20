@@ -31,7 +31,8 @@ def workspace_button(monitor: int, workspace: dict) -> Optional[Widget.Button]:
     print(f"Current monitor {monitor}")
     print(f"Workspace monitor {workspace_monitor} (workspace.id {str(workspace.id)})")
 
-    # Only return a workspace button if on the current monitor.
+    # Only return a workspace button if on the current monitor. We only need
+    # this if hyprsplit is in use.
     # if workspace_monitor != monitor:
     #     return None
 
