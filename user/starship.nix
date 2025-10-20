@@ -11,7 +11,12 @@
         vimcmd_replace_one_symbol = "[❮](bold purple)";
         vimcmd_visual_symbol = "[❮](bold yellow)";
       };
-      # package.disabled = true;
+      gcloud.format = "$symbol";
+      gcloud.symbol = "☁️ "; # To avoid extra space after default symbol.
+      haskell.format = "[$symbol($version )]($style)";
+      nix_shell.format = "$symbol";
+      nix_shell.symbol = "❄️ "; # To avoid extra space after default symbol.
+      python.format = "$symbol";
     };
   };
 }
