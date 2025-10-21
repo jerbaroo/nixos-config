@@ -186,6 +186,7 @@ in
         "hyprsunset -t 4500"
         # "openrgb -m static -c ff1e00"
         "ignis init"
+        "blueman-applet" # Required to be running for blueman-manager.
       ];
       general = {
         border_size = 2;
