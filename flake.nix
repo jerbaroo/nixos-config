@@ -1,7 +1,10 @@
 {
   description = "NixOS";
   inputs = {
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      # inputs.nixpkgs.follows = "home-manager";
+      url = "github:catppuccin/nix";
+    };
     color-schemes = {
       url = "github:mbadolato/iTerm2-Color-Schemes";
       flake = false;
