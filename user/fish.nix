@@ -11,7 +11,8 @@ in
     shellAbbrs = {
       dr = "direnv reload";
       grep = "batgrep";
-      ls = "lsd";
+      g = "git status";
+      l = "lsd";
       man = "batman";
       rebuild = "sudo nixos-rebuild switch --flake .#nixos";
       watch = "batwatch";

@@ -30,16 +30,16 @@ in
   imports = [
     catppuccin.homeModules.catppuccin
 
-    ../user/browser.nix
-    ../user/direnv.nix
-    (import ../user/emacs.nix {
+    ./browser.nix
+    ./direnv.nix
+    (import ./emacs.nix {
       inherit codeFontName;
       inherit flavor;
       inherit pkgs;
     })
-    ../user/fish.nix
-    ../user/fonts.nix
-    (import ../user/ghostty.nix {
+    ./fish.nix
+    ./fonts.nix
+    (import ./ghostty.nix {
       inherit codeFontName;
       inherit color-schemes;
       inherit config;
@@ -48,8 +48,8 @@ in
       inherit system;
       inherit wrapGL;
     })
-    ../user/git.nix
-    (import ../user/hyprland.nix {
+    ./git.nix
+    (import ./hyprland.nix {
       inherit accent;
       inherit config;
       inherit flavor;
@@ -63,32 +63,33 @@ in
       inherit systemPAM;
       inherit wrapGL;
     })
-    (import ../user/ignis.nix {
+    (import ./ignis.nix {
       inherit accent;
       inherit ignis;
       inherit palette;
       inherit pkgs;
       inherit system;
     })
-    (import ../user/kitty.nix {
+    (import ./kitty.nix {
       inherit codeFontName;
       inherit config;
       inherit pkgs;
       inherit wrapGL;
     })
-    ../user/lsd.nix
-    (import ../user/neovim.nix {
+    ./lsd.nix
+    (import ./neovim.nix {
       inherit pkgs;
       inherit pkgs-unstable;
     })
-    ../user/packages.nix
-    ../user/starship.nix
-    (import ../user/theme.nix {
+    ./packages.nix
+    ./sound.nix
+    ./starship.nix
+    (import ./theme.nix {
       inherit accent;
       inherit flavor;
       inherit pkgs;
     })
-    ../user/tmux.nix
+    ./tmux.nix
   ];
   home = {
     homeDirectory = "/home/${username}";

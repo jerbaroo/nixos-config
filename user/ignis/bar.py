@@ -76,7 +76,7 @@ def center() -> Widget.Label:
     return Widget.Label(
         css_classes=["clock"],
         label=Utils.Poll(
-            1_000, lambda self: datetime.datetime.now().strftime("%H:%M")
+            1_000, lambda self: datetime.datetime.now().strftime("%H:%M:%S")
         ).bind("output"),
     )
 

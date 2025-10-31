@@ -21,6 +21,7 @@
     enable = true;
     extraConfig = {
       push.autoSetupRemote = true;
+      rebase.autoSquash = true;
     };
     userName = "jerbaroo";
     userEmail = "jerbaroo.work@pm.me";
