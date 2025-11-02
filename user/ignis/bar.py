@@ -25,6 +25,10 @@ sml_spacing = 6
 med_spacing = 12
 
 
+def exec(cmd: str) -> None:
+    asyncio.create_task(utils.exec_sh_async(cmd))
+
+
 def battery():
     battery = uPowerService.batteries[0]
     return widgets.Box(
@@ -39,19 +43,26 @@ def battery():
     )
 
 
-def volume() -> widgets.Box:
-    return widgets.Box(
-        css_classes=["volume"],
-        child=[
-            widgets.Icon(
-                image=audio.speaker.bind("icon_name"),
-                pixel_size=18,
-                style=f"margin-right: {tiny_spacing}px;"
-            ),
-            widgets.Label(
-                label=audio.speaker.bind("volume", transform=lambda p: f"{p}%")
-            ),
-        ]
+def volume() -> widgets.EventBox:
+
+    box = widgets.Box(
+            css_classes=["volume"],
+            child=[
+                widgets.Icon(
+                    image=audio.speaker.bind("icon_name"),
+                    pixel_size=18,
+                    style=f"margin-right: {tiny_spacing}px;"
+                ),
+                widgets.Label(
+                    label=audio.speaker.bind("volume", transform=lambda p: f"{p}%")
+                ),
+            ]
+        )
+
+    return widgets.EventBox(
+        on_scroll_up=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 10%+"),
+        on_scroll_down=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 10%-"),
+        child=[box],
     )
 
 
@@ -126,9 +137,6 @@ def center() -> widgets.Label:
 
 def power_menu() -> widgets.Button:
 
-    def exec(cmd: str) -> None:
-        asyncio.create_task(utils.exec_sh_async(cmd))
-
     menu = widgets.PopoverMenu(
         css_classes=["powermenu"],
         model=IgnisMenuModel(
@@ -160,10 +168,10 @@ def power_menu() -> widgets.Button:
     )
     return widgets.Button(
         css_classes=["bar-button ", "powermenu-button"],
+        on_click=lambda x: menu.popup(),
         child=widgets.Box(
             child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=18), menu]
         ),
-        on_click=lambda x: menu.popup(),
     )
 
 
