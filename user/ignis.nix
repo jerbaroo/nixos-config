@@ -6,6 +6,10 @@
   ...
 }:
 {
+  home.file.".config/ignis/" = {
+    source = ./ignis;
+    recursive = true;
+  };
   home.file.".config/ignis/colors.scss".text = ''
     $accent: ${palette.${accent}.hex};
     $base: ${palette.base.hex};
@@ -14,7 +18,6 @@
   '';
   programs.ignis = {
     enable = true;
-    configDir = ./ignis;
     sass = {
       enable = true;
       useDartSass = true;

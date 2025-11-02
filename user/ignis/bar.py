@@ -10,12 +10,14 @@ from ignis.menu_model import IgnisMenuItem, IgnisMenuModel, IgnisMenuSeparator
 from ignis.services.applications import Application, ApplicationsService
 from ignis.services.audio import AudioService
 from ignis.services.hyprland import HyprlandService
+from ignis.services.system_tray import SystemTrayService, SystemTrayItem
 from ignis.services.upower import UPowerService
 from ignis import widgets
 from typing import List, Optional
 
 audio = AudioService.get_default()
 hyprlandService = HyprlandService.get_default()
+system_tray = SystemTrayService.get_default()
 uPowerService = UPowerService.get_default()
 
 barName = "ignis-bar"
@@ -23,6 +25,7 @@ namespace = lambda x: f"{barName}-{x}"
 tiny_spacing = 4
 sml_spacing = 6
 med_spacing = 12
+icon_size = 20
 
 
 def exec(cmd: str) -> None:
@@ -36,7 +39,7 @@ def battery():
         child=utils.Poll(
             100, # 0.1s
             lambda self:
-                [ widgets.Icon(image=battery.icon_name, pixel_size=18)
+                [ widgets.Icon(image=battery.icon_name, pixel_size=icon_size)
                 , widgets.Label(label=f"{battery.percent:.0f}%")
                 ]
         ).bind("output")
@@ -50,7 +53,7 @@ def volume() -> widgets.EventBox:
             child=[
                 widgets.Icon(
                     image=audio.speaker.bind("icon_name"),
-                    pixel_size=18,
+                    pixel_size=icon_size,
                     style=f"margin-right: {tiny_spacing}px;"
                 ),
                 widgets.Label(
@@ -170,8 +173,38 @@ def power_menu() -> widgets.Button:
         css_classes=["bar-button ", "powermenu-button"],
         on_click=lambda x: menu.popup(),
         child=widgets.Box(
-            child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=18), menu]
+            child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=icon_size), menu]
         ),
+    )
+
+
+def tray_item(item: SystemTrayItem) -> widgets.Button:
+    if item.menu:
+        menu = item.menu.copy()
+    else:
+        menu = None
+
+    return widgets.Button(
+        child=widgets.Box(
+            child=[
+                widgets.Icon(image=item.bind("icon"), pixel_size=icon_size),
+                menu,
+            ]
+        ),
+        setup=lambda self: item.connect("removed", lambda x: self.unparent()),
+        tooltip_text=item.bind("tooltip"),
+        on_click=lambda x: menu.popup() if menu else None,
+        on_right_click=lambda x: menu.popup() if menu else None,
+        css_classes=["tray-item"],
+    )
+
+
+def tray():
+    return widgets.Box(
+        setup=lambda self: system_tray.connect(
+            "added", lambda x, item: self.append(tray_item(item))
+        ),
+        spacing=med_spacing,
     )
 
 
@@ -179,7 +212,7 @@ def right() -> widgets.Box:
     return widgets.Box(
         css_classes=["bar-right"],
         spacing=med_spacing,
-        child=[volume(), battery(), power_menu()],
+        child=[volume(), battery(), tray(), power_menu()],
     )
 
 
