@@ -2,18 +2,38 @@ import asyncio
 import datetime
 import re
 import subprocess
+import time
+
+from collections import defaultdict
+from ignis import utils
 from ignis.menu_model import IgnisMenuItem, IgnisMenuModel, IgnisMenuSeparator
 from ignis.services.applications import Application, ApplicationsService
 from ignis.services.hyprland import HyprlandService
-from ignis.utils import Utils
-from ignis.widgets import Widget
-from typing import Optional
+from ignis.services.upower import UPowerService
+from ignis import widgets
+from typing import List, Optional
+
+hyprlandService = HyprlandService.get_default()
+uPowerService = UPowerService.get_default()
 
 barName = "ignis-bar"
-hyprlandService = HyprlandService.get_default()
 namespace = lambda x: f"{barName}-{x}"
 sml_spacing = 5
-med_spacing = 5
+med_spacing = 10
+
+
+def battery():
+    battery = uPowerService.batteries[0]
+    return widgets.Box(
+        css_classes=["battery"],
+        child=utils.Poll(
+            10_000,
+            lambda self:
+                [ widgets.Label(label=f"{battery.percent:.0f}%")
+                , widgets.Icon(image=battery.icon_name, pixel_size=18)
+                ]
+        ).bind("output")
+    )
 
 
 def scroll_workspaces(f) -> None:
@@ -23,69 +43,75 @@ def scroll_workspaces(f) -> None:
     hyprlandService.switch_to_workspace(target)
 
 
-def workspace_button(monitor: int, workspace: dict) -> Optional[Widget.Button]:
-    workspace_monitor = 0 if len(str(workspace.id)) == 1 else int(str(workspace.id)[0])
-    print(
-        f"Workspace {workspace.id} on monitor {type(workspace_monitor)}. Bar monitor = {type(monitor)}"
-    )
-    print(f"Current monitor {monitor}")
-    print(f"Workspace monitor {workspace_monitor} (workspace.id {str(workspace.id)})")
+active_per_monitor = defaultdict(lambda: -1)
+def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.Button]:
 
-    # Only return a workspace button if on the current monitor. We only need
-    # this if hyprsplit is in use.
-    # if workspace_monitor != monitor:
-    #     return None
+    def get_workspace_monitor(workspace):
+        workspace_monitor = 0
+        if workspace.id >= 10: # First digit indicates monitor number.
+            workspace_monitor = int(str(workspace.id)[0])
+        return workspace_monitor
 
-    return Widget.Button(
-        css_classes=[
-            "bar-button",
-            "active" if workspace.id == hyprlandService.active_workspace.id else "",
-            "workspace-button",
-        ],
-        on_click=lambda x: hyprlandService.switch_to_workspace(workspace.id),
-        child=Widget.Label(label=str(workspace.id)[-1]),
-    )
+    workspace_monitors = {w.id : get_workspace_monitor(w) for w in workspaces}
+    active = hyprlandService.active_workspace.id
+    active_per_monitor[workspace_monitors[active]] = active
+
+    only_current_monitor = False
+
+    return [
+        widgets.Button(
+            css_classes=[
+               "bar-button",
+                "active" if active_per_monitor[bar_monitor] == w.id else "",
+                "workspace-button",
+            ],
+            on_click=lambda x, id=w.id: hyprlandService.switch_to_workspace(id),
+            child=widgets.Label(
+                css_classes=["workspace-button-label"],
+                label=str(w.id)[-1]
+            ),
+        )
+        for w in workspaces
+        if workspace_monitors[w.id] == bar_monitor
+    ]
 
 
-def workspaces(monitor: int) -> Widget.EventBox:
-    # Bind also to active_workspace to regenerate workspaces list when active
-    # workspace changes.
-    # TODO WIP: fix flickering..
-    child = hyprlandService.bind_many(
-        ["active_workspace", "workspaces"],
-        transform=lambda _, workspaces: filter(
-            lambda x: x is not None,
-            [workspace_button(monitor, i) for i in workspaces],
-        ),
-    )
-    event_box = Widget.EventBox(
+def workspaces(monitor: int) -> widgets.EventBox:
+    return widgets.EventBox(
         on_scroll_up=lambda x: scroll_workspaces(lambda y: y + 1),
         on_scroll_down=lambda x: scroll_workspaces(lambda y: y - 1),
         css_classes=["workspaces"],
         spacing=sml_spacing,
-        child=child,
+        child=hyprlandService.bind_many(
+            ["active_workspace", "workspaces"],
+            transform=lambda _, workspaces: workspace_buttons(monitor, workspaces),
+        )
     )
-    return event_box
 
 
-def left(monitor: int) -> Widget.Box:
-    return Widget.Box(child=[workspaces(monitor)], spacing=med_spacing)
+def left(monitor: int) -> widgets.Box:
+    return widgets.Box(
+        css_classes=["bar-left"],
+        child=[workspaces(monitor)]
+    )
 
 
-def center() -> Widget.Label:
-    return Widget.Label(
+def center() -> widgets.Label:
+    return widgets.Label(
         css_classes=["clock"],
-        label=Utils.Poll(
+        label=utils.Poll(
             1_000, lambda self: datetime.datetime.now().strftime("%H:%M:%S")
         ).bind("output"),
     )
 
 
-def power_menu() -> Widget.Button:
-    def exec(cmd: str) -> None:
-        asyncio.create_task(Utils.exec_sh_async(cmd))
+def power_menu() -> widgets.Button:
 
-    menu = Widget.PopoverMenu(
+    def exec(cmd: str) -> None:
+        asyncio.create_task(utils.exec_sh_async(cmd))
+
+    menu = widgets.PopoverMenu(
+        css_classes=["powermenu"],
         model=IgnisMenuModel(
             IgnisMenuItem(
                 label="Lock",
@@ -113,30 +139,31 @@ def power_menu() -> Widget.Button:
             ),
         )
     )
-    return Widget.Button(
+    return widgets.Button(
         css_classes=["bar-button ", "powermenu-button"],
-        child=Widget.Box(
-            child=[Widget.Icon(image="system-shutdown-symbolic", pixel_size=20), menu]
+        child=widgets.Box(
+            child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=18), menu]
         ),
         on_click=lambda x: menu.popup(),
     )
 
 
-def right() -> Widget.Box:
-    return Widget.Box(
-        child=[power_menu()],
+def right() -> widgets.Box:
+    return widgets.Box(
+        css_classes=["bar-right"],
         spacing=med_spacing,
+        child=[battery(), power_menu()],
     )
 
 
-def bar(monitor: int) -> Widget.Window:
-    return Widget.Window(
+def bar(monitor: int) -> widgets.Window:
+    return widgets.Window(
         anchor=["left", "top", "right"],
         css_classes=["bar-window"],
         exclusivity="exclusive",
         namespace=namespace(monitor),
         monitor=monitor,
-        child=Widget.CenterBox(
+        child=widgets.CenterBox(
             css_classes=["bar-center-box"],
             start_widget=left(monitor),
             center_widget=center(),
