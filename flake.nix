@@ -13,7 +13,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/release-25.05";
     };
-    ignis.url = "github:linkfrg/ignis";
+    ignis = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:linkfrg/ignis";
+    };
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";

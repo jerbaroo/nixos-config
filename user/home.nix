@@ -29,6 +29,7 @@ in
 {
   imports = [
     catppuccin.homeModules.catppuccin
+    ignis.homeManagerModules.default
 
     ./browser.nix
     ./direnv.nix
@@ -68,7 +69,6 @@ in
       inherit ignis;
       inherit palette;
       inherit pkgs;
-      inherit system;
     })
     (import ./kitty.nix {
       inherit codeFontName;

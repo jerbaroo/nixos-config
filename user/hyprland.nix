@@ -115,8 +115,11 @@ in
             ]
         )
         ++ [
-          ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-          ",XF86MonBrightnessUp  , exec, brightnessctl s +10%"
+          ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
+          ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
+          ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 0"
+          ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 10%-"
+          ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 10%+"
           # Move focus in direction.
           "$mod, H, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} l"
           "$mod, J, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} d"
@@ -167,8 +170,7 @@ in
           "$mod, M, exec, spotify"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
-          # "$mod, Q, exec, swaylock & systemctl suspend"
-          "$mod SHIFT, Q, exec, poweroff"
+          "$mod SHIFT, Q, exec, swaylock & systemctl suspend"
           # "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
           "$mod, S, exec, grim -g \"$(slurp)\" - | wl-copy"
           "$mod, T, togglesplit, # dwindle"

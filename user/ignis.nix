@@ -3,23 +3,30 @@
   ignis,
   palette,
   pkgs,
-  system,
   ...
 }:
 {
-  home.file.".config/ignis/" = {
-    source = ./ignis;
-    recursive = true;
-  };
   home.file.".config/ignis/colors.scss".text = ''
     $accent: ${palette.${accent}.hex};
     $base: ${palette.base.hex};
     $crust: ${palette.crust.hex};
     $mantle: ${palette.mantle.hex};
   '';
-  home.packages = with pkgs; [
-    dart-sass 
-    ignis.packages.${system}.ignis
-    libnotify
-  ];
+  programs.ignis = {
+    enable = true;
+    configDir = ./ignis;
+    sass = {
+      enable = true;
+      useDartSass = true;
+    };
+    services = {
+      audio.enable = true;
+      # bluetooth.enable = true;
+      # recorder.enable = true;
+      # network.enable = true;
+    };
+    extraPackages = with pkgs; [
+      libnotify
+    ];
+  };
 }

@@ -1,3 +1,11 @@
+.notification-body {
+    color: white;
+}
+
+.notification-summary {
+    color: white;
+}
+
 .notification-popup {
     @include window;
     min-width: 25rem;
