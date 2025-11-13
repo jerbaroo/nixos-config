@@ -15,7 +15,7 @@
   # Font.
   gtk.font.name = "Atkinson Hyperlegible";
   gtk.font.package = pkgs.atkinson-hyperlegible;
-  gtk.font.size = 14;
+  gtk.font.size = 18;
 
   # Icons.
   # ls /etc/profiles/per-user/jer/share/icons

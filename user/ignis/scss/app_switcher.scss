@@ -1,0 +1,31 @@
+.app-switcher {
+    background-color: $crust;
+    border-radius: 6px;
+}
+
+.app-switcher-list > * {
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.app-switcher-list > *:first-child {
+    margin-top: 0px;
+}
+
+.app-switcher-list > *:last-child {
+    margin-bottom: 12px;
+}
+
+.app-switcher-entry {
+    margin: 12px;
+}
+
+.app-switcher-search-icon {
+    margin-left: 12px;
+}
+
+.app-switcher-app-label {
+    margin-left: 12px;
+}

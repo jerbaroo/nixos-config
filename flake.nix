@@ -30,6 +30,7 @@
       url = "github:raybbian/hyprtasking";
       inputs.hyprland.follows = "hyprland";
     };
+    niri.url = "github:sodiboo/niri-flake";
     nixgl.url = "github:nix-community/nixGL";
     nixos-cosmic = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -103,6 +104,7 @@
             hyprtasking = null;
             # hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
+            niri = inputs.niri;
             nixgl = inputs.nixgl;
             plugins = true;
             systemPAM = true;

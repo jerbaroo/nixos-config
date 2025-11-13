@@ -11,6 +11,7 @@
   hyprtasking,
   genericLinux,
   ignis,
+  niri,
   nixgl,
   pkgs,
   pkgs-unstable,

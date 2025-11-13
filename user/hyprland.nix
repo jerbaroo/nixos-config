@@ -118,8 +118,8 @@ in
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
           ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
           ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 0"
-          ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 10%-"
-          ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 10%+"
+          ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%-"
+          ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%+"
           # Move focus in direction.
           "$mod, H, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} l"
           "$mod, J, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} d"

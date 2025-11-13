@@ -63,8 +63,8 @@ def volume() -> widgets.EventBox:
         )
 
     return widgets.EventBox(
-        on_scroll_up=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 10%+"),
-        on_scroll_down=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 10%-"),
+        on_scroll_up=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 5%+"),
+        on_scroll_down=lambda x: exec("wpctl set-volume @DEFAULT_SINK@ 5%-"),
         child=[box],
     )
 
