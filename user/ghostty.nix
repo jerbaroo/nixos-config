@@ -17,7 +17,7 @@
       background-opacity = 0.7;
       command = "${pkgs.fish}/bin/fish";
       config-file = [
-        (color-schemes + "/ghostty/Catppuccin Mocha") # TODO flavor
+        "${color-schemes}/ghostty/Catppuccin ${pkgs.lib.strings.toSentenceCase flavor}"
       ];
       confirm-close-surface = false;
       font-family = codeFontName;
