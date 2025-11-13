@@ -31,6 +31,7 @@ in
   imports = [
     catppuccin.homeModules.catppuccin
     ignis.homeManagerModules.default
+    niri.homeModules.niri
 
     ./browser.nix
     ./direnv.nix

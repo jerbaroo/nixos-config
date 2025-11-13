@@ -35,12 +35,7 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
-  wallpaper = builtins.toString (
-    pkgs.fetchurl {
-      hash = "sha256-zHeCa5pStkUQqanUVww3KMehog5tSXrfEKPgd0fqgME=";
-      url = "https://raw.githubusercontent.com/dharmx/walls/refs/heads/main/mountain/a_mountain_range_with_dark_clouds.jpg";
-    }
-  );
+  wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
   home.packages = with pkgs; [
@@ -53,6 +48,9 @@ in
     wdisplays
     wl-clipboard
   ];
+  programs.niri = {
+    enable = true;
+  };
   programs.hyprlock = {
     enable = true;
     package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
