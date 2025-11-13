@@ -51,6 +51,7 @@
       pkgs = import inputs.nixpkgs {
         inherit system;
         overlays = [
+          inputs.niri.overlays.niri
           inputs.nixgl.overlay
           inputs.nur.overlays.default
         ];

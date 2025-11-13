@@ -49,6 +49,8 @@ in
   ];
   programs.niri = {
     enable = true;
+    # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
+    package = pkgs.niri-unstable;
   };
   programs.hyprlock = {
     enable = true;
@@ -165,7 +167,7 @@ in
           "$mod, G, togglefloating"
           "$mod SHIFT, F, fullscreenstate, 1"
           "$mod, M, exec, spotify"
-          "$mod, O, exec, ${pkgs.yazi}/bin/yazi"
+          "$mod, O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
           "$mod SHIFT, Q, exec, swaylock & systemctl suspend"
