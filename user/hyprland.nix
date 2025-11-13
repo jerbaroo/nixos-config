@@ -39,7 +39,6 @@ let
 in
 {
   home.packages = with pkgs; [
-    brightnessctl
     grim
     hyprpicker
     hyprsunset
@@ -166,6 +165,7 @@ in
           "$mod, G, togglefloating"
           "$mod SHIFT, F, fullscreenstate, 1"
           "$mod, M, exec, spotify"
+          "$mod, O, exec, ${pkgs.yazi}/bin/yazi"
           "$mod, P, exec, hyprpicker --autocopy"
           "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
           "$mod SHIFT, Q, exec, swaylock & systemctl suspend"
