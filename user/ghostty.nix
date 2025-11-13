@@ -13,6 +13,7 @@
     enable = true;
     package = (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
     settings = {
+      background-blur= true;
       background-opacity = 0.7;
       command = "${pkgs.fish}/bin/fish";
       config-file = [
