@@ -40,15 +40,6 @@ let
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
-  home.packages = with pkgs; [
-    grim
-    hyprpicker
-    hyprsunset
-    slurp
-    swappy
-    wdisplays
-    wl-clipboard
-  ];
   programs.niri = {
     enable = true;
     # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
@@ -163,18 +154,18 @@ in
           "$mod, RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
           "$mod, B, exec, blueman-manager"
           "$mod, C, killactive"
-          "$mod, D, exec, wdisplays"
+          "$mod, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
           "$mod, G, togglefloating"
           "$mod SHIFT, F, fullscreenstate, 1"
           "$mod, M, exec, spotify"
           "$mod, O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
-          "$mod, P, exec, hyprpicker --autocopy"
-          "$mod SHIFT, P, exec, hyprpicker --autocopy --render-inactive"
+          "$mod, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
+          "$mod SHIFT, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
           "$mod SHIFT, Q, exec, swaylock & systemctl suspend"
-          # "$mod, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
-          "$mod, S, exec, grim -g \"$(slurp)\" - | wl-copy"
+          # "$mod, S, exec, grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"
+          "$mod, S, exec, ${pkgs.grim}/bin/grim -g \"$(slurp)\" - | wl-copy"
           "$mod, T, togglesplit, # dwindle"
           "$mod, V, exec, pavucontrol"
           "$mod, W, exec, firefox"
@@ -194,7 +185,7 @@ in
       };
       dwindle.preserve_split = true;
       exec-once = [
-        "hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
+        "${pkgs.hyprsunset}/bin/hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
         # "openrgb -m static -c ff1e00"
         "ignis init"
         "blueman-applet"
