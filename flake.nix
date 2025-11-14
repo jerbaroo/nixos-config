@@ -43,7 +43,7 @@
   outputs =
     inputs:
     let
-      accent = "yellow";
+      accent = "pink";
       allowUnfree = false;
       codeFontName = "JetBrainsMono Nerd Font";
       flavor = "mocha";

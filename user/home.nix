@@ -24,6 +24,7 @@
   ...
 }:
 let
+  codeBackgroundOpacity = 0.70;
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
 in
@@ -37,13 +38,15 @@ in
     ./direnv.nix
     (import ./emacs.nix {
       inherit codeFontName;
+      inherit codeBackgroundOpacity;
       inherit flavor;
       inherit pkgs;
     })
-    ./fish.nix
+    (import ./fish.nix { inherit pkgs; inherit username; })
     ./fonts.nix
     (import ./ghostty.nix {
       inherit codeFontName;
+      inherit codeBackgroundOpacity;
       inherit color-schemes;
       inherit config;
       inherit flavor;
@@ -61,6 +64,7 @@ in
       inherit hyprtasking;
       inherit palette;
       inherit pkgs;
+      inherit pkgs-unstable;
       inherit plugins;
       inherit system;
       inherit systemPAM;
@@ -73,6 +77,7 @@ in
       inherit pkgs;
     })
     (import ./kitty.nix {
+      inherit codeBackgroundOpacity;
       inherit codeFontName;
       inherit config;
       inherit pkgs;

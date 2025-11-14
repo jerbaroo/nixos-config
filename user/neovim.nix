@@ -57,7 +57,7 @@
     '';
     package = pkgs.neovim-unwrapped;
     plugins = with pkgs-unstable.vimPlugins; [
-      catppuccin-nvim
+      # catppuccin-nvim
       mini-nvim
       nvim-treesitter.withAllGrammars
       plenary-nvim

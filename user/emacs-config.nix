@@ -1,4 +1,9 @@
-{ codeFontName, flavor }:
+{
+  codeBackgroundOpacity,
+  codeFontName,
+  flavor,
+  pkgs,
+}:
 {
   home.file.".config/doom/config.el".text = ''
     ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
@@ -89,7 +94,7 @@
         zoom-size '(0.60 . 0.60)
     )
 
-    (doom/set-frame-opacity 0.8)
+    (doom/set-frame-opacity ${pkgs.lib.strings.floatToString(builtins.floor(codeBackgroundOpacity * 100))})
 
     (after! lsp-ui
         (setq

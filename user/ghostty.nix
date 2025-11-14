@@ -1,4 +1,5 @@
 {
+  codeBackgroundOpacity,
   codeFontName,
   color-schemes,
   config,
@@ -13,8 +14,8 @@
     enable = true;
     package = (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
     settings = {
-      background-blur= true;
-      background-opacity = 0.7;
+      # background-blur = true; # Doesn't seem to work on hyprland.
+      background-opacity = codeBackgroundOpacity;
       command = "${pkgs.fish}/bin/fish";
       config-file = [
         "${color-schemes}/ghostty/Catppuccin ${pkgs.lib.strings.toSentenceCase flavor}"

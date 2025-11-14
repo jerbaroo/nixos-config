@@ -7,6 +7,7 @@
   hyprtasking,
   palette,
   pkgs,
+  pkgs-unstable,
   system,
   systemPAM,
   wrapGL,
@@ -15,6 +16,7 @@
 let
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
+  gap = 6;
   hyprlock-systempam = (
     # Written by ChatGPT 5:
     pkgs.writeShellScriptBin "hyprlock" ''
@@ -46,6 +48,7 @@ in
     swappy
     wdisplays
     wl-clipboard
+    pkgs-unstable.hyprshell
   ];
   programs.niri = {
     enable = true;
@@ -181,6 +184,12 @@ in
       debug.disable_logs = false;
       decoration = {
         active_opacity = 1;
+        blur = {
+          enabled = true;
+          noise = 0.02;
+          passes = 4;
+          size = 6;
+        };
         inactive_opacity = 1;
         rounding = 3;
       };
@@ -193,12 +202,11 @@ in
         "nm-applet"
       ];
       general = {
-        border_size = 2;
+        border_size = 3;
         "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
         "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.crust.hex})";
-        # "col.inactive_border" = "rgb(282a36)";
-        gaps_in = 3;
-        gaps_out = 6; # Should be double of 'gaps_in'.
+        gaps_in = gap;
+        gaps_out = gap * 2;
         resize_on_border = true;
       };
       input.kb_options = "caps:swapescape";

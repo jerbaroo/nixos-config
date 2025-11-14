@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 let
   plugin = x: {
     name = x;
@@ -14,7 +14,8 @@ in
       g = "git status";
       l = "lsd";
       man = "batman";
-      rebuild = "sudo nixos-rebuild switch --flake .#nixos";
+      rebuild-nixos = "sudo nixos-rebuild switch --flake .#nixos";
+      rebuild-home = "home-manager --flake .#${username}@nixos switch";
       watch = "batwatch";
     };
     plugins = map plugin [
