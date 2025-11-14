@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ hostname, pkgs, username, ... }:
 let
   plugin = x: {
     name = x;
@@ -15,7 +15,7 @@ in
       l = "lsd";
       man = "batman";
       rebuild-nixos = "sudo nixos-rebuild switch --flake .#nixos";
-      rebuild-home = "home-manager --flake .#${username}@nixos switch";
+      rebuild-home = "${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage";
       watch = "batwatch";
     };
     plugins = map plugin [

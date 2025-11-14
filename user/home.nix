@@ -6,6 +6,7 @@
   color-schemes,
   config,
   flavor,
+  hostname,
   hyprland,
   hyprsplit,
   hyprtasking,
@@ -14,7 +15,6 @@
   niri,
   nixgl,
   pkgs,
-  pkgs-unstable,
   plugins,
   stateVersion,
   system,
@@ -42,7 +42,7 @@ in
       inherit flavor;
       inherit pkgs;
     })
-    (import ./fish.nix { inherit pkgs; inherit username; })
+    (import ./fish.nix { inherit hostname; inherit pkgs; inherit username; })
     ./fonts.nix
     (import ./ghostty.nix {
       inherit codeFontName;
@@ -64,7 +64,6 @@ in
       inherit hyprtasking;
       inherit palette;
       inherit pkgs;
-      inherit pkgs-unstable;
       inherit plugins;
       inherit system;
       inherit systemPAM;
@@ -86,9 +85,9 @@ in
     ./lsd.nix
     (import ./neovim.nix {
       inherit pkgs;
-      inherit pkgs-unstable;
     })
     ./packages.nix
+    ./quickshell.nix
     ./sound.nix
     ./starship.nix
     (import ./theme.nix {

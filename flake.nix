@@ -6,29 +6,32 @@
       url = "github:catppuccin/nix";
     };
     color-schemes = {
-      url = "github:mbadolato/iTerm2-Color-Schemes";
       flake = false;
+      url = "github:mbadolato/iTerm2-Color-Schemes";
     };
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/master";
     };
     ignis = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:linkfrg/ignis";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:hyprwm/Hyprland";
+    };
     hyprland-plugins = {
       inputs.hyprland.follows = "hyprland";
       url = "github:hyprwm/hyprland-plugins";
     };
     hyprsplit = {
-      url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
+      url = "github:shezdy/hyprsplit";
     };
     hyprtasking = {
-      url = "github:raybbian/hyprtasking";
       inputs.hyprland.follows = "hyprland";
+      url = "github:raybbian/hyprtasking";
     };
     niri.url = "github:sodiboo/niri-flake";
     nixgl.url = "github:nix-community/nixGL";
@@ -36,8 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:lilyinstarlight/nixos-cosmic";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
   };
   outputs =
@@ -48,16 +50,16 @@
       codeFontName = "JetBrainsMono Nerd Font";
       flavor = "mocha";
       hostname = "nixos";
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        overlays = [
+      overlays = [
           inputs.niri.overlays.niri
           inputs.nixgl.overlay
           inputs.nur.overlays.default
-        ];
+      ];
+      pkgs = import inputs.nixpkgs {
+        inherit overlays;
+        inherit system;
       };
-      pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
-      stateVersion = "24.05";
+      stateVersion = "25.05";
       system = "x86_64-linux";
       username = "jeremy-barisch-rooney";
     in
@@ -76,7 +78,6 @@
             inherit allowUnfree;
             inherit codeFontName;
             inherit flavor;
-            inherit pkgs-unstable;
             inherit stateVersion;
             inherit system;
             inherit username;
@@ -92,7 +93,7 @@
             inherit allowUnfree;
             inherit codeFontName;
             inherit flavor;
-            inherit pkgs-unstable;
+            inherit hostname;
             inherit stateVersion;
             inherit system;
             inherit username;

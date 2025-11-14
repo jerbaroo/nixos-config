@@ -7,7 +7,6 @@
   hostname,
   hyprland,
   pkgs,
-  pkgs-unstable,
   stateVersion,
   system,
   username,
@@ -20,7 +19,6 @@
       inherit accent;
       inherit codeFontName;
       inherit flavor;
-      inherit pkgs-unstable;
       inherit stateVersion;
       inherit system;
       inherit username;

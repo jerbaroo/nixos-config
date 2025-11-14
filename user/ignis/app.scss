@@ -1,19 +1,19 @@
 .bar-window {
     font-family: 'Atkinson Hyperlegible';
     font-size: medium;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 @import "/home/jeremy-barisch-rooney/.config/ignis/colors.scss";
 
 .workspace-button-label {
-    font-size: medium;
-    font-weight: 700;
+    font-size: small;
+    font-weight: 500;
 }
 
 .bar-right {
     font-size: small;
-    font-weight: 700;
+    font-weight: 500;
     .battery:hover {
     }
 }

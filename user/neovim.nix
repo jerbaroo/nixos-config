@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 {
   programs.neovim = {
     defaultEditor = true;
@@ -56,7 +56,7 @@
       require("mini.starter").setup({})
     '';
     package = pkgs.neovim-unwrapped;
-    plugins = with pkgs-unstable.vimPlugins; [
+    plugins = with pkgs.vimPlugins; [
       # catppuccin-nvim
       mini-nvim
       nvim-treesitter.withAllGrammars

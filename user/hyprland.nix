@@ -7,7 +7,6 @@
   hyprtasking,
   palette,
   pkgs,
-  pkgs-unstable,
   system,
   systemPAM,
   wrapGL,
@@ -16,7 +15,7 @@
 let
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
-  gap = 6;
+  gap = 3;
   hyprlock-systempam = (
     # Written by ChatGPT 5:
     pkgs.writeShellScriptBin "hyprlock" ''
@@ -37,23 +36,24 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
+  temperature = 4000;
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
   home.packages = with pkgs; [
     grim
     hyprpicker
+    hyprshell
     hyprsunset
     slurp
     swappy
     wdisplays
     wl-clipboard
-    pkgs-unstable.hyprshell
   ];
   programs.niri = {
     enable = true;
     # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
-    package = pkgs.niri-unstable;
+    package = pkgs.niri-unstable; # TODO
   };
   programs.hyprlock = {
     enable = true;
@@ -188,21 +188,21 @@ in
           enabled = true;
           noise = 0.02;
           passes = 4;
-          size = 6;
+          size = 5;
         };
         inactive_opacity = 1;
-        rounding = 3;
+        rounding = 6;
       };
       dwindle.preserve_split = true;
       exec-once = [
-        "hyprsunset -t 4500"
+        "hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
         # "openrgb -m static -c ff1e00"
         "ignis init"
         "blueman-applet"
         "nm-applet"
       ];
       general = {
-        border_size = 3;
+        border_size = 2;
         "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
         "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.crust.hex})";
         gaps_in = gap;
