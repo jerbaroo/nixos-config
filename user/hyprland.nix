@@ -43,7 +43,6 @@ in
   home.packages = with pkgs; [
     grim
     hyprpicker
-    hyprshell
     hyprsunset
     slurp
     swappy
@@ -218,6 +217,6 @@ in
         gaps_use_aspect_ratio = true;
       };
     };
-    # xwayland.enable = true;
+    # xwayland.enable = true; TODO setting
   };
 }
