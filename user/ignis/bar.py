@@ -24,7 +24,6 @@ barName = "ignis-bar"
 namespace = lambda x: f"{barName}-{x}"
 tiny_spacing = 4
 sml_spacing = 6
-med_spacing = 12
 icon_size = 20
 
 
@@ -204,14 +203,14 @@ def tray():
         setup=lambda self: system_tray.connect(
             "added", lambda x, item: self.append(tray_item(item))
         ),
-        spacing=med_spacing,
+        spacing=sml_spacing,
     )
 
 
 def right() -> widgets.Box:
     return widgets.Box(
         css_classes=["bar-right"],
-        spacing=med_spacing,
+        spacing=sml_spacing,
         child=[volume(), battery(), tray(), power_menu()],
     )
 
