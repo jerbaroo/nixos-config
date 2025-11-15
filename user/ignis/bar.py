@@ -144,12 +144,12 @@ def power_menu() -> widgets.Button:
         model=IgnisMenuModel(
             IgnisMenuItem(
                 label="Lock",
-                on_activate=lambda x: exec("swaylock"),
+                on_activate=lambda x: exec("os-lock"),
             ),
             IgnisMenuSeparator(),
             IgnisMenuItem(
                 label="Sleep",
-                on_activate=lambda x: exec("swaylock & systemctl suspend"),
+                on_activate=lambda x: exec("os-lock & systemctl suspend"),
             ),
             IgnisMenuSeparator(),
             IgnisMenuItem(

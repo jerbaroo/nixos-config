@@ -13,7 +13,6 @@
   ...
 }:
 let
-  current-monitor = pkgs.writeShellScriptBin "current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
   gap = 3;
@@ -38,10 +37,13 @@ let
     ''
   );
   temperature = 4000;
-  toggle-menu-bar = pkgs.writeShellScriptBin "toggle-menu-bar" "ignis toggle-window ignis-bar-$(${current-monitor}/bin/current-monitor)";
+  os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
+  os-lock = pkgs.writeShellScriptBin "os-lock" "swaylock -c 000000";
+  os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
+  home.packages = [ os-current-monitor os-lock os-toggle-menu-bar ];
   programs.niri = {
     enable = true;
     # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
@@ -111,7 +113,7 @@ in
         ++ [
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
           ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
-          ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 0"
+          ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-mute   @DEFAULT_SINK@ toggle"
           ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%-"
           ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%+"
           # Move focus in direction.
@@ -151,28 +153,31 @@ in
           "$mod SHIFT, 8, ${ifPlugin hyprsplit "split:"}movetoworkspace, 8"
           "$mod SHIFT, 9, ${ifPlugin hyprsplit "split:"}movetoworkspace, 9"
           "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
-          # Application shortcuts.
-          "$mod, SLASH, exec, ignis open-window ignis-app-launcher"
-          "$mod, SPACE, togglesplit, # dwindle"
-          "$mod, RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
-          "$mod, B, exec, blueman-manager"
-          "$mod SHIFT, B, exec, ${toggle-menu-bar}/bin/toggle-menu-bar"
-          "$mod, C, killactive"
-          "$mod, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
-          "$mod, E, exec, emacs"
-          "$mod, F, fullscreen"
+          # Other shortcuts.
+          "$mod      , RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
+          "$mod      , SPACE, togglesplit, # dwindle"
+          "$mod SHIFT, SPACE, togglefloating"
+          "$mod      , TAB, workspace, e+1"
+          "$mod SHIFT, TAB, workspace, e-1"
+          "$mod      , B, exec, blueman-manager"
+          "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
+          "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
+          "$mod      , D, exec, ignis open-window ignis-app-launcher"
+          "$mod SHIFT, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
+          "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
+          "$mod      , F, fullscreen"
           "$mod SHIFT, F, fullscreenstate, 1"
-          "$mod, G, togglefloating"
-          "$mod, M, exec, spotify"
-          "$mod, O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
-          "$mod, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
+          "$mod      , I, exec, ${pkgs.firefox}/bin/firefox"
+          "$mod SHIFT, I, exec, ${pkgs.librewolf}/bin/librewolf"
+          "$mod      , M, exec, ${pkgs.spotify}/bin/spotify"
+          "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
+          "$mod      , P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
           "$mod SHIFT, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
-          "$mod SHIFT, Q, exec, swaylock -c 000000 & systemctl suspend"
+          "$mod      , Q, killactive"
+          "$mod SHIFT, Q, exec, ${os-lock}/bin/os-lock & systemctl suspend"
           # "$mod, S, exec, grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"
-          "$mod, S, exec, ${pkgs.grim}/bin/grim -g \"$(slurp)\" - | wl-copy"
-          "$mod, V, exec, pavucontrol"
-          "$mod, W, exec, firefox"
-          "$mod SHIFT, W, exec, librewolf"
+          "$mod      , S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | wl-copy"
+          "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
         ];
       debug.disable_logs = false;
       decoration = {

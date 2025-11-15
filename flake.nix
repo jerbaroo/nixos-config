@@ -46,7 +46,9 @@
     inputs:
     let
       accent = "pink";
-      allowUnfree = false;
+      allowUnfreePredicate =
+        let whitelist = map pkgs.lib.getName [ pkgs.spotify ];
+        in  pkg: builtins.elem (pkgs.lib.getName pkg) whitelist;
       codeFontName = "JetBrainsMono Nerd Font";
       flavor = "mocha";
       hostname = "nixos";
@@ -75,7 +77,6 @@
           ];
           specialArgs = {
             inherit accent;
-            inherit allowUnfree;
             inherit codeFontName;
             inherit flavor;
             inherit stateVersion;
@@ -90,7 +91,7 @@
           inherit pkgs;
           extraSpecialArgs = {
             inherit accent;
-            inherit allowUnfree;
+            inherit allowUnfreePredicate;
             inherit codeFontName;
             inherit flavor;
             inherit hostname;

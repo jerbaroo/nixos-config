@@ -1,6 +1,6 @@
 {
   accent,
-  allowUnfree,
+  allowUnfreePredicate,
   catppuccin,
   codeFontName,
   color-schemes,
@@ -107,7 +107,7 @@ in
     packages = nixgl.packages;
   };
   nixpkgs.config = {
-    inherit allowUnfree;
+    inherit allowUnfreePredicate;
   };
   programs.home-manager.enable = true;
   targets.genericLinux.enable = genericLinux;
