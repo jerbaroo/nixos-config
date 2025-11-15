@@ -1,10 +1,11 @@
+// Values written by HM to fixed location.
+@import "/home/jeremy-barisch-rooney/.config/ignis/colors.scss";
+
 .bar-window {
     font-family: 'Atkinson Hyperlegible';
     font-size: medium;
     font-weight: 500;
 }
-
-@import "/home/jeremy-barisch-rooney/.config/ignis/colors.scss";
 
 .workspace-button-label {
     font-size: small;
@@ -35,15 +36,12 @@ $darkmode: false;
 
 @mixin window {
     background-color: $base;
-    border-radius: 1rem;
+    border-radius: 6px;
     box-shadow: 0 0 4px 2px $crust;
     color: $crust;
-    margin: 1rem;
-    padding: 1rem;
 }
 
 @import "./scss/app_launcher.scss";
 @import "./scss/app_switcher.scss";
 @import "./scss/bar.scss";
-@import "./scss/lib.scss";
 @import "./scss/notification_popup.scss";
