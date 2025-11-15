@@ -12,16 +12,15 @@ css_path = os.path.join(__dir__, "app.scss")
 print(f"CSS path: {css_path}")
 
 app = IgnisApp.get_initialized()
-app.apply_css(css_path)
-# css_manager = CssManager.get_default()
-# css_manager.apply_css(
-#     CssInfoPath(
-#         name="main",
-#         path=css_path,
-#         compiler_function=lambda path: utils.sass_compile(path=path),
-#         # priority="user",
-#     )
-# )
+css_manager = CssManager.get_default()
+css_manager.apply_css(
+    CssInfoPath(
+        name="main",
+        path=css_path,
+        compiler_function=lambda path: utils.sass_compile(path=path),
+        priority="user",
+    )
+)
 
 app_launcher.app_launcher(app)
 # app_switcher.app_switcher(app)

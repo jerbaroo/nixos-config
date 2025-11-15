@@ -39,7 +39,7 @@ def battery():
             100, # 0.1s
             lambda self:
                 [ widgets.Icon(image=battery.icon_name, pixel_size=icon_size)
-                , widgets.Label(label=f"{battery.percent:.0f}%")
+                , widgets.Label(label=f"{battery.percent:.0f}")
                 ]
         ).bind("output")
     )
@@ -56,7 +56,7 @@ def volume() -> widgets.EventBox:
                     style=f"margin-right: {tiny_spacing}px;"
                 ),
                 widgets.Label(
-                    label=audio.speaker.bind("volume", transform=lambda p: f"{p}%")
+                    label=audio.speaker.bind("volume", transform=lambda p: f"{p}")
                 ),
             ]
         )
@@ -93,8 +93,8 @@ def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.
     return [
         widgets.Button(
             css_classes=[
-               "bar-button",
-                "active" if active_per_monitor[bar_monitor] == w.id else "",
+                "bar-button",
+                "active-workspace" if active_per_monitor[bar_monitor] == w.id else "",
                 "workspace-button",
             ],
             on_click=lambda x, id=w.id: hyprlandService.switch_to_workspace(id),
@@ -130,7 +130,7 @@ def left(monitor: int) -> widgets.Box:
 
 def center() -> widgets.Label:
     return widgets.Label(
-        css_classes=["clock"],
+        css_classes=["bar-center"],
         label=utils.Poll(
             1_000, lambda self: datetime.datetime.now().strftime("%H:%M:%S")
         ).bind("output"),
@@ -194,7 +194,7 @@ def tray_item(item: SystemTrayItem) -> widgets.Button:
         tooltip_text=item.bind("tooltip"),
         on_click=lambda x: menu.popup() if menu else None,
         on_right_click=lambda x: menu.popup() if menu else None,
-        css_classes=["tray-item"],
+        css_classes=["bar-button", "system-tray-button"],
     )
 
 

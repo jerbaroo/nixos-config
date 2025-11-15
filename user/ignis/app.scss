@@ -1,24 +1,6 @@
 // Values written by HM to fixed location.
 @import "/home/jeremy-barisch-rooney/.config/ignis/colors.scss";
 
-.bar-window {
-    font-family: 'Atkinson Hyperlegible';
-    font-size: medium;
-    font-weight: 500;
-}
-
-.workspace-button-label {
-    font-size: small;
-    font-weight: 500;
-}
-
-.bar-right {
-    font-size: small;
-    font-weight: 500;
-    .battery:hover {
-    }
-}
-
 $darkmode: false;
 
 @mixin hover($bg) {
@@ -36,7 +18,7 @@ $darkmode: false;
 
 @mixin window {
     background-color: $base;
-    border-radius: 6px;
+    border-radius: 10px;
     box-shadow: 0 0 4px 2px $crust;
     color: $crust;
 }

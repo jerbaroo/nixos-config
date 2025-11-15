@@ -1,16 +1,22 @@
 .bar-window {
   margin: 6px;
   margin-bottom: 0;
-  .bar-button {
-    background-color: $base;
-    border-radius: 6px;
+  .bar-center { font-size: medium; }
+  .bar-left { font-size: small; }
+  .bar-right { font-size: x-small; }
+  .bar-button, .powermenu-button {
+    border-radius: 10px;
+    outline-width: 0px;
+    padding: 0 16px;
+    min-width: 0;
   }
   .workspaces {
     .workspace-button {
       border: 2px solid transparent;
     }
-    .workspace-button.active {
+    .workspace-button.active-workspace {
       border: 2px solid $accent;
     }
   }
 }
+

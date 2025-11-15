@@ -233,7 +233,7 @@ in
           size = 5;
         };
         inactive_opacity = 1;
-        rounding = 6;
+        rounding = 10;
       };
       dwindle.preserve_split = true;
       exec-once = [
