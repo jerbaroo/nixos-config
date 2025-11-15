@@ -220,6 +220,7 @@ def bar(monitor: int) -> widgets.Window:
         anchor=["left", "top", "right"],
         css_classes=["bar-window"],
         exclusivity="exclusive",
+        layer="bottom",
         namespace=namespace(monitor),
         monitor=monitor,
         child=widgets.CenterBox(
