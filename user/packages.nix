@@ -2,7 +2,6 @@
 {
   home.packages = with pkgs; [
     android-tools
-    blueman
     cargo
     dart
     dockfmt

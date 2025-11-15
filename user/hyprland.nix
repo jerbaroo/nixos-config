@@ -159,7 +159,7 @@ in
           "$mod SHIFT, SPACE, togglefloating"
           "$mod      , TAB, workspace, e+1"
           "$mod SHIFT, TAB, workspace, e-1"
-          "$mod      , B, exec, blueman-manager"
+          "$mod      , B, exec, ${pkgs.blueman}/bin/blueman-manager"
           "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
           "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
           "$mod      , D, exec, ignis open-window ignis-app-launcher"
