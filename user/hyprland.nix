@@ -13,6 +13,7 @@
   ...
 }:
 let
+  current-monitor = pkgs.writeShellScriptBin "current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
   gap = 3;
@@ -37,6 +38,7 @@ let
     ''
   );
   temperature = 4000;
+  toggle-menu-bar = pkgs.writeShellScriptBin "toggle-menu-bar" "ignis toggle-window ignis-bar-$(${current-monitor}/bin/current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
@@ -150,15 +152,17 @@ in
           "$mod SHIFT, 9, ${ifPlugin hyprsplit "split:"}movetoworkspace, 9"
           "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
           # Application shortcuts.
+          "$mod, \/, exec, ignis open-window ignis-app-launcher"
           "$mod, SPACE, exec, ignis open-window ignis-app-launcher"
           "$mod, RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
           "$mod, B, exec, blueman-manager"
+          "$mod SHIFT, B, exec, ${toggle-menu-bar}/bin/toggle-menu-bar"
           "$mod, C, killactive"
           "$mod, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
           "$mod, E, exec, emacs"
           "$mod, F, fullscreen"
-          "$mod, G, togglefloating"
           "$mod SHIFT, F, fullscreenstate, 1"
+          "$mod, G, togglefloating"
           "$mod, M, exec, spotify"
           "$mod, O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
           "$mod, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
