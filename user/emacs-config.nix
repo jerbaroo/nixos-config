@@ -94,7 +94,7 @@
         zoom-size '(0.60 . 0.60)
     )
 
-    (doom/set-frame-opacity ${pkgs.lib.strings.floatToString(builtins.floor(codeBackgroundOpacity * 100))})
+    (add-to-list 'default-frame-alist '(alpha-background . ${pkgs.lib.strings.floatToString(builtins.floor(codeBackgroundOpacity * 100))}))
 
     (after! lsp-ui
         (setq
