@@ -13,6 +13,9 @@
   .workspaces {
     .workspace-button {
       border: 2px solid transparent;
+      .workspace-button-label {
+          min-width: 16px;
+      }
     }
     .workspace-button.active-workspace {
       border: 2px solid $accent;
