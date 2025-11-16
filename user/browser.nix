@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  # catppuccin.firefox.force = true;
+  # programs.firefox = {
+  #   enable = true;
+  # };
   programs.librewolf = {
     enable = true;
     profiles.default = {

@@ -14,8 +14,8 @@ in
       g = "git status";
       l = "lsd";
       man = "batman";
-      rebuild-nixos = "sudo nixos-rebuild switch --flake .#nixos";
-      rebuild-home = "${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage";
+      os-switch-nixos = "sudo nixos-rebuild switch --flake .#nixos";
+      os-switch-home = "${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage";
       watch = "batwatch";
     };
     plugins = map plugin [

@@ -220,7 +220,7 @@ in
           # "$mod, S, exec, grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"
           "$mod      , S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | wl-copy"
           "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
-          "$mod      , W, exec, ${pkgs.firefox}/bin/firefox"
+          "$mod      , W, exec, firefox"
           "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
         ];
       debug.disable_logs = false;

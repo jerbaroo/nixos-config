@@ -21,7 +21,7 @@
       ];
       confirm-close-surface = false;
       font-family = codeFontName;
-      font-size = 20;
+      font-size = 18;
       scrollback-limit = 1000000;
     };
   };

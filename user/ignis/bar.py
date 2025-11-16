@@ -79,10 +79,7 @@ active_per_monitor = defaultdict(lambda: -1)
 def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.Button]:
 
     def get_workspace_monitor(workspace):
-        workspace_monitor = 0
-        if workspace.id >= 10: # First digit indicates monitor number.
-            workspace_monitor = int(str(workspace.id)[0])
-        return workspace_monitor
+        return (workspace.id - 1) // 10
 
     workspace_monitors = {w.id : get_workspace_monitor(w) for w in workspaces}
     active = hyprlandService.active_workspace.id
