@@ -9,13 +9,14 @@ in
   programs.fish = {
     enable = true;
     shellAbbrs = {
+      d = "git diff";
       dr = "direnv reload";
       grep = "batgrep";
-      g = "git status";
       l = "lsd";
       man = "batman";
       os-switch-nixos = "sudo nixos-rebuild switch --flake .#nixos";
       os-switch-home = "${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage";
+      s = "git status";
       watch = "batwatch";
     };
     plugins = map plugin [
