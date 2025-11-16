@@ -199,6 +199,7 @@ in
           "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
           # Other shortcuts.
           "$mod      , RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
+          "$mod      , SLASH, exec, ignis open-window ignis-app-launcher"
           "$mod      , SPACE, togglesplit, # dwindle"
           "$mod SHIFT, SPACE, togglefloating"
           "$mod      , TAB, workspace, e+1"
@@ -206,13 +207,10 @@ in
           "$mod      , B, exec, ${pkgs.blueman}/bin/blueman-manager"
           "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
           "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "$mod      , D, exec, ignis open-window ignis-app-launcher"
-          "$mod SHIFT, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
+          "$mod      , D, exec, ${pkgs.wdisplays}/bin/wdisplays"
           "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
           "$mod      , F, fullscreen"
           "$mod SHIFT, F, fullscreenstate, 1"
-          "$mod      , I, exec, ${pkgs.firefox}/bin/firefox"
-          "$mod SHIFT, I, exec, ${pkgs.librewolf}/bin/librewolf"
           "$mod      , M, exec, ${pkgs.spotify}/bin/spotify"
           "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
           "$mod      , P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
@@ -222,6 +220,8 @@ in
           # "$mod, S, exec, grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"
           "$mod      , S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | wl-copy"
           "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
+          "$mod      , W, exec, ${pkgs.firefox}/bin/firefox"
+          "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
         ];
       debug.disable_logs = false;
       decoration = {
@@ -259,6 +259,11 @@ in
         gap_size = 5;
         gaps_use_aspect_ratio = true;
       };
+      windowrule = [
+        "float,class:^(org.pulseaudio.pavucontrol)$"
+        "float,class:^(.blueman-manager-wrapped)$"
+        "float,class:^(wdisplays)$"
+      ];
     };
     # xwayland.enable = true; TODO setting
   };
