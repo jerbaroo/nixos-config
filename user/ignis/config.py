@@ -1,5 +1,4 @@
 import app_launcher
-import app_switcher
 import bar
 import notification_popup
 import os
@@ -23,7 +22,6 @@ css_manager.apply_css(
 )
 
 app_launcher.app_launcher(app)
-# app_switcher.app_switcher(app)
 for monitor in range(utils.get_n_monitors()):
     bar.bar(monitor)
     notification_popup.notification_popup(app, monitor)
