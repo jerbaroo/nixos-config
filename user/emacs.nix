@@ -1,6 +1,7 @@
 {
   codeBackgroundOpacity,
   codeFontName,
+  codeFontSize,
   flavor,
   pkgs,
   ...
@@ -10,6 +11,7 @@
     (import ./emacs-config.nix {
       inherit codeBackgroundOpacity;
       inherit codeFontName;
+      inherit codeFontSize;
       inherit flavor;
       inherit pkgs;
     })

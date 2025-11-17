@@ -50,6 +50,7 @@
         let whitelist = map pkgs.lib.getName [ pkgs.spotify ];
         in  pkg: builtins.elem (pkgs.lib.getName pkg) whitelist;
       codeFontName = "JetBrainsMono Nerd Font";
+      codeFontSize = 12;
       flavor = "mocha";
       hostname = "nixos";
       overlays = [
@@ -78,6 +79,7 @@
           specialArgs = {
             inherit accent;
             inherit codeFontName;
+            inherit codeFontSize;
             inherit flavor;
             inherit stateVersion;
             inherit system;
@@ -93,6 +95,7 @@
             inherit accent;
             inherit allowUnfreePredicate;
             inherit codeFontName;
+            inherit codeFontSize;
             inherit flavor;
             inherit hostname;
             inherit stateVersion;

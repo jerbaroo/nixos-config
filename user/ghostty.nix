@@ -1,6 +1,7 @@
 {
   codeBackgroundOpacity,
   codeFontName,
+  codeFontSize,
   color-schemes,
   config,
   flavor,
@@ -21,7 +22,7 @@
       ];
       confirm-close-surface = false;
       font-family = codeFontName;
-      font-size = 18;
+      font-size = codeFontSize;
       scrollback-limit = 1000000;
     };
   };

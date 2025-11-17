@@ -1,6 +1,7 @@
 {
   codeBackgroundOpacity,
   codeFontName,
+  codeFontSize,
   flavor,
   pkgs,
 }:
@@ -74,11 +75,11 @@
     ;; they are implemented.
 
     (setq display-line-numbers-type t
-        doom-font (font-spec :family "${codeFontName}" :size 18)
+        doom-font (font-spec :family "${codeFontName}" :size ${toString(codeFontSize)}.0)
         doom-theme 'catppuccin
         catppuccin-flavor '${flavor}
         ;; doom-themes-treemacs-theme "doom-colors"
-        ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size 18)
+        ;; doom-variable-pitch-font (font-spec :family "${codeFontName}" :size ${toString(codeFontSize)}.0)
         ;; lsp-enable-file-watchers nil
         lsp-eldoc-enable-hover nil
         lsp-haskell-server-path "haskell-language-server"
@@ -116,8 +117,8 @@
     )
 
     (custom-set-faces!
-        ;; '(font-lock-comment-face :family "MonaspiceRn Nerd Font")
-        '(font-lock-comment-face :family "Cascadia Code" :slant italic)
+      ;; '(font-lock-comment-face :family "MonaspiceRn Nerd Font")
+      '(font-lock-comment-face :family "Cascadia Code" :slant italic)
     )
   '';
 }

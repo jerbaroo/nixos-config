@@ -239,7 +239,7 @@ in
         "${pkgs.hyprsunset}/bin/hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
         # "openrgb -m static -c ff1e00"
         "ignis init"
-        "blueman-applet"
+        "${pkgs.blueman}/bin/blueman-applet"
         "nm-applet"
       ];
       general = {
@@ -251,6 +251,9 @@ in
         resize_on_border = true;
       };
       input.kb_options = "caps:swapescape";
+      monitor = [
+        ", preferred, auto-up, 2"
+      ];
       misc.disable_hyprland_logo = true;
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";

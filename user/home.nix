@@ -3,6 +3,7 @@
   allowUnfreePredicate,
   catppuccin,
   codeFontName,
+  codeFontSize,
   color-schemes,
   config,
   flavor,
@@ -38,6 +39,7 @@ in
     ./direnv.nix
     (import ./emacs.nix {
       inherit codeFontName;
+      inherit codeFontSize;
       inherit codeBackgroundOpacity;
       inherit flavor;
       inherit pkgs;
@@ -46,6 +48,7 @@ in
     ./fonts.nix
     (import ./ghostty.nix {
       inherit codeFontName;
+      inherit codeFontSize;
       inherit codeBackgroundOpacity;
       inherit color-schemes;
       inherit config;
@@ -78,6 +81,7 @@ in
     (import ./kitty.nix {
       inherit codeBackgroundOpacity;
       inherit codeFontName;
+      inherit codeFontSize;
       inherit config;
       inherit pkgs;
       inherit wrapGL;
