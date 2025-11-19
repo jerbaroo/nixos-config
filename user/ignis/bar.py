@@ -77,11 +77,9 @@ def scroll_workspaces(f) -> None:
 
 active_per_monitor = defaultdict(lambda: -1)
 def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.Button]:
+    print(f"bar_monitor: {bar_monitor}")
 
-    def get_workspace_monitor(workspace):
-        return (workspace.id - 1) // 10
-
-    workspace_monitors = {w.id : get_workspace_monitor(w) for w in workspaces}
+    workspace_monitors = {w.id : w.monitor_id for w in workspaces}
     active = hyprlandService.active_workspace.id
     active_per_monitor[workspace_monitors[active]] = active
 
