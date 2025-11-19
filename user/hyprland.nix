@@ -245,7 +245,7 @@ in
       general = {
         border_size = 2;
         "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
-        "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.crust.hex})";
+        "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.base.hex})";
         gaps_in = gap;
         gaps_out = gap * 2;
         resize_on_border = true;

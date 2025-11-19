@@ -75,21 +75,22 @@ def scroll_workspaces(f) -> None:
     hyprlandService.switch_to_workspace(target)
 
 
-active_per_monitor = defaultdict(lambda: -1)
+active_workspaces = defaultdict(lambda: -1)
 def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.Button]:
-    print(f"bar_monitor: {bar_monitor}")
+    active_workspace = hyprlandService.active_workspace.id
+    active_workspace_monitor = hyprlandService.active_workspace.monitor_id
+    active_workspaces[active_workspace_monitor] = active_workspace
 
-    workspace_monitors = {w.id : w.monitor_id for w in workspaces}
-    active = hyprlandService.active_workspace.id
-    active_per_monitor[workspace_monitors[active]] = active
-
-    only_current_monitor = False
+    def active_or_open_workspace_class(id_: int):
+        if id_ == active_workspace: return "active-workspace" 
+        if id_ == active_workspaces[bar_monitor]: return "open-workspace"   
+        return ""
 
     return [
         widgets.Button(
             css_classes=[
                 "bar-button",
-                "active-workspace" if active_per_monitor[bar_monitor] == w.id else "",
+                active_or_open_workspace_class(w.id),
                 "workspace-button",
             ],
             on_click=lambda x, id=w.id: hyprlandService.switch_to_workspace(id),
@@ -99,7 +100,7 @@ def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.
             ),
         )
         for w in workspaces
-        if workspace_monitors[w.id] == bar_monitor
+        if active_workspace_monitor == bar_monitor
     ]
 
 

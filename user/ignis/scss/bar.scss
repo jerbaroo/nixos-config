@@ -20,6 +20,9 @@
     .workspace-button.active-workspace {
       border: 2px solid $accent;
     }
+    .workspace-button.open-workspace {
+      border: 2px solid $base;
+    }
   }
 }
 
