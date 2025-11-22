@@ -116,6 +116,6 @@ in
   programs.home-manager.enable = true;
   targets.genericLinux.enable = genericLinux;
   xdg.configFile."environment.d/envvars.conf".text = ''
-    PATH="$HOME/.nix-profile/bin:$PATH"
+    PATH="$HOME/.nix-profile/bin:$HOME/.cargo/bin:$PATH"
   '';
 }

@@ -100,7 +100,7 @@ def workspace_buttons(bar_monitor: int, workspaces: List[dict]) -> List[widgets.
             ),
         )
         for w in workspaces
-        if active_workspace_monitor == bar_monitor
+        if w.monitor_id == bar_monitor
     ]
 
 
@@ -128,7 +128,7 @@ def center() -> widgets.Label:
     return widgets.Label(
         css_classes=["bar-center"],
         label=utils.Poll(
-            1_000, lambda self: datetime.datetime.now().strftime("%H:%M:%S")
+            1_000, lambda self: datetime.datetime.now().strftime("%b %-d %H:%M")
         ).bind("output"),
     )
 
