@@ -12,6 +12,7 @@ in
       d = "git diff";
       dr = "direnv reload";
       grep = "batgrep";
+      f = "fixup";
       l = "lsd";
       man = "batman";
       os-switch-nixos = "sudo nixos-rebuild switch --flake .#nixos";
@@ -32,10 +33,10 @@ in
     shellInit = ''
       fish_vi_key_bindings
       set fish_greeting
-      if status is-interactive
-      and not set -q TMUX
-        # Create session 'main' or attach to 'main' if already exists.
-        tmux new-session -A -s main
+      function fixup
+        commandline "git commit --fixup "
+        _fzf_search_git_log
+        commandline -i " "
       end
     '';
   };
