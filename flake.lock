@@ -433,11 +433,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1754263431,
-        "narHash": "sha256-EmGvVOQcY/93SnoHL5OAsLI5ltvVrTeMu2pgeoc3Z/I=",
+        "lastModified": 1763852986,
+        "narHash": "sha256-8TOQw0z84hDS9ce0Vg329R4p8YBfhOVJWHAo85XuEEQ=",
         "owner": "raybbian",
         "repo": "hyprtasking",
-        "rev": "a803c56cc2ae98b8bd3f7102388fae4826697927",
+        "rev": "387faba1e3abeaa16e3c867d745e4dc61934cb45",
         "type": "github"
       },
       "original": {
