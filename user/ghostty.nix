@@ -16,7 +16,7 @@
     package = (if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.ghostty;
     settings = {
       background-opacity = codeBackgroundOpacity;
-      command = "${pkgs.fish}/bin/fish";
+      command = "${pkgs.tmux}/bin/tmux attach -t main || ${pkgs.tmux}/bin/tmux new -s main";
       config-file = [
         "${color-schemes}/ghostty/Catppuccin ${pkgs.lib.strings.toSentenceCase flavor}"
       ];
