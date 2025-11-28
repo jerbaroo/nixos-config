@@ -1,0 +1,96 @@
+query DashboardData {
+  viewer {
+    login
+  }
+  
+  reviewRequested: search(query: "<<org>> is:pr is:open review-requested:@me archived:false", type: ISSUE, <<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        labels(first: 5) {
+            nodes {
+                name
+                color
+            }
+        }
+      }
+    }
+  }
+
+  prAssigned: search(query: "<<org>> is:pr is:open assignee:@me -author:@me archived:false", type: ISSUE, <<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        updatedAt 
+        labels(first: 5) {
+            nodes {
+                name
+                color
+            }
+        }
+      }
+    }
+  }
+
+  prAuthored: search(query: "<<org>> is:pr is:open author:@me archived:false", type: ISSUE, <<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        updatedAt 
+        labels(first: 5) {
+            nodes {
+                name
+                color
+            }
+        }
+      }
+    }
+  }
+
+  issueAssigned: search(query: "<<org>> is:issue is:open assignee:@me archived:false", type: ISSUE, <<limit>>) {
+    issueCount
+    nodes {
+      ... on Issue {
+        number
+        title
+        author { login }
+        url
+        createdAt
+        updatedAt 
+        labels(first: 5) {
+            nodes {
+                name
+                color
+            }
+        }
+      }
+    }
+  }
+}

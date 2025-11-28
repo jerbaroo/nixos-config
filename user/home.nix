@@ -70,6 +70,7 @@ in
       inherit plugins;
       inherit system;
       inherit systemPAM;
+      inherit username;
       inherit wrapGL;
     })
     (import ./ignis.nix {
