@@ -2,6 +2,7 @@
   accent,
   config,
   flavor,
+  ghdashboardPort,
   hyprland,
   hyprsplit,
   hyprtasking,
@@ -9,6 +10,7 @@
   pkgs,
   system,
   systemPAM,
+  username,
   wrapGL,
   ...
 }:
@@ -85,9 +87,11 @@ let
 '';
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
+  ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
+  ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
 in
 {
-  home.packages = [ os-current-monitor os-lock os-toggle-menu-bar ];
+  home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
   programs.niri = {
     enable = true;
     # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
@@ -238,6 +242,7 @@ in
       exec-once = [
         "${pkgs.hyprsunset}/bin/hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
         # "openrgb -m static -c ff1e00"
+        "${ghdashboardwithargs}/bin/ghdashboardwithargs"
         "ignis init"
         "${pkgs.blueman}/bin/blueman-applet"
         "nm-applet"
@@ -251,9 +256,7 @@ in
         resize_on_border = true;
       };
       input.kb_options = "caps:swapescape";
-      monitor = [
-        ", preferred, auto-up, 2"
-      ];
+      monitor = [ ", preferred, auto-up, 2" ];
       misc.disable_hyprland_logo = true;
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
@@ -267,6 +270,6 @@ in
         "float,class:^(wdisplays)$"
       ];
     };
-    # xwayland.enable = true; TODO setting
+    xwayland.enable = true;
   };
 }

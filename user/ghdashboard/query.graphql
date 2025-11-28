@@ -1,0 +1,116 @@
+query DashboardData {
+  viewer { login }
+
+  reviewRequested: search(query: "<<org>> is:pr is:open review-requested:@me archived:false", type: ISSUE, <<order>>:<<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        isDraft
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        labels(first: 5) { nodes { name color } }
+        timelineItems(itemTypes: [REVIEW_REQUESTED_EVENT], last: 10) {
+          nodes {
+            ... on ReviewRequestedEvent {
+              createdAt
+              requestedReviewer { ... on User { login } }
+            }
+          }
+        }
+        closingIssuesReferences(first: 5) {
+          nodes { number url title repository { name } }
+        }
+        reviewRequests(first: 1) { totalCount }
+        reviews(first: 1) { totalCount }
+      }
+    }
+  }
+
+  prAssigned: search(query: "<<org>> is:pr is:open assignee:@me -author:@me archived:false", type: ISSUE, <<order>>:<<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        isDraft
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        updatedAt 
+        labels(first: 5) { nodes { name color } }
+        timelineItems(itemTypes: [ASSIGNED_EVENT], last: 10) {
+          nodes {
+            ... on AssignedEvent {
+              createdAt
+              assignee { ... on User { login } }
+            }
+          }
+        }
+        closingIssuesReferences(first: 5) {
+          nodes { number url title repository { name } }
+        }
+        reviewRequests(first: 1) { totalCount }
+        reviews(first: 1) { totalCount }
+      }
+    }
+  }
+
+  prOpened: search(query: "<<org>> is:pr is:open author:@me archived:false", type: ISSUE, <<order>>:<<limit>>) {
+    issueCount
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        isDraft
+        author { login }
+        url
+        reviewDecision
+        statusCheckRollup { state }
+        additions 
+        deletions
+        createdAt
+        updatedAt 
+        labels(first: 5) { nodes { name color } }
+        closingIssuesReferences(first: 5) {
+          nodes { number url title repository { name } }
+        }
+        reviewRequests(first: 1) { totalCount }
+        reviews(first: 1) { totalCount }
+      }
+    }
+  }
+
+  issueAssigned: search(query: "<<org>> is:issue is:open assignee:@me archived:false", type: ISSUE, <<order>>:<<limit>>) {
+    issueCount
+    nodes {
+      ... on Issue {
+        number
+        title
+        author { login }
+        url
+        createdAt
+        updatedAt 
+        labels(first: 5) { nodes { name color } }
+        timelineItems(itemTypes: [ASSIGNED_EVENT], last: 10) {
+          nodes {
+            ... on AssignedEvent {
+              createdAt
+              assignee { ... on User { login } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

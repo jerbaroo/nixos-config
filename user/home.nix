@@ -26,6 +26,7 @@
 }:
 let
   codeBackgroundOpacity = 0.70;
+  ghdashboardPort = 1234;
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
 in
@@ -35,7 +36,7 @@ in
     ignis.homeManagerModules.default
     niri.homeModules.niri
 
-    ./browser.nix
+    (import ./browser.nix { inherit ghdashboardPort; inherit pkgs; })
     ./direnv.nix
     (import ./emacs.nix {
       inherit codeFontName;
@@ -62,6 +63,7 @@ in
       inherit accent;
       inherit config;
       inherit flavor;
+      inherit ghdashboardPort;
       inherit hyprland;
       inherit hyprsplit;
       inherit hyprtasking;
@@ -70,6 +72,7 @@ in
       inherit plugins;
       inherit system;
       inherit systemPAM;
+      inherit username;
       inherit wrapGL;
     })
     (import ./ignis.nix {

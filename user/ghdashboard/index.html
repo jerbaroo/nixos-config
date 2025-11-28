@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Dashboard</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25231.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Catppuccin Mocha Palette --- */
+        :root {
+            --ctp-base: #1e1e2e;
+            --ctp-mantle: #181825;
+            --ctp-crust: #11111b;
+            --ctp-text: #cdd6f4;
+            --ctp-subtext0: #a6adc8;
+            --ctp-subtext1: #bac2de;
+            --ctp-surface0: #313244;
+            --ctp-surface1: #45475a;
+            --ctp-overlay0: #6c7086;
+            --ctp-blue: #89b4fa;
+            --ctp-lavender: #b4befe;
+            --ctp-green: #a6e3a1;
+            --ctp-red: #f38ba8;
+            --ctp-maroon: #eba0ac;
+            --ctp-peach: #fab387;
+            --ctp-yellow: #f9e2af;
+            --ctp-teal: #94e2d5;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            padding-top: 0;
+            background-color: var(--ctp-base); 
+            color: var(--ctp-text); 
+        }
+
+        /* --- SVG Overlay for Connections --- */
+        #app-container { position: relative; }
+        
+        #connections {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; 
+            z-index: 10;
+            overflow: visible;
+        }
+
+        .connection-line {
+            fill: none;
+            stroke: var(--ctp-surface1); 
+            stroke-width: 3px;
+            opacity: 0.5;
+            transition: stroke 0.3s, opacity 0.3s, stroke-width 0.3s;
+        }
+        
+        /* Section Headers */
+        h4 { 
+            margin-top: 25px; 
+            margin-bottom: 10px; 
+            color: var(--ctp-subtext1); 
+            text-transform: uppercase; 
+            font-size: 0.85em; 
+            letter-spacing: 1px; 
+            font-weight: 600;
+            border-bottom: 1px solid var(--ctp-surface0); 
+            padding-bottom: 5px;
+        }
+
+        #subtitle { color: var(--ctp-subtext0); font-style: italic; margin-bottom: 20px; min-height: 0; }
+        
+        ul { list-style-type: none; padding: 0; }
+        a { text-decoration: none; color: inherit; }
+
+        /* CARD STYLING */
+        .card { 
+            margin-bottom: 8px; 
+            padding: 10px 14px; 
+            background: var(--ctp-mantle); 
+            border: 1px solid var(--ctp-surface0); 
+            border-radius: 6px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: transform 0.1s ease, background 0.2s ease;
+            position: relative; 
+            z-index: 20; 
+            cursor: pointer;
+        }
+        .card:hover { 
+            background-color: var(--ctp-surface0); 
+            border-color: var(--ctp-surface1);
+        }
+
+        /* LEFT SIDE INFO */
+        .info { display: flex; flex-direction: column; flex: 1; margin-right: 15px; min-width: 0; }
+
+        .card-title { font-size: 1em; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;}
+        
+        .card-title-repo { 
+            font-weight: 700; 
+            margin-right: 8px; 
+            opacity: 1;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .card-title-number { color: var(--ctp-subtext0); font-weight: normal; margin-right: 5px; font-size: 0.9em; }
+        .card-title-title { color: var(--ctp-text); font-weight: 600; }
+
+        /* META ROW */
+        .meta { 
+            font-size: 0.8em; 
+            color: var(--ctp-subtext0); 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            gap: 12px; 
+        }
+        
+        .author { color: var(--ctp-subtext1); font-weight: 500; }
+
+        /* RIGHT SIDE STATUS */
+        .status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* BADGES */
+        .status-badge i { font-size: 1.1em; }
+        
+        .status-text { 
+            font-size: 0.7em; 
+            padding: 3px 8px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        
+        /* UPDATED: Status Colors */
+        .status-draft    { background: var(--ctp-surface1); color: var(--ctp-subtext1); border: 1px solid var(--ctp-overlay0); }
+        .status-noreview { background: var(--ctp-surface1); color: var(--ctp-overlay0); border: 1px solid var(--ctp-surface0); } /* Grayish */
+        .status-inreview { background: var(--ctp-teal); color: var(--ctp-crust); } /* Teal */
+        .status-changes  { background: var(--ctp-red); color: var(--ctp-crust); }
+        .status-review   { background: var(--ctp-peach); color: var(--ctp-crust); }
+        .status-waiting  { background: var(--ctp-blue); color: var(--ctp-crust); }
+        .status-approved { background: var(--ctp-green); color: var(--ctp-crust); }
+
+        /* UTILITIES */
+        .error { color: var(--ctp-red); background: rgba(243, 139, 168, 0.1); padding: 10px; border: 1px solid var(--ctp-red); border-radius: 4px; }
+        .color-green { color: var(--ctp-green) !important; }
+        .color-red { color: var(--ctp-red) !important; }
+        
+        .gh-label {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .closing-issue {
+            color: var(--ctp-lavender);
+            font-weight: 600;
+            border-bottom: 1px dotted var(--ctp-lavender);
+            position: relative; 
+            z-index: 30;
+        }
+        .closing-issue:hover {
+            color: var(--ctp-teal);
+            border-bottom-style: solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="subtitle"></div>
+    
+    <div id="app-container">
+        <svg id="connections"></svg>
+        <div id="app"></div>
+    </div>
+
+    <script>
+        // --- CONFIG ---
+        const CTP = {
+            green: '#a6e3a1',
+            red: '#f38ba8',
+            peach: '#fab387',
+            maroon: '#eba0ac',
+            subtext: '#a6adc8',
+            base: '#1e1e2e',
+            yellow: '#f9e2af',
+            lavender: '#b4befe'
+        };
+
+        const REPO_PALETTE = [
+            '#f5e0dc', '#f2cdcd', '#f5c2e7', '#cba6f7', 
+            '#f38ba8', '#eba0ac', '#fab387', '#f9e2af', 
+            '#a6e3a1', '#94e2d5', '#89dceb', '#74c7ec', 
+            '#89b4fa', '#b4befe'
+        ];
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`/data${window.location.search}`)
+                const json = await response.json()
+                if (json.error) { showError("Server Error: " + json.error); return; }
+                if (json.github && json.github.data) {
+                    render_github_data(json.github.data)
+                } else {
+                    showError("Invalid data format received.")
+                }
+            } catch (err) {
+                console.error(err)
+                showError("Failed to fetch data from server.")
+            }
+        }
+
+        function render_github_data(data) {
+            const app = document.getElementById('app')
+            const viewerLogin = data.viewer ? data.viewer.login : null;
+            const sections = ['reviewRequested', 'prAssigned', 'prOpened', 'issueAssigned']
+            const sectionHeaders = ['Review Requested', 'PR Assigned', 'PR Opened', 'Issue Assigned']
+
+            sections.forEach((key, i) => {
+                if (data[key]) {
+                    app.innerHTML += createSectionHtml(key, sectionHeaders[i], data[key], viewerLogin)
+                }
+            })
+            requestAnimationFrame(() => { drawConnections(); });
+        }
+
+        function createSectionHtml(sectionKey, sectionHeader, sectionData, viewerLogin) {
+            const count = sectionData.issueCount
+            let nodes = sectionData.nodes
+            nodes.sort((a, b) => {
+                const dateA = getRelevantDate(a, sectionKey, viewerLogin).date;
+                const dateB = getRelevantDate(b, sectionKey, viewerLogin).date;
+                return new Date(dateA) - new Date(dateB); 
+            });
+
+            if (nodes.length === 0) {
+                return `<h4>${sectionHeader} (0)</h4><div style="color:var(--ctp-surface1); font-style:italic; padding:10px 0;">Nothing here.</div>`
+            }
+
+            const listItems = nodes.map(node => {
+                const status = node.statusCheckRollup
+                const statusIcon = status ? (state => {
+                    if(state === "SUCCESS") return { icon: 'fa-solid fa-circle-check', color: 'color-green' };
+                    return { icon: 'fa-solid fa-circle-xmark', color: 'color-red' };
+                })(status.state) : null
+                const statusBadge = status ? `<i class="${statusIcon.icon} ${statusIcon.color}" title="${status.state}"></i>` : '';
+
+                const reviewState = getReviewState(node, sectionKey);
+                const reviewBadge = reviewState 
+                    ? `<div class="status-text ${reviewState.class}">${reviewState.text}</div>` 
+                    : '';
+
+                const additions = node.additions !== undefined ? `<span class="additions color-green">+${node.additions}</span>` : ''
+                const deletions = node.deletions !== undefined ? `<span class="deletions color-red">-${node.deletions}</span>` : ''
+
+                const dateObj = getRelevantDate(node, sectionKey, viewerLogin);
+                const ageInfo = ageStyle(dateObj.date);
+                // const metaIcon = dateObj.type === 'Assigned' || dateObj.type === 'Requested' ? 'fa-user-clock' : ageInfo.icon;
+                const ageBadge = `
+                    <span style="${ageInfo.style}" title="${dateObj.type}: ${ageInfo.fullDate}">
+                        <i class="fa-solid ${ageInfo.icon}"></i> ${ageInfo.text}
+                    </span>`;
+
+                const labels = node.labels && node.labels.nodes ? node.labels.nodes : [];
+                const labelsHtml = labels.map(label => {
+                    const textColor = getContrastColor(label.color) === 'black' ? '#11111b' : '#cdd6f4';
+                    return `<span class="gh-label" style="background-color: #${label.color}; color: ${textColor};">${label.name}</span>`
+                }).join('')
+                
+                const repoName = node.repository ? node.repository.name : node.url.split('/')[4];
+                const repoBgColor = getRepoColor(repoName);
+                const repoTextColor = getContrastColor(repoBgColor.replace('#','')) === 'black' ? '#11111b' : '#cdd6f4';
+                const isAuthorViewer = node.author.login === viewerLogin;
+                const authorTooltip = isAuthorViewer ? `You (Author)` : `Author: ${node.author.login}`;
+
+                // --- Closing Links ---
+                const currentUrl = node.url;
+                let closingHtml = '';
+                let closesAttr = '';
+                if (node.closingIssuesReferences && node.closingIssuesReferences.nodes.length > 0) {
+                    const closeNodes = node.closingIssuesReferences.nodes;
+                    const links = closeNodes.map(issue => 
+                        `<a href="${issue.url}" target="_blank" class="closing-issue" onclick="event.stopPropagation()" title="Closes: ${issue.title}">#${issue.number}</a>`
+                    ).join(', ');
+                    closingHtml = `<span style="color: var(--ctp-subtext0);"><i class="fa-solid fa-link" style="font-size:0.8em; margin-right:3px;"></i>${links}</span>`;
+                    closesAttr = `data-closes='${JSON.stringify(closeNodes.map(n => n.url))}'`;
+                }
+
+                return `
+                    <li class="item-entry" data-url="${currentUrl}" ${closesAttr}>
+                        <div class="card" onclick="window.open('${currentUrl}', '_blank')">
+                            <div class="info">
+                                <div class="card-title">
+                                    <span class="card-title-repo" style="background-color: ${repoBgColor}; color: ${repoTextColor};">${repoName}</span>
+                                    <span class="card-title-number">#${node.number}</span>
+                                    <span class="card-title-title">${node.title}</span> 
+                                </div>
+                                <div class="meta">
+                                    <span class="author" title="${authorTooltip}">@${node.author.login}</span>
+                                    ${ageBadge}
+                                    ${additions}
+                                    ${deletions}
+                                    ${closingHtml}
+                                    ${labelsHtml}
+                                </div>
+                            </div>
+                            <div class="status-wrapper">
+                                ${reviewBadge}
+                                <div class="status-badge">${statusBadge}</div>
+                            </div>
+                        </div>
+                    </li>
+                `
+            }).join('')
+
+            return `<h4>${sectionHeader} (${count})</h4><ul>${listItems}</ul>`
+        }
+
+        // --- UPDATED LOGIC ---
+        function getReviewState(node, sectionKey) {
+            if (node.reviewDecision === undefined && node.isDraft === undefined) return null;
+            if (node.isDraft) return { text: "DRAFT", class: "status-draft" };
+
+            // 1. Explicit API Decision
+            switch (node.reviewDecision) {
+                case 'APPROVED': return { text: "APPROVED", class: "status-approved" };
+                case 'CHANGES_REQUESTED': return { text: "CHANGES REQUESTED", class: "status-changes" };
+                case 'REVIEW_REQUIRED': return { text: "REVIEW REQUESTED", class: "status-review" };
+            }
+
+            // 2. Section Override
+            if (sectionKey === 'reviewRequested') return { text: "REVIEW REQUESTED", class: "status-review" };
+            
+            // 3. Inferred States
+            const hasReviewRequests = node.reviewRequests && node.reviewRequests.totalCount > 0;
+            const hasReviews = node.reviews && node.reviews.totalCount > 0;
+
+            if (hasReviewRequests) {
+                return { text: "REVIEW REQUESTED", class: "status-review" };
+            }
+            if (hasReviews) {
+                // Reviewed (commented) but no decision yet
+                return { text: "IN REVIEW", class: "status-inreview" };
+            }
+
+            // 4. Default: No activity
+            return { text: "NO REVIEWERS", class: "status-noreview" };
+        }
+
+        function drawConnections() {
+            const svg = document.getElementById('connections');
+            const container = document.getElementById('app-container');
+            svg.innerHTML = ''; 
+
+            const containerRect = container.getBoundingClientRect();
+            const sources = document.querySelectorAll('.item-entry[data-closes]');
+
+            sources.forEach(source => {
+                const closes = JSON.parse(source.dataset.closes);
+                closes.forEach(targetUrl => {
+                    const target = document.querySelector(`.item-entry[data-url="${targetUrl}"]`);
+                    if (target) drawPath(svg, containerRect, source, target);
+                });
+            });
+        }
+
+        function drawPath(svg, containerRect, sourceEl, targetEl) {
+            const sRect = sourceEl.getBoundingClientRect();
+            const tRect = targetEl.getBoundingClientRect();
+
+            const startX = sRect.left - containerRect.left;
+            const startY = sRect.top + (sRect.height / 2) - containerRect.top;
+            const endX = tRect.left - containerRect.left;
+            const endY = tRect.top + (tRect.height / 2) - containerRect.top;
+
+            const controlOffset = 50;
+            const cp1X = startX - controlOffset;
+            const cp1Y = startY;
+            const cp2X = endX - controlOffset;
+            const cp2Y = endY;
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`);
+            path.setAttribute("class", "connection-line");
+            path.setAttribute("stroke", CTP.lavender); 
+            svg.appendChild(path);
+            
+            addDot(svg, startX, startY);
+            addDot(svg, endX, endY);
+        }
+
+        function addDot(svg, x, y) {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", x); circle.setAttribute("cy", y);
+            circle.setAttribute("r", "3"); circle.setAttribute("fill", CTP.lavender);
+            svg.appendChild(circle);
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(drawConnections, 100);
+        });
+
+        // --- HELPERS ---
+        function getRelevantDate(node, sectionKey, viewerLogin) {
+            let resultDate = node.createdAt;
+            let resultType = "Opened";
+            if (node.timelineItems && node.timelineItems.nodes && viewerLogin) {
+                const events = node.timelineItems.nodes;
+                if (['prAssigned', 'issueAssigned'].includes(sectionKey)) {
+                    const event = [...events].reverse().find(e => e.assignee && e.assignee.login === viewerLogin);
+                    if (event) { resultDate = event.createdAt; resultType = "Assigned"; }
+                }
+                if (sectionKey === 'reviewRequested') {
+                    const event = [...events].reverse().find(e => e.requestedReviewer && e.requestedReviewer.login === viewerLogin);
+                    if (event) { resultDate = event.createdAt; resultType = "Requested"; }
+                }
+            }
+            return { date: resultDate, type: resultType };
+        }
+
+        function getRepoColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) { hash = str.charCodeAt(i) + ((hash << 5) - hash); }
+            const index = Math.abs(hash % REPO_PALETTE.length);
+            return REPO_PALETTE[index];
+        }
+
+        function showSubtitle(msg, className) {
+            const el = document.getElementById('subtitle'); el.innerText = msg; el.className = className;
+        }
+        function showError(msg) { showSubtitle(msg, "error") }
+
+        function ageStyle(isoDateString) {
+            const now = new Date(); const date = new Date(isoDateString);
+            const diffTime = Math.abs(now - date); const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let style = `color: ${CTP.subtext};`; let icon = "fa-clock";
+            if (days >= 3 && days < 7) { style = `color: ${CTP.yellow}; font-weight: 600;`; } 
+            else if (days >= 7 && days < 14) { style = `color: ${CTP.peach}; font-weight: 700;`; icon = "fa-fire"; } 
+            else if (days >= 14) { style = `color: ${CTP.red}; font-weight: 800;`; icon = "fa-skull"; }
+            return { text: `${days}d`, style: style, icon: icon, fullDate: date.toLocaleString() }
+        }
+
+        function getContrastColor(hexColor) {
+            if (!hexColor || hexColor.length < 6) return 'white'; 
+            const r = parseInt(hexColor.substr(0, 2), 16);
+            const g = parseInt(hexColor.substr(2, 2), 16);
+            const b = parseInt(hexColor.substr(4, 2), 16);
+            const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+            return (yiq >= 128) ? 'black' : 'white';
+        }
+
+        fetchData()
+    </script>
+</body>
+</html>
