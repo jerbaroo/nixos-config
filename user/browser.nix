@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ghdashboardPort, pkgs, ... }:
 {
   # catppuccin.firefox.force = true;
   # programs.firefox = {
@@ -46,7 +46,7 @@
         "browser.newtabpage.activity-stream.feeds.section.wallpaperfeed" = false;
         "browser.newtabpage.activity-stream.feeds.section.weatherfeed" = false;
         "browser.newtabpage.activity-stream.feeds.telemetry" = false;
-        "browser.startup.homepage" = "https://github.com/";
+        "browser.startup.homepage" = "http://localhost:${toString(ghdashboardPort)}";
         "extensions.pocket.enabled" = false;
         "identity.fxaccounts.enabled" = false;
         "privacy.clearOnShutdown.cookies" = false;

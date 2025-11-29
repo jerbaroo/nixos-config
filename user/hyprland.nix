@@ -2,6 +2,7 @@
   accent,
   config,
   flavor,
+  ghdashboardPort,
   hyprland,
   hyprsplit,
   hyprtasking,
@@ -87,7 +88,7 @@ let
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
   ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
-  ghdashboardwithtoken = pkgs.writeShellScriptBin "ghdashboardwithtoken" "GITHUB_TOKEN=$(cat /home/${username}/.config/.githubtoken) ${ghdashboard}/bin/ghdashboard";
+  ghdashboardwithtoken = pkgs.writeShellScriptBin "ghdashboardwithtoken" "GITHUB_TOKEN=$(cat /home/${username}/.config/.githubtoken) ${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)}";
 in
 {
   home.packages = [ ghdashboardwithtoken os-current-monitor os-lock os-toggle-menu-bar ];
@@ -269,6 +270,6 @@ in
         "float,class:^(wdisplays)$"
       ];
     };
-    # xwayland.enable = true; TODO setting
+    xwayland.enable = true;
   };
 }
