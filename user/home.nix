@@ -93,6 +93,7 @@ in
     (import ./neovim.nix {
       inherit pkgs;
     })
+    ./niri.nix
     ./packages.nix
     ./quickshell.nix
     ./sound.nix

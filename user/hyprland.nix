@@ -92,11 +92,6 @@ let
 in
 {
   home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
-  programs.niri = {
-    enable = true;
-    # package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) pkgs.niri );
-    package = pkgs.niri-unstable; # TODO
-  };
   programs.hyprlock = {
     enable = true;
     package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
