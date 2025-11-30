@@ -95,7 +95,7 @@
         zoom-size '(0.60 . 0.60)
     )
 
-    (add-to-list 'default-frame-alist '(alpha-background . ${pkgs.lib.strings.floatToString(builtins.floor(codeBackgroundOpacity * 100))}))
+    (add-to-list 'default-frame-alist '(alpha-background . ${toString(builtins.floor(codeBackgroundOpacity * 100))}))
 
     (after! lsp-ui
         (setq

@@ -25,7 +25,7 @@
   ...
 }:
 let
-  codeBackgroundOpacity = 0.70;
+  codeBackgroundOpacity = 0.5;
   ghdashboardPort = 1234;
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
@@ -120,6 +120,6 @@ in
   programs.home-manager.enable = true;
   targets.genericLinux.enable = genericLinux;
   xdg.configFile."environment.d/envvars.conf".text = ''
-    PATH="$HOME/.nix-profile/bin:$HOME/.cargo/bin:$PATH"
+    PATH="$HOME/.config/emacs/bin:$HOME/.nix-profile/bin:$HOME/.cargo/bin:$PATH"
   '';
 }

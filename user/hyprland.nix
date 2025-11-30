@@ -39,7 +39,7 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
-  temperature = 4000;
+  temperature = 3500;
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   os-lock = pkgs.writeShellScriptBin "os-lock" ''
     swaylock \
@@ -235,7 +235,7 @@ in
       };
       dwindle.preserve_split = true;
       exec-once = [
-        "${pkgs.hyprsunset}/bin/hyprsunset -t ${pkgs.lib.strings.floatToString(temperature)}"
+        "${pkgs.hyprsunset}/bin/hyprsunset -t ${toString(temperature)}"
         # "openrgb -m static -c ff1e00"
         "${ghdashboardwithargs}/bin/ghdashboardwithargs"
         "ignis init"
