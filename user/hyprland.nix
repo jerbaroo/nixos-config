@@ -265,9 +265,9 @@ in
         gaps_use_aspect_ratio = true;
       };
       windowrule = [
-        "float,class:^(org.pulseaudio.pavucontrol)$"
-        "float,class:^(.blueman-manager-wrapped)$"
-        "float,class:^(wdisplays)$"
+        "float true, match:class ^(org.pulseaudio.pavucontrol)$"
+        "float true, match:class ^(.blueman-manager-wrapped)$"
+        "float true, match:class ^(wdisplays)$"
       ];
     };
     xwayland.enable = true;
