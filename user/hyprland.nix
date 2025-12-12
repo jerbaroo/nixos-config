@@ -91,9 +91,10 @@ let
   ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
 in
 {
+  home.file."wallpaper.jpg".source = wallpaper;
   home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
   programs.hyprlock = {
-    enable = true;
+    enable = false;
     package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
     settings.general.hide_cursor = true;
   };
@@ -235,6 +236,7 @@ in
       };
       dwindle.preserve_split = true;
       exec-once = [
+        "1password --silent"
         "${pkgs.hyprsunset}/bin/hyprsunset -t ${toString(temperature)}"
         # "openrgb -m static -c ff1e00"
         "${ghdashboardwithargs}/bin/ghdashboardwithargs"

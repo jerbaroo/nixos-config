@@ -25,7 +25,7 @@
   ...
 }:
 let
-  codeBackgroundOpacity = 0.5;
+  codeBackgroundOpacity = 0.7;
   ghdashboardPort = 1234;
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
@@ -104,6 +104,11 @@ in
       inherit pkgs;
     })
     ./tmux.nix
+    (import ./zed.nix {
+      inherit config;
+      inherit pkgs;
+      inherit wrapGL;
+    })
   ];
   home = {
     homeDirectory = "/home/${username}";
