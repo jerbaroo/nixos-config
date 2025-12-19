@@ -24,13 +24,17 @@
       set -g pane-border-style fg=${palette.base.hex}
       set -g message-command-style bg=${palette.base.hex},fg=${palette.text.hex}
       set -g message-style bg=${palette.base.hex},fg=${palette.text.hex}
-      set -g status-left-style fg=${palette.text.hex}
       set -g prompt-cursor-colour "${palette.${accent}.hex}"
-      set -g status-right ""
+      set -g status-left-style fg=${palette.text.hex}
       set -g status-style bg=default # Transparent status bar background.
       set -g window-status-separator " "
       set -g window-status-style fg=${palette.text.hex}
       set -g window-status-current-style bg=${palette.base.hex},fg="${palette.${accent}.hex} bold"
+
+      # Status bar format.
+      set -g status-interval 1
+      set -g status-right ""
+      set -g automatic-rename-format '(#{b:pane_current_path})#{b:pane_current_command}'
 
       # Renumber windows.
       set -g renumber-windows on
