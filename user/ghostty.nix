@@ -23,7 +23,7 @@
       confirm-close-surface = false;
       font-family = codeFontName;
       font-size = codeFontSize;
-      scrollback-limit = 1000000;
+      scrollback-limit = 1000000000;
     };
   };
 }

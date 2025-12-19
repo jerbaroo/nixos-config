@@ -13,6 +13,7 @@ in
       dr = "direnv reload";
       grep = "batgrep";
       f = "fixup";
+      g = "git";
       l = "lsd";
       man = "batman";
       os-switch-nixos = "sudo nixos-rebuild switch --flake .#nixos";

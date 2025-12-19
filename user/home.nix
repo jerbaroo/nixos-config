@@ -103,7 +103,11 @@ in
       inherit flavor;
       inherit pkgs;
     })
-    ./tmux.nix
+    (import ./tmux.nix {
+      inherit accent;
+      inherit palette;
+      inherit pkgs;
+    })
     (import ./zed.nix {
       inherit config;
       inherit pkgs;

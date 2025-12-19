@@ -15,7 +15,6 @@
   ...
 }:
 let
-  c = colour: pkgs.lib.strings.removePrefix "#" palette.${colour}.hex;
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
   gap = 3;
@@ -41,50 +40,7 @@ let
   );
   temperature = 3500;
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
-  os-lock = pkgs.writeShellScriptBin "os-lock" ''
-    swaylock \
-      --font 'Atkinson Hyperlegible' \
-      --font-size 196 \
-      --indicator-caps-lock \
-      --indicator-radius 256 \
-      --indicator-thickness 64 \
-      \
-        --color ${c "base"} \
-        --inside-color ${c "base"} \
-        --line-color ${c "base"} \
-        --ring-color ${c "blue"} \
-        --separator-color ${c "base"} \
-        --text-color ${c "text"} \
-      \
-        --key-hl-color ${c "pink"} \
-        --bs-hl-color ${c "peach"} \
-      \
-        --inside-wrong-color ${c "red"} \
-        --line-wrong-color ${c "red"} \
-        --ring-wrong-color ${c "red"} \
-        --text-wrong-color ${c "base"} \
-      \
-        --inside-ver-color ${c "green"} \
-        --line-ver-color ${c "green"} \
-        --ring-ver-color ${c "green"} \
-        --text-ver-color ${c "base"} \
-      \
-        --inside-clear-color ${c "mauve"} \
-        --line-clear-color ${c "mauve"} \
-        --ring-clear-color ${c "mauve"} \
-        --text-clear-color ${c "base"} \
-      \
-        --caps-lock-bs-hl-color ${c "yellow"} \
-        --caps-lock-key-hl-color ${c "yellow"} \
-        --inside-caps-lock-color ${c "base"} \
-        --line-caps-lock-color ${c "yellow"} \
-        --ring-caps-lock-color ${c "yellow"} \
-        --text-caps-lock-color ${c "base"} \
-      \
-        --layout-bg-color ${c "base"} \
-        --layout-border-color ${c "surface0"} \
-        --layout-text-color ${c "text"}
-'';
+  os-lock = (import ./lock.nix { inherit palette; inherit pkgs; });
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
   ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
@@ -267,6 +223,6 @@ in
         "float true, match:class ^(wdisplays)$"
       ];
     };
-    xwayland.enable = true;
+    # xwayland.enable = true;
   };
 }
