@@ -51,7 +51,6 @@
     # Web/JS
     html-tidy
     nodePackages.js-beautify
-    nodePackages.purs-tidy
     nodejs_24
     stylelint
   ];
