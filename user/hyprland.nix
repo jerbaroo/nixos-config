@@ -41,6 +41,7 @@ let
   temperature = 3500;
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   os-lock = (import ./lock.nix { inherit palette; inherit pkgs; });
+  os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
   ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
@@ -158,7 +159,7 @@ in
           "$mod      , SLASH, exec, ignis open-window ignis-app-launcher"
           "$mod      , SPACE, togglesplit, # dwindle"
           "$mod SHIFT, SPACE, togglefloating"
-          "$mod      , TAB, workspace, previous"
+          "$mod      , TAB, workspace, m+1"
           "$mod      , B, exec, ${pkgs.blueman}/bin/blueman-manager"
           "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
           "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
@@ -168,12 +169,12 @@ in
           "$mod SHIFT, F, fullscreenstate, 1"
           "$mod      , M, exec, ${pkgs.spotify}/bin/spotify"
           "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
-          "$mod      , P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
-          "$mod SHIFT, P, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
+          "$mod      , R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
+          "$mod SHIFT, R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
+          "$mod      , P, workspace, previous"
           "$mod      , Q, killactive"
           "$mod SHIFT, Q, exec, ${os-lock}/bin/os-lock & systemctl suspend"
-          # "$mod, S, exec, grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"
-          "$mod      , S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | wl-copy"
+          "$mod      , S, exec, ${os-screenshot}/bin/os-screenshot"
           "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
           "$mod      , W, exec, firefox"
           "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
