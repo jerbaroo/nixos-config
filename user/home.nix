@@ -2,11 +2,14 @@
   accent,
   allowUnfreePredicate,
   catppuccin,
+  codeBackgroundOpacity,
   codeFontName,
   codeFontSize,
   color-schemes,
   config,
   flavor,
+  gap,
+  ghdashboardPort,
   hostname,
   hyprland,
   hyprsplit,
@@ -20,13 +23,12 @@
   stateVersion,
   system,
   systemPAM,
+  temperature,
   username,
   wrapGL,
   ...
 }:
 let
-  codeBackgroundOpacity = 0.7;
-  ghdashboardPort = 1234;
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
 in
@@ -63,6 +65,7 @@ in
       inherit accent;
       inherit config;
       inherit flavor;
+      inherit gap;
       inherit ghdashboardPort;
       inherit hyprland;
       inherit hyprsplit;
@@ -72,6 +75,7 @@ in
       inherit plugins;
       inherit system;
       inherit systemPAM;
+      inherit temperature;
       inherit username;
       inherit wrapGL;
     })

@@ -3,6 +3,7 @@
   config,
   flavor,
   ghdashboardPort,
+  gap,
   hyprland,
   hyprsplit,
   hyprtasking,
@@ -10,6 +11,7 @@
   pkgs,
   system,
   systemPAM,
+  temperature,
   username,
   wrapGL,
   ...
@@ -17,7 +19,8 @@
 let
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
-  gap = 3;
+  ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
+  ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
   hyprlock-systempam = (
     # Written by ChatGPT 5:
     pkgs.writeShellScriptBin "hyprlock" ''
@@ -38,13 +41,10 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
-  temperature = 3500;
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   os-lock = (import ./lock.nix { inherit palette; inherit pkgs; });
   os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
-  ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
-  ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
@@ -218,8 +218,8 @@ in
       misc.disable_hyprland_logo = true;
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
-        border_size = 5;
-        gap_size = 5;
+        border_size = gap;
+        gap_size = gap;
         gaps_use_aspect_ratio = true;
       };
       windowrule = [

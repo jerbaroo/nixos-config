@@ -49,9 +49,12 @@
       allowUnfreePredicate =
         let whitelist = map pkgs.lib.getName [ pkgs.spotify ];
         in  pkg: builtins.elem (pkgs.lib.getName pkg) whitelist;
+      codeBackgroundOpacity = 0.7;
       codeFontName = "JetBrainsMono Nerd Font";
       codeFontSize = 10;
       flavor = "mocha";
+      gap = 3;
+      ghdashboardPort = 1234;
       hostname = "nixos";
       overlays = [
           inputs.niri.overlays.niri
@@ -64,6 +67,7 @@
       };
       stateVersion = "25.05";
       system = "x86_64-linux";
+      temperature = 3000;
       username = "jeremy-barisch-rooney";
     in
     {
@@ -94,12 +98,16 @@
           extraSpecialArgs = {
             inherit accent;
             inherit allowUnfreePredicate;
+            inherit codeBackgroundOpacity;
             inherit codeFontName;
             inherit codeFontSize;
             inherit flavor;
+            inherit gap;
+            inherit ghdashboardPort;
             inherit hostname;
             inherit stateVersion;
             inherit system;
+            inherit temperature;
             inherit username;
             catppuccin = inputs.catppuccin;
             color-schemes = inputs.color-schemes;
