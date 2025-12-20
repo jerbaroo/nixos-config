@@ -1,57 +1,29 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    android-tools
-    cargo
-    dart
-    dockfmt
-    editorconfig-core-c
-    fastfetch
-    fd
-    feh
-    ffmpeg
-    footage
-    gcc
-    grc
-    jq
-    htop
-    libreoffice
-    niv
-    nix
-    nixfmt-rfc-style
-    obs-studio
-    pandoc
-    pavucontrol
-    rustc
-    shellcheck
-    shfmt
-    stack
-    texliveFull
-    unzip
-    vlc
-    wev
-    wireguard-tools
-    ydotool
-
-    # Haskell
-    cabal-install
-    ghc
-    haskell-language-server
-    haskellPackages.hoogle
-
-    # Python
-    black
-    isort
-    pipenv
-    python3
-    python3Packages.pyflakes
-    python3Packages.python-lsp-server
-    python3Packages.pytest
-
-    # Web/JS
-    html-tidy
-    nodePackages.js-beautify
-    nodejs_24
-    stylelint
+    btop # Resource monitor.
+    cbonsai # Screensaver.
+    fastfetch # System info fetch.
+    fd # 'find' alternative, required by Doom Emacs.
+    feh # Image viewer.
+    ffmpeg # Video converter.
+    footage # Video editor.
+    gcc # GNU Compiler Collection.
+    jq # JSON processor.
+    niv # Nix dependency manager.
+    nitch # System info fetch.
+    nix # Nix package manager.
+    nixfmt-rfc-style # Nix formatter.
+    obs-studio # Video recorder.
+    pandoc # Document converter.
+    pavucontrol # Volume control.
+    python3 # For quick scripts.
+    shellcheck # Shell script analyser.
+    shfmt # Shell parser and formatter.
+    texliveFull # LaTeX.
+    unzip # Unzip zip files.
+    vlc # Video player.
+    wev # Wayland event viewer.
+    wl-clipboard # Wayland command-line copy and paste.
   ];
 }
