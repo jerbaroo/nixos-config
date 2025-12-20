@@ -16,12 +16,13 @@
 - Install this home-manager config:
   - `git clone https://github.com/jerbaroo/nixos-config && cd nixos-config`
   - `home-manager --flake .#jer@nixos switch`
-- Add hyprland desktop entry:
+- Add hyprland desktop entry: `/usr/share/wayland-sessions/hyprland.desktop`
+
 ``` yaml
 [Desktop Entry]
 Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=/home/jer/.nix-profile/bin/Hyprland
+Exec=/home/jer/.nix-profile/bin/start-hyprland
 Type=Application
 ```
 
