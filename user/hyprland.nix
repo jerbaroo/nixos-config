@@ -43,9 +43,9 @@ let
   os-lock = (import ./lock.nix { inherit palette; inherit pkgs; });
   os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
-  wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
   ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
   ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
+  wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
   home.file."wallpaper.jpg".source = wallpaper;
@@ -63,6 +63,11 @@ in
       splash = false;
       wallpaper = [ ",${wallpaper}" ];
     };
+  };
+  services.hyprpolkitagent.enable = true;
+  services.hyprsunset = {
+    enable = true;
+    extraArgs = ["-t" "${toString(temperature)}"];
   };
   wayland.windowManager.hyprland = {
     enable = true;
@@ -193,13 +198,12 @@ in
       };
       dwindle.preserve_split = true;
       exec-once = [
-        "1password --silent"
-        "${pkgs.hyprsunset}/bin/hyprsunset -t ${toString(temperature)}"
         # "openrgb -m static -c ff1e00"
+        "1password --silent"
         "${ghdashboardwithargs}/bin/ghdashboardwithargs"
-        "ignis init"
         "${pkgs.blueman}/bin/blueman-applet"
         "nm-applet"
+        "ignis init"
       ];
       general = {
         border_size = 2;
