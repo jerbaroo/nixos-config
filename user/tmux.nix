@@ -34,7 +34,7 @@
       # Status bar format.
       set -g status-interval 1
       set -g status-right ""
-      set -g automatic-rename-format '(#{b:pane_current_path})#{b:pane_current_command}'
+      set -g automatic-rename-format '#{b:pane_current_command} (#{b:pane_current_path})'
 
       # Renumber windows.
       set -g renumber-windows on
