@@ -48,7 +48,6 @@ let
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
 in
 {
-  home.file."wallpaper.jpg".source = wallpaper;
   home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
   programs.hyprlock = {
     enable = false;

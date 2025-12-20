@@ -112,6 +112,11 @@ in
       inherit palette;
       inherit pkgs;
     })
+    (import ./wlogout.nix {
+      inherit accent;
+      inherit palette;
+      inherit pkgs;
+    })
     (import ./zed.nix {
       inherit config;
       inherit pkgs;
