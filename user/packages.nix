@@ -14,6 +14,9 @@
     nitch # System info fetch.
     nix # Nix package manager.
     nixfmt-rfc-style # Nix formatter.
+    nix-output-monitor # Pretty nix command info.
+    nix-tree # Nix dependency browser.
+    nh # Nix helper.
     obs-studio # Video recorder.
     pandoc # Document converter.
     pavucontrol # Volume control.
