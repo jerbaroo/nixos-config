@@ -177,7 +177,7 @@ in
           "$mod SHIFT, R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
           "$mod      , P, workspace, previous"
           "$mod      , Q, killactive"
-          "$mod SHIFT, Q, exec, ${os-lock}/bin/os-lock & systemctl suspend"
+          "$mod SHIFT, Q, exec, os-logout-menu"
           "$mod      , S, exec, ${os-screenshot}/bin/os-screenshot"
           "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
           "$mod      , W, exec, firefox"

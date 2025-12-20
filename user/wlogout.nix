@@ -1,9 +1,11 @@
 { accent, palette, pkgs, ... }:
 let
+  os-logout-menu = pkgs.writeShellScriptBin "os-logout-menu" "wlogout -b 5";
   rgba = c: a: "rgba(${toString(c.r)}, ${toString(c.g)}, ${toString(c.b)}, ${toString(a)})";
   wallpaper-blurred = (import ./wallpaper.nix { inherit pkgs; }).wallpaper-blurred;
 in {
   home.file."wallpaper-blurred.jpg".source = wallpaper-blurred;
+  home.packages = [ os-logout-menu ];
   programs.wlogout = {
     enable = true;
     layout = [

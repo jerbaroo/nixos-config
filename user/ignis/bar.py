@@ -1,7 +1,6 @@
 import asyncio
 import datetime
 import re
-import subprocess
 import time
 
 from collections import defaultdict
@@ -24,7 +23,7 @@ barName = "ignis-bar"
 namespace = lambda x: f"{barName}-{x}"
 tiny_spacing = 4
 sml_spacing = 6
-icon_size = 20
+icon_size = 16
 
 
 def exec(cmd: str) -> None:
@@ -135,40 +134,11 @@ def center() -> widgets.Label:
 
 def power_menu() -> widgets.Button:
 
-    menu = widgets.PopoverMenu(
-        css_classes=["powermenu"],
-        model=IgnisMenuModel(
-            IgnisMenuItem(
-                label="Lock",
-                on_activate=lambda x: exec("os-lock"),
-            ),
-            IgnisMenuSeparator(),
-            IgnisMenuItem(
-                label="Sleep",
-                on_activate=lambda x: exec("os-lock & systemctl suspend"),
-            ),
-            IgnisMenuSeparator(),
-            IgnisMenuItem(
-                label="Reboot",
-                on_activate=lambda x: exec("reboot"),
-            ),
-            IgnisMenuSeparator(),
-            IgnisMenuItem(
-                label="Shutdown",
-                on_activate=lambda x: exec("poweroff"),
-            ),
-            IgnisMenuSeparator(),
-            IgnisMenuItem(
-                label="Logout",
-                on_activate=lambda x: exec("hyprctl dispatch exit"),
-            ),
-        )
-    )
     return widgets.Button(
         css_classes=["bar-button ", "powermenu-button"],
-        on_click=lambda x: menu.popup(),
+        on_click=lambda _: exec("os-logout-menu"),
         child=widgets.Box(
-            child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=icon_size), menu]
+            child=[widgets.Icon(image="system-shutdown-symbolic", pixel_size=icon_size)]
         ),
     )
 
