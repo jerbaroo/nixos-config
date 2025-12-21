@@ -20,6 +20,7 @@
   nixgl,
   pkgs,
   plugins,
+  spicetify,
   stateVersion,
   system,
   systemPAM,
@@ -37,6 +38,7 @@ in
     catppuccin.homeModules.catppuccin
     ignis.homeManagerModules.default
     niri.homeModules.niri
+    spicetify.homeManagerModules.default
 
     (import ./browser.nix { inherit ghdashboardPort; inherit pkgs; })
     ./direnv.nix
@@ -101,6 +103,13 @@ in
     ./packages.nix
     ./quickshell.nix
     ./sound.nix
+    (import ./spicetify.nix {
+      inherit accent;
+      inherit flavor;
+      inherit palette;
+      inherit pkgs;
+      inherit spicetify;
+    })
     ./starship.nix
     (import ./theme.nix {
       inherit accent;

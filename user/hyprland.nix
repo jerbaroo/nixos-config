@@ -171,7 +171,7 @@ in
           "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
           "$mod      , F, fullscreen"
           "$mod SHIFT, F, fullscreenstate, 1"
-          "$mod      , M, exec, ${pkgs.spotify}/bin/spotify"
+          "$mod      , M, exec, spotify"
           "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
           "$mod      , R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
           "$mod SHIFT, R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"

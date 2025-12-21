@@ -41,6 +41,7 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
+    spicetify.url = "github:Gerg-L/spicetify-nix";
   };
   outputs =
     inputs:
@@ -56,13 +57,12 @@
       gap = 3;
       ghdashboardPort = 1234;
       hostname = "nixos";
-      overlays = [
-          inputs.niri.overlays.niri
-          inputs.nixgl.overlay
-          inputs.nur.overlays.default
-      ];
       pkgs = import inputs.nixpkgs {
-        inherit overlays;
+        overlays = [
+            inputs.niri.overlays.niri
+            inputs.nixgl.overlay
+            inputs.nur.overlays.default
+        ];
         inherit system;
       };
       stateVersion = "25.05";
@@ -121,6 +121,7 @@
             niri = inputs.niri;
             nixgl = inputs.nixgl;
             plugins = true;
+            spicetify = inputs.spicetify;
             systemPAM = true;
             wrapGL = true;
           };
