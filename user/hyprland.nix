@@ -126,6 +126,7 @@ in
             ]
         )
         ++ [
+          # Function keys.
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
           ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
           ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-mute   @DEFAULT_SINK@ toggle"
@@ -168,7 +169,7 @@ in
           "$mod SHIFT, 8, ${ifPlugin hyprsplit "split:"}movetoworkspace, 8"
           "$mod SHIFT, 9, ${ifPlugin hyprsplit "split:"}movetoworkspace, 9"
           "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
-          # Other shortcuts.
+          # Primary keys.
           "$mod      , RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
           "$mod      , SLASH, exec, ignis open-window ignis-app-launcher"
           "$mod      , SPACE, togglesplit, # dwindle"
@@ -192,6 +193,10 @@ in
           "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
           "$mod      , W, exec, firefox"
           "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
+          # Zoom.
+          "$mod CTRL, J, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor |  ${pkgs.jq}/bin/jq '[.float - 0.1, 1.0] | max')"
+          "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + 0.1')"
+          "$mod CTRL, H, exec, hyprctl keyword cursor:zoom_factor 1"
         ];
       debug.disable_logs = false;
       decoration = {
