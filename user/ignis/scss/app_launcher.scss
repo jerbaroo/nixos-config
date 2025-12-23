@@ -1,4 +1,8 @@
-.app-launcher {
+.app-launcher, .app-launcher-overlay {
+    background-color: transparent;
+}
+
+.app-launcher-main {
     background-color: $crust;
     border-radius: 10px;
     min-width: 600px;

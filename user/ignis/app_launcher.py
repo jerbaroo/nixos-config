@@ -78,7 +78,7 @@ def app_launcher(ignis_app: IgnisApp) -> widgets.Window:
     )
 
     main_box = widgets.Box(
-        css_classes=["app-launcher"],
+        css_classes=["app-launcher-main"],
         halign="center",
         valign="center",
         vertical=True,
@@ -93,19 +93,20 @@ def app_launcher(ignis_app: IgnisApp) -> widgets.Window:
 
     return widgets.Window(
         anchor=["top", "right", "bottom", "left"],
+        css_classes=["app-launcher"],
         namespace=app_launcher_name,
         kb_mode="on_demand",
         setup=lambda self: self.connect("notify::visible", lambda x, y: on_open(self)),
         popup=True,  # Close on ESC.
         visible=False,  # Initially not open.
-        style="background: transparent;",
         child=widgets.Overlay(
             overlays=[main_box],
             child=widgets.Button(
-                hexpand=True,
+                css_classes=["app-launcher-overlay"],
+                hexpand=False,
                 on_click=lambda x: close_launcher(ignis_app),
                 style="background: transparent;",
-                vexpand=True,
+                vexpand=False,
             ),
         ),
     )
