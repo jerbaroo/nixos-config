@@ -17,9 +17,7 @@
   ...
 }:
 let
-  ifPlugin = p: a: if p == null then "" else a;
-  ifNotPlugin = p: a: if p == null then a else "";
-  ghdashboard = (import ./ghdashboard/default.nix { inherit pkgs; });
+  ghdashboard = import ./ghdashboard/default.nix { inherit pkgs; };
   ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
   hyprlock-systempam = (
     # Written by ChatGPT 5:
@@ -41,11 +39,14 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
+  ifPlugin = p: a: if p == null then "" else a;
+  ifNotPlugin = p: a: if p == null then a else "";
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
-  os-lock = (import ./lock.nix { inherit palette; inherit pkgs; });
+  os-lock = import ./lock.nix { inherit palette; inherit pkgs; };
   os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
+  zoomFactor = 0.2;
 in
 {
   home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
@@ -193,8 +194,8 @@ in
           "$mod      , W, exec, firefox"
           "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
           # Zoom.
-          "$mod CTRL, J, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor |  ${pkgs.jq}/bin/jq '[.float - 0.1, 1.0] | max')"
-          "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + 0.1')"
+          "$mod CTRL, J, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor |  ${pkgs.jq}/bin/jq '[.float - ${toString zoomFactor}, 1.0] | max')"
+          "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + ${toString zoomFactor}')"
           "$mod CTRL, H, exec, hyprctl keyword cursor:zoom_factor 1"
         ];
       debug.disable_logs = false;
