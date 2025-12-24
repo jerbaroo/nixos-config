@@ -1,6 +1,5 @@
 import app_launcher
 import bar
-import notification_popup
 import os
 from ignis.css_manager import CssInfoPath, CssManager
 from ignis import utils
@@ -24,4 +23,3 @@ css_manager.apply_css(
 app_launcher.app_launcher(app)
 for monitor in range(utils.get_n_monitors()):
     bar.bar(monitor)
-    notification_popup.notification_popup(app, monitor)

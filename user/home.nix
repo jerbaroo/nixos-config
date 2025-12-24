@@ -100,6 +100,7 @@ in
       inherit pkgs;
     })
     ./niri.nix
+    ./notifications.nix
     ./packages.nix
     ./quickshell.nix
     ./sound.nix
