@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   programs.neovim = {
-    defaultEditor = true;
+    defaultEditor = false;
     enable = true;
     extraLuaConfig = ''
       vim.g.mapleader = " "

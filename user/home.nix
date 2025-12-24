@@ -16,6 +16,7 @@
   hyprtasking,
   genericLinux,
   ignis,
+  lib,
   niri,
   nixgl,
   pkgs,
@@ -63,6 +64,12 @@ in
       inherit wrapGL;
     })
     ./git.nix
+    (import ./helix.nix {
+      inherit accent;
+      inherit flavor;
+      inherit lib;
+      inherit pkgs;
+    })
     (import ./hyprland.nix {
       inherit accent;
       inherit config;
