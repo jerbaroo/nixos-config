@@ -37,7 +37,6 @@
     })
     ./hardware-configuration.nix
     ./keyboard.nix
-    ./llm.nix
     ./locale.nix
     (import ./network.nix { inherit hostname; })
     ./openrgb.nix
