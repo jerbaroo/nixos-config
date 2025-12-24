@@ -63,7 +63,6 @@ in
       wallpaper = [ ",${wallpaper}" ];
     };
   };
-  services.hyprpolkitagent.enable = true;
   services.hyprsunset = {
     enable = true;
     extraArgs = ["-t" "${toString(temperature)}"];
