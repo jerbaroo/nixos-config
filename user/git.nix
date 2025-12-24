@@ -13,18 +13,21 @@
       prettybat
     ];
   };
-  programs.git = {
-    delta = {
-      enable = true;
-      options.line-numbers = true;
-    };
+  programs.delta = {
     enable = true;
-    extraConfig = {
+    enableGitIntegration = true;
+    options.line-numbers = true;
+  };
+  programs.git = {
+    enable = true;
+    settings = {
       push.autoSetupRemote = true;
       rebase.autoSquash = true;
+      user = {
+        name = "jerbaroo";
+        email = "jerbaroo.work@pm.me";
+      };
     };
-    userName = "jerbaroo";
-    userEmail = "jerbaroo.work@pm.me";
   };
   programs.git-cliff.enable = true;
 }

@@ -138,15 +138,17 @@ in
     stateVersion = stateVersion;
     username = "${username}";
   };
-  nixGL = {
-    defaultWrapper = "mesa";
-    packages = nixgl.packages;
-  };
   nixpkgs.config = {
     inherit allowUnfreePredicate;
   };
   programs.home-manager.enable = true;
-  targets.genericLinux.enable = genericLinux;
+  targets.genericLinux = {
+    enable = genericLinux;
+    nixGL = {
+      defaultWrapper = "mesa";
+      packages = nixgl.packages;
+    };
+  };
   xdg.configFile."environment.d/envvars.conf".text = ''
     PATH="$HOME/.config/emacs/bin:$HOME/.nix-profile/bin:$HOME/.cargo/bin:$PATH"
   '';
