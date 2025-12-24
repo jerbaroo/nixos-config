@@ -3,7 +3,7 @@
 # Install
 
 ## NixOS
-- Install NixOS 25.05.
+- Install NixOS.
 - Install this NixOS config:
   - `sudo rm -rf /etc/nixos`
   - `git clone https://github.com/jerbaroo/nixos-config && cd nixos-config`
@@ -11,8 +11,8 @@
   - `sudo nixos-rebuild switch --flake .#nixos`
 
 ## Ubuntu
-- Install Ubuntu 25.04
-- Install home-manager
+- Install Ubuntu.
+- Install home-manager.
 - Install this home-manager config:
   - `git clone https://github.com/jerbaroo/nixos-config && cd nixos-config`
   - `home-manager --flake .#jer@nixos switch`

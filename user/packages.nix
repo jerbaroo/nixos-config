@@ -10,6 +10,7 @@
     footage # Video editor.
     gcc # GNU Compiler Collection.
     jq # JSON processor.
+    neo # The one screensaver.
     niv # Nix dependency manager.
     nitch # System info fetch.
     nix # Nix package manager.
