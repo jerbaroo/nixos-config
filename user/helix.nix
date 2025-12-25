@@ -13,6 +13,10 @@
     enable = true;
     settings = {
       keys.normal = {
+        "C-h" = "jump_view_left";
+        "C-j" = "jump_view_down";
+        "C-k" = "jump_view_up";
+        "C-l" = "jump_view_right";
         space = {
           space = "file_picker";
           "." = "file_explorer_in_current_buffer_directory";
