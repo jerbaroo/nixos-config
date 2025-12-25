@@ -36,6 +36,7 @@
             r = ":lsp-restart";
             s = ":lsp-stop";
           };
+          r = ":config-reload";
         };
       };
       theme = lib.mkForce "theme";
