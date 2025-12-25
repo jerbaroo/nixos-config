@@ -1,5 +1,44 @@
 { accent, palette, pkgs, ... }:
-{
+let
+  projectDir = "~/.projects";
+  tmux-open-session = pkgs.writeScriptBin "tmux-open-session" ''
+  #!/usr/bin/env fish
+
+  set project_dir ${projectDir}
+
+  if test -z "$project_dir"
+      echo "Usage: $(status filename) <directory-of-project-files>"
+      exit 1
+  end
+
+  cd $project_dir
+
+  set project_name (${pkgs.fzf}/bin/fzf --layout=reverse --preview '${pkgs.bat}/bin/bat {}')
+
+  if test -z "$project_name"
+      echo "No project selected"
+      exit 1
+  end
+
+  set project_path (eval echo (cat $project_name))
+
+  if not test -d "$project_path"
+      echo "Project directory '$project_path' does not exist"
+      exit 1
+  end
+
+  if not ${pkgs.tmux}/bin/tmux has-session -t $project_name 2> /dev/null
+      ${pkgs.tmux}/bin/tmux new-session -d -s $project_name -c $project_path
+      ${pkgs.tmux}/bin/tmux send-keys -t $project_name "direnv exec . hx ." C-m
+  end
+
+  if test -n "$TMUX"
+      ${pkgs.tmux}/bin/tmux switch-client -t $project_name
+  else
+      ${pkgs.tmux}/bin/tmux attach-session -t $project_name
+  end
+  '';
+in {
   catppuccin.tmux.enable = false;
   programs.tmux = {
     aggressiveResize = true;
@@ -17,6 +56,9 @@
     shell = "${pkgs.fish}/bin/fish";
     terminal = "tmux-256color";
     extraConfig = ''
+      # Session management.
+      bind p display-popup -E -w '80%' -h '80%' '${tmux-open-session}/bin/tmux-open-session'
+
       # Theming.
       set -as terminal-features ",*:RGB" # True color.
       set -g pane-active-border-style fg=${palette.${accent}.hex}
@@ -40,8 +82,9 @@
       set -g renumber-windows on
 
       # Reload configuration.
+      unbind R
       unbind r
-      bind r source-file $HOME/.config/tmux/tmux.conf
+      bind r source-file $HOME/.config/tmux/tmux.conf \; display-message "Sourced $HOME/.config/tmux/tmux.conf"
 
       # Clipboard.
       set -g set-clipboard on
