@@ -12,6 +12,32 @@
     defaultEditor = true;
     enable = true;
     settings = {
+      keys.normal = {
+        space = {
+          space = "file_picker";
+          "." = "file_explorer_in_current_buffer_directory";
+          ":" = "command_palette";
+          b = {
+            b = "buffer_picker";
+            k = ":buffer-close";
+            n = ":buffer-next";
+            N = ":new";
+            p = ":buffer-previous";
+          };
+          c = {
+            c = "toggle_comments";
+            d = "diagnostics_picker";
+            r = "rename_symbol";
+          };
+          g = {
+            g = ":run-shell-command tmux display-popup -d \"$PWD\" -w '100%%' -h '100%%' lazygit";
+          };
+          l = {
+            r = ":lsp-restart";
+            s = ":lsp-stop";
+          };
+        };
+      };
       theme = lib.mkForce "theme";
     };
   };
