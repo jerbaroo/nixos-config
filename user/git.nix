@@ -30,4 +30,8 @@
     };
   };
   programs.git-cliff.enable = true;
+  programs.lazygit = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 }
