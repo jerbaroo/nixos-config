@@ -242,6 +242,10 @@ in
         "float true, match:class ^(wdisplays)$"
       ];
     };
+    systemd = {
+      enable = true;
+      enableXdgAutostart = false;
+    };
     # xwayland.enable = true;
   };
 }
