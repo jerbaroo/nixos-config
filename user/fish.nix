@@ -41,6 +41,11 @@ in
         commandline -i " "
       end
     '';
+    shellInitLast = ''
+      if test -n "$TMUX"; and test (tmux display-message -p '#S#{window_index}') = "main1";
+        ${pkgs.neo}/bin/neo -D -f 120 -F -c pink
+      end
+    '';
   };
   programs.fzf = {
     defaultOptions = [ "--color=bg:-1,bg+:-1" ];
