@@ -1,5 +1,6 @@
 import app_launcher
 import bar
+import lock_screen
 import os
 from ignis.css_manager import CssInfoPath, CssManager
 from ignis import utils
@@ -21,5 +22,6 @@ css_manager.apply_css(
 )
 
 app_launcher.app_launcher(app)
+# lock_screen.open_lock_screen(app)
 for monitor in range(utils.get_n_monitors()):
     bar.bar(monitor)
