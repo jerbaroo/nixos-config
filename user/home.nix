@@ -51,7 +51,7 @@ in
       inherit flavor;
       inherit pkgs;
     })
-    (import ./fish.nix { inherit hostname; inherit pkgs; inherit username; })
+    (import ./fish.nix { inherit accent; inherit hostname; inherit pkgs; inherit username; })
     ./fonts.nix
     (import ./ghostty.nix {
       inherit codeFontName;

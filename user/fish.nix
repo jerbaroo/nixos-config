@@ -1,4 +1,4 @@
-{ hostname, pkgs, username, ... }:
+{ accent, hostname, pkgs, username, ... }:
 let
   plugin = x: {
     name = x;
@@ -42,7 +42,7 @@ in
     '';
     shellInitLast = ''
       if test -n "$TMUX"; and test (tmux display-message -p '#S#{window_index}') = "main1";
-        ${pkgs.neo}/bin/neo -D -f 120 -F -c pink
+        ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
       end
     '';
   };
