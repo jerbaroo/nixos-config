@@ -43,6 +43,7 @@ in
     '';
   };
   programs.fzf = {
+    defaultOptions = [ "--color=bg:-1,bg+:-1" ];
     enable = true;
     enableFishIntegration = false;
   };

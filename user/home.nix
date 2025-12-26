@@ -157,7 +157,6 @@ in
     };
   };
   xdg.configFile."environment.d/envvars.conf".text = ''
-    FZF_DEFAULT_OPTS='--color=bg:-1,bg+:-1'
     PATH="$HOME/.config/emacs/bin:$HOME/.nix-profile/bin:$HOME/.cargo/bin:$PATH"
   '';
 }
