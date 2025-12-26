@@ -7,6 +7,7 @@
   hyprland,
   hyprsplit,
   hyprtasking,
+  ignisPath,
   palette,
   pkgs,
   system,
@@ -41,15 +42,15 @@ let
   );
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
+  locks = import ./lock.nix { inherit ignisPath; inherit palette; inherit pkgs; };
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
-  os-lock = import ./lock.nix { inherit palette; inherit pkgs; };
   os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
   os-toggle-menu-bar = pkgs.writeShellScriptBin "os-toggle-menu-bar" "ignis toggle-window ignis-bar-$(${os-current-monitor}/bin/os-current-monitor)";
   wallpaper = (import ./wallpaper.nix { inherit pkgs; }).wallpaper;
   zoomFactor = 0.2;
 in
 {
-  home.packages = [ ghdashboardwithargs os-current-monitor os-lock os-toggle-menu-bar ];
+  home.packages = [ ghdashboardwithargs locks.os-lock locks.swaylock os-current-monitor os-toggle-menu-bar ];
   programs.hyprlock = {
     enable = false;
     package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;

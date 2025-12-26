@@ -11,6 +11,8 @@ css_path = os.path.join(__dir__, "app.scss")
 print(f"CSS path: {css_path}")
 
 app = IgnisApp.get_initialized()
+app.reload_on_monitors_change = False
+
 css_manager = CssManager.get_default()
 css_manager.apply_css(
     CssInfoPath(
@@ -22,6 +24,6 @@ css_manager.apply_css(
 )
 
 app_launcher.app_launcher(app)
-# lock_screen.open_lock_screen(app)
+lock_screen.register_lock_screen(app)
 for monitor in range(utils.get_n_monitors()):
     bar.bar(monitor)

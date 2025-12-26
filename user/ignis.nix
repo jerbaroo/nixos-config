@@ -1,12 +1,13 @@
 {
   accent,
   ignis,
+  ignisPath,
   palette,
   pkgs,
   ...
 }:
 {
-  home.file.".config/ignis/" = {
+  home.file.${ignisPath} = {
     source = ./ignis;
     recursive = true;
   };
@@ -15,6 +16,8 @@
     $base: ${palette.base.hex};
     $crust: ${palette.crust.hex};
     $mantle: ${palette.mantle.hex};
+    $red: ${palette.red.hex};
+    $yellow: ${palette.yellow.hex};
   '';
   programs.ignis = {
     enable = true;

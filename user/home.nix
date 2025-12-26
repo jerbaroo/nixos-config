@@ -31,6 +31,7 @@
   ...
 }:
 let
+  ignisPath = ".config/ignis/";
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
 in
@@ -79,6 +80,7 @@ in
       inherit hyprland;
       inherit hyprsplit;
       inherit hyprtasking;
+      inherit ignisPath;
       inherit palette;
       inherit pkgs;
       inherit plugins;
@@ -91,6 +93,7 @@ in
     (import ./ignis.nix {
       inherit accent;
       inherit ignis;
+      inherit ignisPath;
       inherit palette;
       inherit pkgs;
     })

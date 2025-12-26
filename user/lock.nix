@@ -1,7 +1,8 @@
-{ palette, pkgs, ... }:
+{ ignisPath, palette, pkgs, ... }:
 let
   c = colour: pkgs.lib.strings.removePrefix "#" palette.${colour}.hex;
-in pkgs.writeShellScriptBin "os-lock" ''
+in
+  { swaylock = pkgs.writeShellScriptBin "swaylock_" ''
     swaylock \
       --font 'Atkinson Hyperlegible' \
       --font-size 196 \
@@ -44,4 +45,9 @@ in pkgs.writeShellScriptBin "os-lock" ''
         --layout-bg-color ${c "base"} \
         --layout-border-color ${c "surface0"} \
         --layout-text-color ${c "text"}
-''
+'';
+  os-lock = pkgs.writeShellScriptBin "os-lock" ''
+cd $HOME/${ignisPath}
+ignis run-file lock_screen_open.py
+'';
+}

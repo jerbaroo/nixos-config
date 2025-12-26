@@ -1,5 +1,5 @@
-import datetime
 import subprocess
+from enum import Enum
 from ignis import utils
 from ignis import widgets
 from ignis.app import IgnisApp
@@ -24,54 +24,71 @@ def authenticate(password: str) -> bool:
         return False
 
 
-def namespace(monitor: int):
-    return f"ignis-lock-screen-{monitor}"
+def namespace(connector: str) -> str:
+    return f"ignis-lock-screen-{connector}"
 
 
-def set_hyprland_mode(locked: bool):
-    submap = "locked" if locked else "reset"
+class Lock(Enum):
+    LOCK = 1
+    UNLOCK = 2
+
+
+def set_hyprland_mode(lock: Lock):
+    submap = "locked" if lock == Lock.LOCK else "reset"
     try:
-        subprocess.run(
+        proc = subprocess.run(
             ["hyprctl", "dispatch", "submap", submap],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )
+        stdout = proc.stdout.decode().strip()
+        if stdout != "ok":
+            raise Exception(f"Hyprland stdout: ${stdout}")
+        stderr = proc.stderr.decode().strip()
+        if stderr != "":
+            raise Exception(f"Hyprland stderr: ${stderr}")
     except Exception as e:
         print(f"Failed to set Hyprland submap: {e}")
         # Fail fast if we can't lock hyprland.
-        if locked:
+        if lock == Lock.LOCK:
             raise e
 
 
-def lock_screen(app: IgnisApp, monitor: int, on_close) -> widgets.Window:
+def create_lock_screen_window(connector: str, monitor_id: int, on_close, visible=True) -> widgets.Window:
 
-    def reset_entry(entry: widgets.Entry, css_classes=[], text=None):
+    def reset_entry(entry: widgets.Entry, css_classes=[], reset_text: bool=False):
         entry.css_classes = ["lock-screen-entry"] + css_classes
-        if text is not None:
+        if reset_text:
             entry.text = ""
 
-    failed_auth = False
-
+    just_failed = False
     def on_accept(entry: widgets.Entry):
-        password = entry.text
-
-        if authenticate(password):
-            print("Unlocking...")
-            reset_entry(entry)
-            on_close()
-        else:
-            nonlocal failed_auth
-            failed_auth = True
-            reset_entry(entry, ["error"], True)
+        reset_entry(entry, ["authenticating"])
+        entry.sensitive = False
+        def go():
+            success = authenticate(entry.text)
+            entry.sensitive = True
+            if success:
+                reset_entry(entry)
+                on_close()
+            else:
+                nonlocal just_failed
+                just_failed = True
+                reset_entry(entry, ["error"], reset_text=True)
+                entry.grab_focus()
+        # Small timeout to allow render before authentication.
+        utils.timeout.Timeout(50, go)
 
     def on_change(entry: widgets.Entry):
-        nonlocal failed_auth
-        if failed_auth:
+        nonlocal just_failed
+        if just_failed:
+            just_failed = False
+        else:
             reset_entry(entry)
-            failed_auth = False
 
     # Password text entry.
     entry = widgets.Entry(
+        css_classes=["lock-screen-entry"],
         on_accept=on_accept,
         on_change=on_change,
         placeholder_text="Password",
@@ -89,12 +106,12 @@ def lock_screen(app: IgnisApp, monitor: int, on_close) -> widgets.Window:
         child=[entry]
     )
 
-
-    def on_open():
-        if monitor == 0:
-            # entry.grab_focus()
-            print("TODO grab focus on open")
-
+    def on_open(_window, _):
+        entry.text = ""
+        # if monitor_id == 0:
+        # entry.grab_focus()
+        # utils.exec_timeout(10, lambda: entry.grab_focus())
+        pass
 
     return widgets.Window(
         anchor=["top", "left", "right", "bottom"],
@@ -102,9 +119,10 @@ def lock_screen(app: IgnisApp, monitor: int, on_close) -> widgets.Window:
         exclusivity="ignore", # Completely ignore other surfaces.
         kb_mode="exclusive",
         layer="overlay",
-        namespace=namespace(monitor),
-        monitor=monitor,
-        setup=lambda self: self.connect("notify::visible", lambda _a, _b: on_open()),
+        monitor=monitor_id,
+        namespace=namespace(connector),
+        setup=lambda self: self.connect("notify::visible", on_open),
+        visible=visible,  # Initially not open.
         child=widgets.Overlay(
             overlays=[overlay],
             child=widgets.Box(
@@ -116,18 +134,67 @@ def lock_screen(app: IgnisApp, monitor: int, on_close) -> widgets.Window:
     )
 
 
+# Functions for controlling the lock screen. ###################################
+
+IS_LOCKED = False
+
+
 def close_lock_screen(app: IgnisApp):
-    for monitor in range(utils.get_n_monitors()):
+    global IS_LOCKED
+    IS_LOCKED = False
+    set_hyprland_mode(Lock.UNLOCK)
+    for monitor in utils.get_monitors():
+        connector = monitor.get_connector()
         try:
-            app.close_window(namespace(monitor))
+            app.close_window(namespace(connector))
         except Exception as e:
             # Ignore exception if application doesn't exist on monitor.
-            print(f"Failed to close lock screen on monitor {monitor}: {e}")
+            print(f"Failed to close lock screen on connector {connector}: {e}")
             pass
-    set_hyprland_mode(False)
 
 
 def open_lock_screen(app: IgnisApp):
-    set_hyprland_mode(True)
-    for monitor in range(utils.get_n_monitors()):
-        lock_screen(app, monitor, lambda: close_lock_screen(app))
+    global IS_LOCKED
+    IS_LOCKED = True
+    set_hyprland_mode(Lock.LOCK)
+    for monitor in utils.get_monitors():
+        connector = monitor.get_connector()
+        try:
+            app.open_window(namespace(monitor.get_connector()))
+        except Exception as e:
+            # Ignore exception if application doesn't exist on monitor.
+            print(f"Failed to open lock screen on connector {connector}: {e}")
+            pass
+
+
+def register_lock_screen(app: IgnisApp):
+    # Keep track of windows by connector (monitor).
+    windows = {}
+
+    def create_windows(monitors):
+        for monitor_id, monitor in enumerate(monitors):
+            connector = monitor.get_connector()
+            if connector not in windows:
+                windows[connector] = create_lock_screen_window(
+                    connector,
+                    monitor_id,
+                    lambda: close_lock_screen(app),
+                    visible=IS_LOCKED
+                )
+
+    def destroy_windows(monitors):
+        connectors = set(m.get_connector() for m in monitors)
+        for connector in list(windows.keys()):
+            if connector not in connectors:
+                app.close_window(namespace(connector))
+                del windows[connector]
+
+
+    # When a monitor is connected/disconnected, create/destroy a window.
+    def adjust_windows(monitors, _a, _b, _c):
+        create_windows(monitors)
+        destroy_windows(monitors)
+
+    utils.get_monitors().connect("items-changed", adjust_windows)
+
+    create_windows(utils.get_monitors())
