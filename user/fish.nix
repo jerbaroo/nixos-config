@@ -42,7 +42,9 @@ in
       end
     '';
     shellInitLast = ''
-      if test -n "$TMUX"; and test (tmux display-message -p '#S#{window_index}') = "main1";
+      if test -n "$TMUX"
+        and test (tmux display-message -p '#S#{window_index}') = "main1"
+        and contains "$TMUX_PANE" (tmux list-panes -F '#{pane_id}')
         ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
       end
     '';
