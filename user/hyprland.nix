@@ -70,6 +70,11 @@ in
   };
   wayland.windowManager.hyprland = {
     enable = true;
+    extraConfig = ''
+      submap = locked
+      bind = , code:255, exec, true
+      submap = reset
+    '';
     package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) hyprland.packages.${system}.hyprland);
     plugins =
          (if isNull hyprtasking then [] else [hyprtasking.packages.${pkgs.system}.hyprtasking])
