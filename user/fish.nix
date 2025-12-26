@@ -1,4 +1,4 @@
-{ accent, hostname, pkgs, username, ... }:
+{ accent, hostname, lib, pkgs, username, ... }:
 let
   plugin = x: {
     name = x;
@@ -30,6 +30,7 @@ in
       "fzf-fish"
       "grc"
       "humantime-fish"
+      # "tmux-fzf"
       "z"
     ];
     shellInit = ''
@@ -44,19 +45,17 @@ in
     shellInitLast = ''
       if test -n "$TMUX"
         and test (tmux display-message -p '#S#{window_index}') = "main1"
-        and contains "$TMUX_PANE" (tmux list-panes -F '#{pane_id}')
+        and test "$TMUX_PANE" = '%0'
         ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
       end
     '';
   };
   programs.fzf = {
     colors = {
-      bg = lib.mkForce "-1";
-      "bg+" = lib.mkForce "-1";
+      bg = lib.mkForce "-1"; # Transparent.
+      "bg+" = lib.mkForce "-1"; # Transparent.
     };
     enable = true;
-    enableFishIntegration = false;
-  };
-    enable = true;
+    enableFishIntegration = false; # Just for the configuration.
   };
 }
