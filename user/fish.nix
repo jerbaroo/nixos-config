@@ -50,7 +50,10 @@ in
     '';
   };
   programs.fzf = {
-    defaultOptions = [ "--color=bg:-1,bg+:-1" ];
+    colors = {
+      bg = lib.mkForce "-1";
+      "bg+" = lib.mkForce "-1";
+    };
     enable = true;
     enableFishIntegration = false;
   };
