@@ -18,7 +18,7 @@ in
       l = "lsd";
       man = "batman";
       os-switch-nixos = "sudo nixos-rebuild switch --flake .#nixos";
-      os-switch-home = "${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage";
+      os-switch-home = "cd ~ && ${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage; cd -";
       s = "git status";
       watch = "batwatch";
     };
