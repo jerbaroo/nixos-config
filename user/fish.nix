@@ -30,7 +30,6 @@ in
       "fzf-fish"
       "grc"
       "humantime-fish"
-      "z"
     ];
     shellInit = ''
       fish_vi_key_bindings
@@ -51,5 +50,8 @@ in
     defaultOptions = [ "--color=bg:-1,bg+:-1" ];
     enable = true;
     enableFishIntegration = false;
+  };
+  programs.zoxide = {
+    enable = true;
   };
 }
