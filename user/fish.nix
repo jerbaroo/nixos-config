@@ -9,11 +9,55 @@ in
   home.packages = with pkgs; [ grc ];
   programs.fish = {
     enable = true;
+    functions = {
+      fzf_projects = ''
+        project_select | fzf_tmux --preview "git_preview {}"
+      '';
+      fzf_tmux = ''
+        if test -n "$TMUX"
+          ${pkgs.fzf}/bin/fzf-tmux -p '80%,80%' $argv
+        else
+          command fzf $argv
+        end
+      '';
+      git_fixup = ''
+        commandline "git commit --fixup "
+        _fzf_search_git_log
+        commandline -i " "
+      '';
+      git_preview = ''
+        set -l path (string replace '~' $HOME $argv[1])
+        ${pkgs.git}/bin/git -C $path -c color.status=always status -s
+        echo
+        ${pkgs.lsd}/bin/lsd $path
+      '';
+      project_select = ''
+        set -l custom_paths
+        set -l ignore_paths
+        set -l projects_path ~/.projects
+        if test -f $projects_path
+          for line in (cat $projects_path | string split '\n' | string trim)
+            if string match -q 'ignore:*' $line
+              set -a ignore_paths -E (echo $line | string replace 'ignore:' "" | string trim)
+            else
+              set -a custom_paths $line
+            end
+          end
+        end
+        # Change directory without affecting user shell.
+        begin
+          cd ~
+          string join '\n' $custom_paths
+          ${pkgs.fd}/bin/fd $ignore_paths --unrestricted -t f -t d '^\.git$' . -x dirname \
+            | string replace -r '^\.\/' ""
+        end | string replace -r '^' '~/'
+      '';
+    };
     shellAbbrs = {
       d = "git diff";
       dr = "direnv reload";
       grep = "batgrep";
-      f = "fixup";
+      f = "git_fixup";
       g = "git";
       l = "lsd";
       man = "batman";
@@ -35,25 +79,11 @@ in
     shellInit = ''
       fish_vi_key_bindings
       set fish_greeting
-
-      function fixup
-        commandline "git commit --fixup "
-        _fzf_search_git_log
-        commandline -i " "
-      end
-
-      function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
-        if test -n "$TMUX"
-          ${pkgs.fzf}/bin/fzf-tmux -p '80%,80%' $argv
-        else
-          echo $argv > tmp.out
-          command fzf $argv
-        end
-      end
     '';
     shellInitLast = ''
+      # Open neo on intial tmux launch.
       if test -n "$TMUX"
-        and test (tmux display-message -p '#S#{window_index}') = "main1"
+        and test (tmux display-message -p '#S#{window_index}') = 'main1'
         and test "$TMUX_PANE" = '%0'
         ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
       end
