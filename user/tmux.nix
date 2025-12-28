@@ -20,7 +20,7 @@ let
   # Create a session for the project if it doesn't exist.
   if not ${pkgs.tmux}/bin/tmux has-session -t $project_name 2> /dev/null
     ${pkgs.tmux}/bin/tmux new-session -d -s $project_name -c $project_path
-    ${pkgs.tmux}/bin/tmux send-keys -t $project_name "hx ." C-m
+    ${pkgs.tmux}/bin/tmux send-keys -t $project_name "$EDITOR ." C-m
   end
 
   # Switch to the project session.
@@ -48,8 +48,11 @@ in {
     shell = "${pkgs.fish}/bin/fish";
     terminal = "tmux-256color";
     extraConfig = ''
-      # Project management.
+      # Project and session commands.
+      bind g display-popup -w '80%' -h '80%' ${pkgs.lazygit}/bin/lazygit;
+      bind m switch-client -t main
       bind p run-shell ${tmux-project-open}/bin/tmux-project-open
+      bind P display-popup -E -w '80%' -h '80%' fish -c '$EDITOR ~/.projects'
 
       # Theming.
       set -as terminal-features ",*:RGB" # True color.
@@ -75,7 +78,6 @@ in {
 
       # Reload configuration.
       unbind R
-      unbind r
       bind r source-file $HOME/.config/tmux/tmux.conf \; display-message "Sourced $HOME/.config/tmux/tmux.conf"
 
       # Clipboard.

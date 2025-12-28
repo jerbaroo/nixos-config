@@ -33,9 +33,6 @@
             d = "diagnostics_picker";
             r = "rename_symbol";
           };
-          g = {
-            g = ":run-shell-command tmux display-popup -d \"$PWD\" -w '100%%' -h '100%%' lazygit";
-          };
           l = {
             r = ":lsp-restart";
             s = ":lsp-stop";

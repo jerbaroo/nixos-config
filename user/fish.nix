@@ -91,8 +91,8 @@ in
   };
   programs.fzf = {
     colors = {
-      bg = lib.mkForce "-1"; # Transparent.
-      "bg+" = lib.mkForce "-1"; # Transparent.
+      bg = lib.mkForce "-1"; # Terminal background colour.
+      "bg+" = lib.mkForce "-1"; # Terminal background colour.
     };
     enable = true;
     enableFishIntegration = false; # Just for the config file. Prefer fzf.fish.
