@@ -11,7 +11,7 @@ in
     enable = true;
     functions = {
       fzf_projects = ''
-        project_select | fzf_tmux --preview "git_preview {}"
+        fzf_tmux_bg 'Projects' 'project_select' --preview "git_preview {}"
       '';
       fzf_tmux = ''
         if test -n "$TMUX"
@@ -19,6 +19,31 @@ in
         else
           command fzf $argv
         end
+      '';
+      fzf_tmux_bg = ''
+        set bg_cmd '${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}'
+        set bg_window_name "$argv[1]"
+
+        if test -n "$TMUX";
+          set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}:#{window_id}')
+          set session_name (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
+        end
+
+        # Remove background on exit (only if inside tmux).
+        trap "
+          if test -n \"$TMUX\";
+            ${pkgs.tmux}/bin/tmux select-window -t \"$current_win\";
+            ${pkgs.tmux}/bin/tmux kill-window -t \"$session_name:$bg_window_name\";
+          end
+        " EXIT
+
+        # Setup background (only if inside tmux).
+        if test -n "$TMUX";
+          ${pkgs.tmux}/bin/tmux new-window -d -n $bg_window_name "$bg_cmd"
+          ${pkgs.tmux}/bin/tmux select-window -t $bg_window_name
+        end
+
+        eval "$argv[2]" | fzf_tmux --ansi $argv[3..-1]
       '';
       git_fixup = ''
         commandline "git commit --fixup "

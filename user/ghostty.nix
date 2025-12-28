@@ -15,7 +15,7 @@ let
   start-tmux = pkgs.writeScriptBin "start-tmux" ''
     #!/usr/bin/env fish
     ${pkgs.tmux}/bin/tmux new-session -A -s main
-'';
+  '';
 in {
   programs.ghostty = {
     enable = true;
