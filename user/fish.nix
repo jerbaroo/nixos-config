@@ -15,7 +15,7 @@ in
       '';
       fzf_tmux = ''
         if test -n "$TMUX"
-          ${pkgs.fzf}/bin/fzf-tmux -p '80%,80%' $argv
+          ${pkgs.fzf}/bin/fzf-tmux --reverse -p '80%,80%' $argv
         else
           command fzf $argv
         end
@@ -80,19 +80,11 @@ in
       fish_vi_key_bindings
       set fish_greeting
     '';
-    shellInitLast = ''
-      # Open neo on intial tmux launch.
-      if test -n "$TMUX"
-        and test (tmux display-message -p '#S#{window_index}') = 'main1'
-        and test "$TMUX_PANE" = '%0'
-        ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
-      end
-    '';
   };
   programs.fzf = {
     colors = {
-      bg = lib.mkForce "-1"; # Terminal background colour.
-      "bg+" = lib.mkForce "-1"; # Terminal background colour.
+      bg = lib.mkForce "-1"; # Use terminal background colour.
+      "bg+" = lib.mkForce "-1"; # Use terminal background colour.
     };
     enable = true;
     enableFishIntegration = false; # Just for the config file. Prefer fzf.fish.

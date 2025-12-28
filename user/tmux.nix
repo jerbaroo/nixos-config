@@ -1,49 +1,47 @@
 { accent, palette, pkgs, ... }:
 let
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
-  #!/usr/bin/env fish
+    #!/usr/bin/env fish
 
-  set project_selection (fzf_projects)
-  if test -z "$project_selection"
-    echo "No project selected"
-    exit 1
-  end
+    set project_selection (fzf_projects)
+    if test -z "$project_selection"
+      exit 0
+    end
 
-  set project_path (eval echo $project_selection)
-  if not test -d "$project_path"
-    echo "Project directory '$project_path' does not exist"
-    exit 1
-  end
+    set project_path (eval echo $project_selection)
+    if not test -d "$project_path"
+      exit 0
+    end
 
-  set project_name (path basename $project_path)
+    set project_name (path basename $project_path)
 
-  # Create a session for the project if it doesn't exist.
-  if not ${pkgs.tmux}/bin/tmux has-session -t $project_name 2> /dev/null
-    ${pkgs.tmux}/bin/tmux new-session -d -s $project_name -c $project_path
-    ${pkgs.tmux}/bin/tmux send-keys -t $project_name "$EDITOR ." C-m
-  end
+    # Create a session for the project if it doesn't exist.
+    if not ${pkgs.tmux}/bin/tmux has-session -t $project_name 2> /dev/null
+      ${pkgs.tmux}/bin/tmux new-session -d -s $project_name -c $project_path
+      ${pkgs.tmux}/bin/tmux send-keys -t $project_name "$EDITOR ." C-m
+    end
 
-  # Switch to the project session.
-  if test -n "$TMUX"
-    ${pkgs.tmux}/bin/tmux switch-client -t $project_name
-  else
-    ${pkgs.tmux}/bin/tmux attach-session -t $project_name
-  end
+    # Switch to the project session.
+    if test -n "$TMUX"
+      ${pkgs.tmux}/bin/tmux switch-client -t $project_name
+    else
+      ${pkgs.tmux}/bin/tmux attach-session -t $project_name
+    end
   '';
   tmux-session-open = pkgs.writeScriptBin "tmux-session-open" ''
-  #!/usr/bin/env fish
+    #!/usr/bin/env fish
 
-  set sessions (${pkgs.tmux}/bin/tmux list-sessions -F "#{session_name}")
-  set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
-  set target ( string split " " "$sessions" \
-             | fzf_tmux --reverse --ansi --preview "$preview_cmd" \
-             )
+    set sessions (${pkgs.tmux}/bin/tmux list-sessions -F "#{session_name}")
+    set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
+    set target ( string split " " "$sessions" \
+               | fzf_tmux --ansi --preview "$preview_cmd" \
+               )
 
-  if test -n "$TMUX"
-    ${pkgs.tmux}/bin/tmux switch-client -t $target
-  else
-    ${pkgs.tmux}/bin/tmux attach-session -t $target
-  end
+    if test -n "$TMUX"
+      ${pkgs.tmux}/bin/tmux switch-client -t $target
+    else
+      ${pkgs.tmux}/bin/tmux attach-session -t $target
+    end
 '';
 in {
   catppuccin.tmux.enable = false;

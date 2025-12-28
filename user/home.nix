@@ -60,6 +60,7 @@ in
     })
     ./fonts.nix
     (import ./ghostty.nix {
+      inherit accent;
       inherit codeFontName;
       inherit codeFontSize;
       inherit codeBackgroundOpacity;
