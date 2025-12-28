@@ -30,6 +30,21 @@ let
     ${pkgs.tmux}/bin/tmux attach-session -t $project_name
   end
   '';
+  tmux-session-open = pkgs.writeScriptBin "tmux-session-open" ''
+  #!/usr/bin/env fish
+
+  set sessions (${pkgs.tmux}/bin/tmux list-sessions -F "#{session_name}")
+  set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
+  set target ( string split " " "$sessions" \
+             | fzf_tmux --reverse --ansi --preview "$preview_cmd" \
+             )
+
+  if test -n "$TMUX"
+    ${pkgs.tmux}/bin/tmux switch-client -t $target
+  else
+    ${pkgs.tmux}/bin/tmux attach-session -t $target
+  end
+'';
 in {
   catppuccin.tmux.enable = false;
   programs.tmux = {
@@ -53,6 +68,7 @@ in {
       bind m switch-client -t main
       bind p run-shell ${tmux-project-open}/bin/tmux-project-open
       bind P display-popup -E -w '80%' -h '80%' fish -c '$EDITOR ~/.projects'
+      bind S run-shell ${tmux-session-open}/bin/tmux-session-open
 
       # Theming.
       set -as terminal-features ",*:RGB" # True color.
