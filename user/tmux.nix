@@ -1,5 +1,11 @@
 { accent, palette, pkgs, ... }:
 let
+  tmux-project-edit = pkgs.writeScriptBin "tmux-project-edit" ''
+    #!/usr/bin/env fish
+
+    tmux display-popup -E -w '80%' -h '80%' fish -c \
+      'with_tmux_bg \'Projects\' "$EDITOR ~/.projects"'
+  '';
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
     #!/usr/bin/env fish
 
@@ -35,7 +41,8 @@ let
 
     set sessions_cmd "${pkgs.tmux}/bin/tmux list-sessions -F '#{session_name}'"
     set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
-    set target ( fzf_tmux_bg "Sessions" "$sessions_cmd" --preview "$preview_cmd" )
+    set target \
+      ( with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview \"$preview_cmd\"" )
 
     if test -z "$target"
       exit 0
@@ -49,7 +56,7 @@ let
 '';
 in {
   catppuccin.tmux.enable = false;
-  home.packages = [ tmux-project-open tmux-session-open ];
+  home.packages = [ tmux-project-edit tmux-project-open tmux-session-open ];
   programs.tmux = {
     aggressiveResize = true;
     baseIndex = 1;
@@ -70,7 +77,7 @@ in {
       bind g display-popup -w '80%' -h '80%' ${pkgs.lazygit}/bin/lazygit;
       bind m switch-client -t main
       bind p run-shell '${tmux-project-open}/bin/tmux-project-open'
-      bind P display-popup -E -w '80%' -h '80%' fish -c '$EDITOR ~/.projects'
+      bind P run-shell '${tmux-project-edit}/bin/tmux-project-edit'
       bind S run-shell ${tmux-session-open}/bin/tmux-session-open
 
       # Theming.
