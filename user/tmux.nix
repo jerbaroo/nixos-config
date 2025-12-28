@@ -3,12 +3,39 @@ let
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
     #!/usr/bin/env fish
 
+    set bg_cmd "$argv[1]"
+    set bg_window_name "$argv[2]"
+    if test -n "$bg_cmd"; and test -n "$bg_window_name"
+      set use_bg_cmd true
+    else
+      set use_bg_cmd false
+    end
+
+    # Setup background (only if inside tmux).
+    if test -n "$TMUX"; and $use_bg_cmd
+      set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}:#{window_id}')
+      set session_name (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
+      ${pkgs.tmux}/bin/tmux new-window -d -n matrix-bg "$bg_cmd"
+      ${pkgs.tmux}/bin/tmux select-window -t matrix-bg
+    end
+
+    # Remove background window on exit (only if inside tmux).
+    function cleanup
+      if test -n "$TMUX"; and $use_bg_cmd
+        ${pkgs.tmux}/bin/tmux select-window -t $current_win
+        ${pkgs.tmux}/bin/tmux kill-window -t "$session_name:matrix-bg"
+      end
+    end
+    trap cleanup EXIT
+
     set project_selection (fzf_projects)
+    # If an empty project.
     if test -z "$project_selection"
       exit 0
     end
 
     set project_path (eval echo $project_selection)
+    # If project directory doesn't exist.
     if not test -d "$project_path"
       exit 0
     end
@@ -45,6 +72,7 @@ let
 '';
 in {
   catppuccin.tmux.enable = false;
+  home.packages = [ tmux-project-open tmux-session-open ];
   programs.tmux = {
     aggressiveResize = true;
     baseIndex = 1;
@@ -64,7 +92,7 @@ in {
       # Project and session commands.
       bind g display-popup -w '80%' -h '80%' ${pkgs.lazygit}/bin/lazygit;
       bind m switch-client -t main
-      bind p run-shell ${tmux-project-open}/bin/tmux-project-open
+      bind p run-shell '${tmux-project-open}/bin/tmux-project-open "${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}" Projects'
       bind P display-popup -E -w '80%' -h '80%' fish -c '$EDITOR ~/.projects'
       bind S run-shell ${tmux-session-open}/bin/tmux-session-open
 

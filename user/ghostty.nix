@@ -12,15 +12,9 @@
   ...
 }:
 let
-  neo-safe = pkgs.writeScriptBin "neo-safe" ''
-  #!/usr/bin/env fish
-  trap "" INT
-  ${pkgs.neo}/bin/neo -D -f 120 -F -c ${accent}
-  exec ${pkgs.fish}/bin/fish
-'';
   start-tmux = pkgs.writeScriptBin "start-tmux" ''
     #!/usr/bin/env fish
-    ${pkgs.tmux}/bin/tmux new-session -A -s main "${neo-safe}/bin/neo-safe"
+    ${pkgs.tmux}/bin/tmux new-session -A -s main
 '';
 in {
   programs.ghostty = {
