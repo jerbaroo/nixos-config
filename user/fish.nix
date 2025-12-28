@@ -30,16 +30,25 @@ in
       "fzf-fish"
       "grc"
       "humantime-fish"
-      # "tmux-fzf"
       "z"
     ];
     shellInit = ''
       fish_vi_key_bindings
       set fish_greeting
+
       function fixup
         commandline "git commit --fixup "
         _fzf_search_git_log
         commandline -i " "
+      end
+
+      function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
+        if test -n "$TMUX"
+          ${pkgs.fzf}/bin/fzf-tmux -p '80%,80%' $argv
+        else
+          echo $argv > tmp.out
+          command fzf $argv
+        end
       end
     '';
     shellInitLast = ''
@@ -56,6 +65,6 @@ in
       "bg+" = lib.mkForce "-1"; # Transparent.
     };
     enable = true;
-    enableFishIntegration = false; # Just for the configuration.
+    enableFishIntegration = false; # Just for the config file. Prefer fzf.fish.
   };
 }
