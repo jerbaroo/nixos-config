@@ -39,10 +39,21 @@ let
   tmux-session-open = pkgs.writeScriptBin "tmux-session-open" ''
     #!/usr/bin/env fish
 
+    set current_sess (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
+    set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{window_id}')
+
+    # Command to preview a tmux sessions.
+    set preview_cmd "if test \"$current_sess\" = '{}'; \
+      ${pkgs.tmux}/bin/tmux capture-pane -e -p -t \"$current_win\"; \
+    else; \
+      ${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}; \
+    end;"
+
+    # Command to list tmux sessions.
     set sessions_cmd "${pkgs.tmux}/bin/tmux list-sessions -F '#{session_name}'"
-    set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
+
     set target \
-      (with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview \"$preview_cmd\"")
+      (with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview '$preview_cmd'")
 
     # If nothing selected.
     if test -z "$target"
