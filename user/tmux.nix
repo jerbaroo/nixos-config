@@ -42,8 +42,9 @@ let
     set sessions_cmd "${pkgs.tmux}/bin/tmux list-sessions -F '#{session_name}'"
     set preview_cmd "${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}"
     set target \
-      ( with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview \"$preview_cmd\"" )
+      (with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview \"$preview_cmd\"")
 
+    # If nothing selected.
     if test -z "$target"
       exit 0
     end
@@ -74,10 +75,9 @@ in {
     terminal = "tmux-256color";
     extraConfig = ''
       # Project and session commands.
-      bind g display-popup -w '80%' -h '80%' ${pkgs.lazygit}/bin/lazygit;
       bind m switch-client -t main
-      bind p run-shell '${tmux-project-open}/bin/tmux-project-open'
-      bind P run-shell '${tmux-project-edit}/bin/tmux-project-edit'
+      bind p run-shell ${tmux-project-open}/bin/tmux-project-open
+      bind P run-shell ${tmux-project-edit}/bin/tmux-project-edit
       bind S run-shell ${tmux-session-open}/bin/tmux-session-open
 
       # Theming.

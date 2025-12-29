@@ -19,7 +19,13 @@
         "C-l" = "jump_view_right";
         space = {
           space = "file_picker";
-          "." = "file_explorer_in_current_buffer_directory";
+          "." = [
+            ":sh rm -f /tmp/unique-file"
+            ":insert-output ${pkgs.yazi}/bin/yazi %{buffer_name} --chooser-file=/tmp/unique-file"
+            ":insert-output echo '\x1b[?1049h\x1b[?2004h' > /dev/tty"
+            ":open %sh{cat /tmp/unique-file}"
+            ":redraw"
+          ];
           ":" = "command_palette";
           b = {
             b = "buffer_picker";
@@ -32,6 +38,18 @@
             c = "toggle_comments";
             d = "diagnostics_picker";
             r = "rename_symbol";
+          };
+          g = {
+            g = [
+              ":write-all"
+              ":new"
+              ":insert-output ${pkgs.lazygit}/bin/lazygit"
+              ":set mouse false" # First disable mouse to hint helix into activating it
+              ":set mouse true"
+              ":buffer-close!"
+              ":redraw"
+              ":reload-all"
+            ];
           };
           l = {
             r = ":lsp-restart";
