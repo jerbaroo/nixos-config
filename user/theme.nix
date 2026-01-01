@@ -12,11 +12,6 @@
   };
   gtk.enable = true;
 
-  # Font.
-  gtk.font.name = "Atkinson Hyperlegible";
-  gtk.font.package = pkgs.atkinson-hyperlegible;
-  gtk.font.size = 10;
-
   # Icons.
   # ls /etc/profiles/per-user/jer/share/icons
   catppuccin.gtk.icon.enable = false;
