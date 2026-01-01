@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  home.packages = with pkgs; [ gitu ];
   # Required to avoid '[bat warning]: Unknown theme' when using delta.
   # But bat is also just great.
   programs.bat = {
@@ -33,5 +34,8 @@
   programs.lazygit = {
     enable = true;
     enableFishIntegration = true;
+    settings = {
+      quitOnTopLevelReturn = true;
+    };
   };
 }

@@ -1,74 +1,33 @@
 { accent, palette, pkgs, ... }:
 let
-  tmux-project-edit = pkgs.writeScriptBin "tmux-project-edit" ''
-    #!/usr/bin/env fish
+  tmux-git-open = pkgs.writeScriptBin "tmux-git-open" ''
+    #!${pkgs.fish}/bin/fish
 
-    tmux display-popup -E -w '80%' -h '80%' fish -c \
-      'with_tmux_bg \'Projects\' "$EDITOR ~/.projects"'
+    set git_cmd '${pkgs.gitu}/bin/gitu'
+    if test -n "$before_tmux_git_open"
+      set cmd "$before_tmux_git_open; $git_cmd $argv"
+    else
+      set cmd "$git_cmd $argv"
+    end
+    echo "cmd: $cmd"
+
+    with_tmux_bg 'gitu' "$cmd"
+  '';
+  tmux-project-edit = pkgs.writeScriptBin "tmux-project-edit" ''
+    #!${pkgs.fish}/bin/fish
+    with_tmux_bg 'Projects' "$EDITOR ~/.projects"
   '';
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
-    #!/usr/bin/env fish
-
-    set project_selection (fzf_projects)
-    # If an empty project.
-    if test -z "$project_selection"
-      exit 0
-    end
-
-    set project_path (eval echo $project_selection)
-    # If project directory doesn't exist.
-    if not test -d "$project_path"
-      exit 0
-    end
-
-    set project_name (path basename $project_path)
-
-    # Create a session for the project if it doesn't exist.
-    if not ${pkgs.tmux}/bin/tmux has-session -t $project_name 2> /dev/null
-      ${pkgs.tmux}/bin/tmux new-session -d -s $project_name -c $project_path
-      ${pkgs.tmux}/bin/tmux send-keys -t $project_name "$EDITOR ." C-m
-    end
-
-    # Switch to the project session.
-    if test -n "$TMUX"
-      ${pkgs.tmux}/bin/tmux switch-client -t $project_name
-    else
-      ${pkgs.tmux}/bin/tmux attach-session -t $project_name
-    end
+    #!${pkgs.fish}/bin/fish
+    with_tmux_bg 'Projects' 'tmux_project_open'
   '';
   tmux-session-open = pkgs.writeScriptBin "tmux-session-open" ''
-    #!/usr/bin/env fish
-
-    set current_sess (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
-    set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{window_id}')
-
-    # Command to preview a tmux sessions.
-    set preview_cmd "if test \"$current_sess\" = '{}'; \
-      ${pkgs.tmux}/bin/tmux capture-pane -e -p -t \"$current_win\"; \
-    else; \
-      ${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}; \
-    end;"
-
-    # Command to list tmux sessions.
-    set sessions_cmd "${pkgs.tmux}/bin/tmux list-sessions -F '#{session_name}'"
-
-    set target \
-      (with_tmux_bg 'Sessions' "$sessions_cmd | fzf_tmux --preview '$preview_cmd'")
-
-    # If nothing selected.
-    if test -z "$target"
-      exit 0
-    end
-
-    if test -n "$TMUX"
-      ${pkgs.tmux}/bin/tmux switch-client -t $target
-    else
-      ${pkgs.tmux}/bin/tmux attach-session -t $target
-    end
-'';
+    #!${pkgs.fish}/bin/fish
+    with_tmux_bg 'Sessions' 'tmux_session_open'
+  '';
 in {
   catppuccin.tmux.enable = false;
-  home.packages = [ tmux-project-edit tmux-project-open tmux-session-open ];
+  home.packages = [ tmux-git-open tmux-project-edit tmux-project-open tmux-session-open ];
   programs.tmux = {
     aggressiveResize = true;
     baseIndex = 1;
@@ -76,6 +35,7 @@ in {
     disableConfirmationPrompt = true;
     enable = true;
     escapeTime = 0;
+    focusEvents = true; # Because neovim :healthcheck told me to.
     historyLimit = 1000000000;
     keyMode = "vi";
     mouse = true;
@@ -86,10 +46,11 @@ in {
     terminal = "tmux-256color";
     extraConfig = ''
       # Project and session commands.
+      bind g run-shell ${tmux-git-open}/bin/tmux-git-open
       bind m switch-client -t main
       bind p run-shell ${tmux-project-open}/bin/tmux-project-open
       bind P run-shell ${tmux-project-edit}/bin/tmux-project-edit
-      bind S run-shell ${tmux-session-open}/bin/tmux-session-open
+      bind s run-shell ${tmux-session-open}/bin/tmux-session-open
 
       # Theming.
       set -as terminal-features ",*:RGB" # True color.
@@ -127,10 +88,8 @@ in {
       # Split panes.
       unbind %
       unbind '"'
-      bind | split-window -h -c "#{pane_current_path}"
-      bind v split-window -h -c "#{pane_current_path}"
-      bind - split-window -v -c "#{pane_current_path}"
-      bind s split-window -v -c "#{pane_current_path}"
+      bind -n M-\; split-window -h -c "#{pane_current_path}"
+      bind -n M-, split-window -v -c "#{pane_current_path}"
 
       # Select panes.
       bind -n M-h select-pane -L
