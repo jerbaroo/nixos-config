@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   programs.niri = {
-    enable = true;
+    enable = false;
     package = pkgs.niri-unstable;
   };
 }
