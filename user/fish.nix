@@ -12,6 +12,11 @@ in
   programs.fish = {
     enable = true;
     functions = {
+      echod = ''
+        if test -n "$DEBUG"
+          echo "$argv"
+        end
+      '';
       git_fixup = ''
         commandline "git commit --fixup "
         _fzf_search_git_log
@@ -20,16 +25,21 @@ in
       # git status for file at path $argv1, useful for fzf preview.
       git_preview = ''
         set -l path (string replace '~' $HOME $argv[1])
-        ${pkgs.git}/bin/git -C $path status -b -s
+        ${pkgs.git}/bin/git -C $path -c color.status=always status -b -s
         echo
-        ${pkgs.lsd}/bin/lsd $path
+        ${pkgs.lsd}/bin/lsd --color always --icon always $path
       '';
       # Run command in a tmux popup if within tmux, else run it normally.
       in_tmux_popup = ''
+        echod "in_tmux_popup: $argv"
+        set wd (pwd)
+        echod "in_tmux_popup: pwd: $wd"
         if test -n "$TMUX"
-          tmux display-popup -E -w '80%' -h '80%' $argv
+          # tmux display-popup defaults to the directory of the tmux session
+          # base or the client attachment point.
+          tmux display-popup -E -d "$wd" -w '80%' -h '80%' "$argv"
         else
-          eval $argv
+          eval "$argv"
         end
       '';
       # Select projects from home directory. Project format: '~/foo'.
@@ -52,15 +62,21 @@ in
           | string replace $HOME "~"
       '';
       tmux_project_open = ''
+        if test -z "$EDITOR"
+          echo 'EDITOR variable not set'
+          exit 0
+        end
+
         set project_selection \
           ( project_select \
-          | ${pkgs.fzf}/bin/fzf --reverse --preview 'echo hi' \
+          | ${pkgs.fzf}/bin/fzf --reverse --preview 'git_preview {}' \
           )
-        echo $project_selection
+        echod $project_selection
 
         # If an empty project.
         if test -n "$project_selection"
 
+          # Expand the path.
           set project_path (eval echo $project_selection)
           # If project directory does exist.
           if test -d "$project_path"
@@ -73,29 +89,27 @@ in
                 ${pkgs.tmux}/bin/tmux new-session -d -s "$project_name" -c "$project_path"
                 ${pkgs.tmux}/bin/tmux send-keys -t "$project_name" "$EDITOR ." C-m
               end
-              # Switch to the project's session.
-              tmux-switch-or-attach "$project_name"
+              tmux_switch_or_attach "$project_name"
 
             end
           end
         end
-
       '';
       tmux_session_open = ''
         set current_sess (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
         set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{window_id}')
 
-        # Command to preview a tmux sessions.
+        # Command to preview a tmux session.
         set preview_cmd "if test \"$current_sess\" = '{}'; \
             ${pkgs.tmux}/bin/tmux capture-pane -e -p -t \"$current_win\"; \
           else; \
             ${pkgs.tmux}/bin/tmux capture-pane -e -p -t {}; \
           end;"
 
-        # Command to list tmux sessions.
+        # Select a tmux session with fzf.
         set target \
           ( ${pkgs.tmux}/bin/tmux list-sessions -F '#{session_name}' \
-          | ${pkgs.fzf}/bin/fzf --reverse --preview 'echo hi' \
+          | ${pkgs.fzf}/bin/fzf --reverse --preview "$preview_cmd {}" \
           )
 
         if test -n "$target"
@@ -113,15 +127,15 @@ in
       # set AND we are within tmux, otherwise run the command normally.
       with_tmux_bg = ''
         set TMUX_BG ${os-neo}/bin/os-neo # Here for now..
-        echo "TMUX: $TMUX"
+        echod "TMUX: $TMUX"
         if test -n "$TMUX"; and test -n "$TMUX_BG";
           set bg_window_name "$argv[1]"
-          echo "bg_window_name: $bg_window_name"
+          echod "bg_window_name: $bg_window_name"
 
           set current_win (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}:#{window_id}')
-          echo "current_win: $current_win"
+          echod "current_win: $current_win"
           set session_name (${pkgs.tmux}/bin/tmux display-message -p '#{session_name}')
-          echo "session_name: $session_name"
+          echod "session_name: $session_name"
 
           # Remove background on exit (only if inside tmux).
           function cleanup_bg --inherit-variable current_win --inherit-variable session_name --inherit-variable bg_window_name
@@ -136,12 +150,13 @@ in
           ${pkgs.tmux}/bin/tmux select-window -t "$bg_window_name"
         end
 
-        in_tmux_popup "eval \"$argv[2]\""
-        echo 'with_tmux_bg: command finished'
+        in_tmux_popup "$argv[2]"
+        echod "with_tmux_bg: command: $argv[2]"
+        echod 'with_tmux_bg: command finished'
 
         # We check if the function exists (meaning we are in tmux) and run it.
         if functions -q cleanup_bg
-          echo 'with_tmux_bg: cleaning up'
+          echod 'with_tmux_bg: cleaning up'
            cleanup_bg
            trap - INT TERM # Clear the trap so it doesn't run again
         end
@@ -171,7 +186,7 @@ in
       "z"
     ];
     shellInit = ''
-      fish_vi_key_bindings
+      set -g fish_key_bindings fish_vi_key_bindings
       set fish_greeting
     '';
   };

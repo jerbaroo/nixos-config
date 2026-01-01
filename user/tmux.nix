@@ -2,19 +2,27 @@
 let
   tmux-git-open = pkgs.writeScriptBin "tmux-git-open" ''
     #!${pkgs.fish}/bin/fish
+    if not git rev-parse --is-inside-work-tree &> /dev/null
+      echo "Not in a git repository."
+      exit 0
+    end
 
-    set git_cmd '${pkgs.gitu}/bin/gitu'
+    set git_cmd '${pkgs.lazygit}/bin/lazygit'
     if test -n "$before_tmux_git_open"
       set cmd "$before_tmux_git_open; $git_cmd $argv"
     else
       set cmd "$git_cmd $argv"
     end
-    echo "cmd: $cmd"
+    echod "tmux-git-open: cmd=$cmd"
 
-    with_tmux_bg 'gitu' "$cmd"
+    with_tmux_bg 'git' "$cmd"
   '';
   tmux-project-edit = pkgs.writeScriptBin "tmux-project-edit" ''
     #!${pkgs.fish}/bin/fish
+    if test -z "$EDITOR"
+      echo 'EDITOR variable not set'
+      exit 0
+    end
     with_tmux_bg 'Projects' "$EDITOR ~/.projects"
   '';
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
