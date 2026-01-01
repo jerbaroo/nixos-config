@@ -2,12 +2,14 @@
 let
   tmux-git-open = pkgs.writeScriptBin "tmux-git-open" ''
     #!${pkgs.fish}/bin/fish
+
     if not git rev-parse --is-inside-work-tree &> /dev/null
-      echo "Not in a git repository."
+      set wd (pwd)
+      echo "Not in a git repository: $wd"
       exit 0
     end
 
-    set git_cmd '${pkgs.lazygit}/bin/lazygit'
+    set git_cmd '${pkgs.gitu}/bin/gitu'
     if test -n "$before_tmux_git_open"
       set cmd "$before_tmux_git_open; $git_cmd $argv"
     else
@@ -19,6 +21,7 @@ let
   '';
   tmux-project-edit = pkgs.writeScriptBin "tmux-project-edit" ''
     #!${pkgs.fish}/bin/fish
+
     if test -z "$EDITOR"
       echo 'EDITOR variable not set'
       exit 0
@@ -27,10 +30,12 @@ let
   '';
   tmux-project-open = pkgs.writeScriptBin "tmux-project-open" ''
     #!${pkgs.fish}/bin/fish
+
     with_tmux_bg 'Projects' 'tmux_project_open'
   '';
   tmux-session-open = pkgs.writeScriptBin "tmux-session-open" ''
     #!${pkgs.fish}/bin/fish
+
     with_tmux_bg 'Sessions' 'tmux_session_open'
   '';
 in {
@@ -54,11 +59,11 @@ in {
     terminal = "tmux-256color";
     extraConfig = ''
       # Project and session commands.
-      bind g run-shell ${tmux-git-open}/bin/tmux-git-open
-      bind m switch-client -t main
-      bind p run-shell ${tmux-project-open}/bin/tmux-project-open
-      bind P run-shell ${tmux-project-edit}/bin/tmux-project-edit
-      bind s run-shell ${tmux-session-open}/bin/tmux-session-open
+      bind -n M-g run-shell -b "cd '#{pane_current_path}' && ${tmux-git-open}/bin/tmux-git-open"
+      bind -n M-m switch-client -t main
+      bind -n M-p run-shell ${tmux-project-open}/bin/tmux-project-open
+      bind -n M-P run-shell ${tmux-project-edit}/bin/tmux-project-edit
+      bind -n M-s run-shell ${tmux-session-open}/bin/tmux-session-open
 
       # Theming.
       set -as terminal-features ",*:RGB" # True color.
@@ -84,7 +89,7 @@ in {
 
       # Reload configuration.
       unbind R
-      bind r source-file $HOME/.config/tmux/tmux.conf \; display-message "Sourced $HOME/.config/tmux/tmux.conf"
+      bind -n M-r source-file $HOME/.config/tmux/tmux.conf \; display-message "Sourced $HOME/.config/tmux/tmux.conf"
 
       # Clipboard.
       set -g set-clipboard on
@@ -97,7 +102,7 @@ in {
       unbind %
       unbind '"'
       bind -n M-\; split-window -h -c "#{pane_current_path}"
-      bind -n M-, split-window -v -c "#{pane_current_path}"
+      bind -n M-/ split-window -v -c "#{pane_current_path}"
 
       # Select panes.
       bind -n M-h select-pane -L
