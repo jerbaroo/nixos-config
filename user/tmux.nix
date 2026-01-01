@@ -1,5 +1,7 @@
 { accent, palette, pkgs, ... }:
 let
+  # Run git in the current directory with a tmux background.
+  # The caller must ensure they are in the correct directory.
   tmux-git-open = pkgs.writeScriptBin "tmux-git-open" ''
     #!${pkgs.fish}/bin/fish
 
@@ -11,9 +13,9 @@ let
 
     set git_cmd '${pkgs.gitu}/bin/gitu'
     if test -n "$before_tmux_git_open"
-      set cmd "$before_tmux_git_open; $git_cmd $argv"
+      set cmd "$before_tmux_git_open; $git_cmd"
     else
-      set cmd "$git_cmd $argv"
+      set cmd "$git_cmd"
     end
     echod "tmux-git-open: cmd=$cmd"
 
@@ -59,7 +61,7 @@ in {
     terminal = "tmux-256color";
     extraConfig = ''
       # Project and session commands.
-      bind -n M-g run-shell -b "cd '#{pane_current_path}' && ${tmux-git-open}/bin/tmux-git-open"
+      bind -n M-g run-shell 'cd #{pane_current_path} && ${tmux-git-open}/bin/tmux-git-open'
       bind -n M-m switch-client -t main
       bind -n M-p run-shell ${tmux-project-open}/bin/tmux-project-open
       bind -n M-P run-shell ${tmux-project-edit}/bin/tmux-project-edit
