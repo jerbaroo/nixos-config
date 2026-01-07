@@ -22,9 +22,9 @@
       ;; lsp-eldoc-enable-hover t
       ;; lsp-haskell-formatting-provider "fourmolu"
       ;; lsp-haskell-plugin-fourmolu-config-external t
+      lsp-haskell-plugin-hlint-code-actions-on nil
+      lsp-haskell-plugin-hlint-diagnostics-on nil
       ;; lsp-haskell-plugin-rename-config-cross-module t
-      ;; lsp-haskell-plugin-hlint-diagnostics-on nil
-      ;; lsp-haskell-plugin-hlint-code-actions-on nil
       ;; lsp-haskell-plugin-semantic-tokens-global-on t
       ;; lsp-haskell-session-loading "multipleComponents"
       ;; lsp-haskell-server-path "haskell-language-server"
