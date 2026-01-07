@@ -204,6 +204,7 @@ in
           "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + ${toString zoomFactor}')"
           "$mod CTRL, H, exec, hyprctl keyword cursor:zoom_factor 1"
         ];
+      bindl = [ ", switch:on:Lid Switch, exec, ${locks.swaylock}/bin/swaylock_ & disown && systemctl suspend" ];
       debug.disable_logs = false;
       decoration = {
         active_opacity = 1;
