@@ -68,8 +68,8 @@
       )
 
     ;; Using a different font messes with fill-column-indicator alignment.
-    ;; (custom-set-faces!
-      ;; '(font-lock-comment-face :family "${codeFontName}" :size ${toString(codeFontSize)}.0 :weight 'bold)
-      ;; )
+    (custom-set-faces!
+      '(font-lock-comment-face :family "${codeFontName}" :size ${toString(codeFontSize)}.0 :slant italic)
+      )
   '';
 }
