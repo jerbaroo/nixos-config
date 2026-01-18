@@ -22,7 +22,6 @@
   stateVersion,
   system,
   systemFontSize,
-  systemPAM,
   temperature,
   username,
   wrapGL,
@@ -90,7 +89,6 @@ in
       inherit palette;
       inherit pkgs;
       inherit system;
-      inherit systemPAM;
       inherit temperature;
       inherit username;
       inherit wrapGL;

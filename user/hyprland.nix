@@ -10,7 +10,6 @@
   palette,
   pkgs,
   system,
-  systemPAM,
   temperature,
   username,
   wrapGL,
@@ -21,27 +20,7 @@ let
   floatSize = fraction: "size (monitor_w*${toString(fraction)}) (monitor_h*${toString(fraction)})";
   ghdashboard = import ./ghdashboard/default.nix { inherit pkgs; };
   ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
-  hyprlock-systempam = (
-    # Written by ChatGPT 5:
-    pkgs.writeShellScriptBin "hyprlock" ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-      # Use the Hyprlock binary that Nix built
-      REAL="${pkgs.hyprlock}/bin/hyprlock"
-      # Force it to run under Ubuntu's dynamic loader instead of Nix's
-      # (different distros may use /lib64 or /lib/x86_64-linux-gnu)
-      LOADER="/lib64/ld-linux-x86-64.so.2"
-      [ -x "$LOADER" ] || LOADER="/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"
-      # Tell the loader where to look for shared libraries first
-      # These are Ubuntu's system lib dirs, so pam_unix & friends are found here
-      export LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
-      # Extra safety: preload system libpam.so explicitly, so we never use Nix's
-      export LD_PRELOAD="/lib/x86_64-linux-gnu/libpam.so.0"
-      # Finally, exec Hyprlock through the system loader with the correct libs
-      exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
-    ''
-  );
-  lockAfterNotify = n: "notify-send --expire-time=1000 --icon=lock 'Locking in ${toString(n)} seconds' && paplay /usr/share/sounds/freedesktop/stereo/complete.oga";
+  lockAfterNotify = n: "notify_countdown -s -t ${toString(n)} -m 'Locking in {} seconds'";
   lockAfterSeconds = 60;
   locks = import ./lock.nix { inherit ignisPath; inherit palette; inherit pkgs; };
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
@@ -52,11 +31,6 @@ let
 in
 {
   home.packages = [ ghdashboardwithargs locks.os-lock locks.swaylock os-current-monitor os-toggle-menu-bar ];
-  programs.hyprlock = {
-    enable = true;
-    package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
-    settings.general.hide_cursor = true;
-  };
   services.hypridle = {
     enable = true;
     settings = {
@@ -67,16 +41,8 @@ in
       };
       listener = [
         {
-          on-timeout = lockAfterNotify(3);
-          timeout = lockAfterSeconds - 3;
-        }
-        {
-          on-timeout = lockAfterNotify(2);
-          timeout = lockAfterSeconds - 2;
-        }
-        {
-          on-timeout = lockAfterNotify(1);
-          timeout = lockAfterSeconds - 1;
+          on-timeout = lockAfterNotify(5);
+          timeout = lockAfterSeconds - 5;
         }
         {
           on-timeout = "loginctl lock-session";

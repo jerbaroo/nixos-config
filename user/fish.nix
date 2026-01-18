@@ -42,6 +42,34 @@ in
           eval "$argv"
         end
       '';
+      notify_countdown = ''
+        argparse 'h/help' 'm/message=' 's/sound' 't/time=' -- $argv
+        or return
+        if set -q _flag_help
+          printf "Usage: notify_countdown [OPTIONS]\n\n"
+          printf "Options:\n"
+          printf "  -h, --help        Show this help message\n"
+          printf "  -m, --message STR Set the text string\n"
+          printf "  -s, --sound       Play a sound every second\n"
+          printf "  -t, --time VAL    Set the countdown seconds (e.g., 5)\n"
+          return 0
+        end
+        function make_message --inherit-variable _flag_message
+          string replace '{}' $argv[1] $_flag_message
+        end
+        function play_sound --inherit-variable _flag_sound
+          if set -q _flag_sound
+            paplay /usr/share/sounds/freedesktop/stereo/complete.oga & disown
+          end
+        end
+        play_sound
+        set id (notify-send --print-id (make_message $_flag_time))
+        for i in (seq (math $_flag_time - 1) -1 1)
+          sleep 1
+          play_sound
+          notify-send --expire-time=1100 --replace-id=$id (make_message $i)
+        end
+      '';
       # Select projects from home directory. Project format: '~/foo'.
       project_select = ''
         set -l custom_paths

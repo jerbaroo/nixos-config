@@ -101,7 +101,6 @@
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
             spicetify = inputs.spicetify;
-            systemPAM = true;
             wrapGL = true;
           };
           modules = [ ./user/home.nix ];
