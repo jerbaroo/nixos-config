@@ -202,7 +202,6 @@ in
         "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
         "$mod      , F, fullscreenstate, 1"
         "$mod SHIFT, F, fullscreen"
-        "$mod      , H, exec, [float] ghostty -e os-switch-home"
         "$mod      , M, exec, spotify"
         "$mod      , N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
         "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
@@ -212,6 +211,8 @@ in
         "$mod      , Q, killactive"
         "$mod SHIFT, Q, exec, os-logout-menu"
         "$mod      , S, exec, ${os-screenshot}/bin/os-screenshot"
+        "$mod      , T, exec, [float;center;${floatSize(defaultFloatSize)}] ghostty -e ${pkgs.btop}/bin/btop"
+        "$mod      , U, exec, [float;center;${floatSize(0.5)}] ghostty -e os-switch-home"
         "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
         "$mod      , W, exec, firefox"
         "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
@@ -255,8 +256,14 @@ in
       misc.disable_hyprland_logo = true;
       windowrule = [
         "float true, match:class ^(org.pulseaudio.pavucontrol)$"
+        "center true, match:class ^(org.pulseaudio.pavucontrol)$"
+        "${floatSize(defaultFloatSize)}, match:class ^(org.pulseaudio.pavucontrol)$"
         "float true, match:class ^(.blueman-manager-wrapped)$"
+        "center true, match:class ^(.blueman-manager-wrapped)$"
+        "${floatSize(defaultFloatSize)}, match:class ^(.blueman-manager-wrapped)$"
         "float true, match:class ^(wdisplays)$"
+        "center true, match:class ^(wdisplays)$"
+        "${floatSize(defaultFloatSize)}, match:class ^(wdisplays)$"
       ];
       xwayland = {
         force_zero_scaling = true;
