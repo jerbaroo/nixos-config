@@ -43,6 +43,7 @@ let
   );
   ifPlugin = p: a: if p == null then "" else a;
   ifNotPlugin = p: a: if p == null then a else "";
+  lockAfterSeconds = 60;
   locks = import ./lock.nix { inherit ignisPath; inherit palette; inherit pkgs; };
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
   os-screenshot = pkgs.writeShellScriptBin "os-screenshot" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
@@ -53,9 +54,46 @@ in
 {
   home.packages = [ ghdashboardwithargs locks.os-lock locks.swaylock os-current-monitor os-toggle-menu-bar ];
   programs.hyprlock = {
-    enable = false;
+    enable = true;
     package = if systemPAM then hyprlock-systempam else pkgs.hyprlock;
     settings.general.hide_cursor = true;
+  };
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        before_sleep_cmd = "loginctl lock-session";
+        lock_cmd = "pidof os-lock || os-lock ";
+      };
+      listener = [
+        {
+          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 3 seconds'";
+          timeout = lockAfterSeconds - 3;
+        }
+        {
+          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 2 seconds'";
+          timeout = lockAfterSeconds - 2;
+        }
+        {
+          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 1 second'";
+          timeout = lockAfterSeconds - 1;
+        }
+        {
+          on-timeout = "loginctl lock-session";
+          timeout = lockAfterSeconds;
+        }
+        {
+          on-resume = "hyprctl dispatch dpms on";
+          on-timeout = "hyprctl dispatch dpms off";
+          timeout = lockAfterSeconds + 60;
+        }
+        {
+          on-timeout = "systemctl suspend";
+          timeout = lockAfterSeconds + 120;
+        }
+      ];
+    };
   };
   services.hyprpaper = {
     enable = true;
