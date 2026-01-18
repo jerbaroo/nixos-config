@@ -144,11 +144,6 @@ in
       inherit palette;
       inherit pkgs;
     })
-    (import ./zed.nix {
-      inherit config;
-      inherit pkgs;
-      inherit wrapGL;
-    })
   ];
   home = {
     homeDirectory = "/home/${username}";
