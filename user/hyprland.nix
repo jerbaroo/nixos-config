@@ -237,7 +237,7 @@ in
         resize_on_border = true;
       };
       input.kb_options = "caps:swapescape";
-      monitor = [ ", preferred, auto-up, 2" ];
+      monitor = [ ", preferred, auto-up, 1.5" ];
       misc.disable_hyprland_logo = true;
       "plugin:hyprtasking" = {
         bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
@@ -250,11 +250,17 @@ in
         "float true, match:class ^(.blueman-manager-wrapped)$"
         "float true, match:class ^(wdisplays)$"
       ];
+      xwayland = {
+        force_zero_scaling = true;
+      };
     };
     systemd = {
       enable = true;
       enableXdgAutostart = false;
     };
-    # xwayland.enable = true;
+    xwayland = {
+      enable = true;
+    };
   };
+  xdg.portal.enable = true;
 }
