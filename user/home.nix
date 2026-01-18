@@ -30,6 +30,10 @@
 }:
 let
   ignisPath = ".config/ignis/";
+  os-switch-home = pkgs.writeShellScriptBin "os-switch-home"
+    "cd ~ && ${pkgs.nh}/bin/nh home switch /home/${username}/nixos-config/.#homeConfigurations.${username}@${hostname}.activationPackage; cd -";
+  os-switch-nixos = pkgs.writeShellScriptBin "os-switch-nixos"
+    "sudo nixos-rebuild switch --flake .#nixos";
   palette =
     (pkgs.lib.importJSON (config.catppuccin.sources.palette + "/palette.json")).${flavor}.colors;
 in
@@ -50,10 +54,8 @@ in
     })
     (import ./fish.nix {
       inherit accent;
-      inherit hostname;
       inherit lib;
       inherit pkgs;
-      inherit username;
     })
     (import ./fonts.nix { inherit pkgs; inherit systemFontSize; })
     (import ./ghostty.nix {
@@ -141,6 +143,7 @@ in
   ];
   home = {
     homeDirectory = "/home/${username}";
+    packages = [ os-switch-home os-switch-nixos ];
     stateVersion = stateVersion;
     username = "${username}";
   };

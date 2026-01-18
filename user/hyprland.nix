@@ -199,6 +199,7 @@ in
         "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
         "$mod      , F, fullscreenstate, 1"
         "$mod SHIFT, F, fullscreen"
+        "$mod      , H, exec, [float] ghostty -e os-switch-home"
         "$mod      , M, exec, spotify"
         "$mod      , N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
         "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
