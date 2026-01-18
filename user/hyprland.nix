@@ -6,8 +6,6 @@
   ghdashboardPort,
   gap,
   hyprland,
-  hyprsplit,
-  hyprtasking,
   ignisPath,
   palette,
   pkgs,
@@ -41,8 +39,6 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
-  ifPlugin = p: a: if p == null then "" else a;
-  ifNotPlugin = p: a: if p == null then a else "";
   lockAfterSeconds = 60;
   locks = import ./lock.nix { inherit ignisPath; inherit palette; inherit pkgs; };
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
@@ -116,9 +112,6 @@ in
       submap = reset
     '';
     package = ((if wrapGL then config.lib.nixGL.wrap else (x: x)) hyprland.packages.${system}.hyprland);
-    plugins =
-         (if isNull hyprtasking then [] else [hyprtasking.packages.${pkgs.system}.hyprtasking])
-      ++ (if isNull hyprsplit   then [] else [hyprsplit.packages.${system}.hyprsplit]);
     settings = {
       # "env" = "GTK_THEME, catppuccin-${flavor}-${accent}-standard";
       env = "GDK_BACKEND, wayland";
@@ -153,98 +146,76 @@ in
         ];
         enabled = true;
       };
-      bind =
-        (
-          if isNull hyprtasking then [ ] else
-            [
-              "$mod, O, hyprtasking:toggle, cursor"
-              "$mod, RETURN, hyprtasking:if_active, hyprtasking:toggle cursor"
-              "    , RETURN, hyprtasking:if_active, hyprtasking:toggle cursor"
-              "$mod, H     , hyprtasking:if_active, hyprtasking:move left"
-              "    , H     , hyprtasking:if_active, hyprtasking:move left"
-              "$mod, J     , hyprtasking:if_active, hyprtasking:move down"
-              "    , J     , hyprtasking:if_active, hyprtasking:move down"
-              "$mod, K     , hyprtasking:if_active, hyprtasking:move up"
-              "    , K     , hyprtasking:if_active, hyprtasking:move up"
-              "$mod, L     , hyprtasking:if_active, hyprtasking:move right"
-              "    , L     , hyprtasking:if_active, hyprtasking:move right"
-            ]
-        )
-        ++ [
-          ",Delete, exec, os-lock & disown && sleep 1 && systemctl suspend"
-          # Function keys.
-          ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
-          ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
-          ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-mute   @DEFAULT_SINK@ toggle"
-          ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%-"
-          ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%+"
-          # Move focus in direction.
-          "$mod, H, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} l"
-          "$mod, J, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} d"
-          "$mod, K, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} u"
-          "$mod, L, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}movefocus${ifNotPlugin hyprtasking ","} r"
-          # Swap windows in direction.
-          "$mod SHIFT, H, movewindow, l"
-          "$mod SHIFT, J, movewindow, d"
-          "$mod SHIFT, K, movewindow, u"
-          "$mod SHIFT, L, movewindow, r"
-          # Move focus to workspace in direction.
-          # "$mod CTRL, H, ${ifPlugins "hyprtasking:move" "movefocus"}, left"
-          # "$mod CTRL, J, ${ifPlugins "hyprtasking:move" "movefocus"}, down"
-          # "$mod CTRL, K, ${ifPlugins "hyprtasking:move" "movefocus"}, up"
-          # "$mod CTRL, L, ${ifPlugins "hyprtasking:move" "movefocus"}, right"
-          # Move focus to workspace by ID.
-          "$mod, 1, ${ifPlugin hyprsplit "split:"}workspace, 1"
-          "$mod, 2, ${ifPlugin hyprsplit "split:"}workspace, 2"
-          "$mod, 3, ${ifPlugin hyprsplit "split:"}workspace, 3"
-          "$mod, 4, ${ifPlugin hyprsplit "split:"}workspace, 4"
-          "$mod, 5, ${ifPlugin hyprsplit "split:"}workspace, 5"
-          "$mod, 6, ${ifPlugin hyprsplit "split:"}workspace, 6"
-          "$mod, 7, ${ifPlugin hyprsplit "split:"}workspace, 7"
-          "$mod, 8, ${ifPlugin hyprsplit "split:"}workspace, 8"
-          "$mod, 9, ${ifPlugin hyprsplit "split:"}workspace, 9"
-          "$mod, 0, ${ifPlugin hyprsplit "split:"}workspace, 0"
-          # Move window to workspace by ID.
-          "$mod SHIFT, 1, ${ifPlugin hyprsplit "split:"}movetoworkspace, 1"
-          "$mod SHIFT, 2, ${ifPlugin hyprsplit "split:"}movetoworkspace, 2"
-          "$mod SHIFT, 3, ${ifPlugin hyprsplit "split:"}movetoworkspace, 3"
-          "$mod SHIFT, 4, ${ifPlugin hyprsplit "split:"}movetoworkspace, 4"
-          "$mod SHIFT, 5, ${ifPlugin hyprsplit "split:"}movetoworkspace, 5"
-          "$mod SHIFT, 6, ${ifPlugin hyprsplit "split:"}movetoworkspace, 6"
-          "$mod SHIFT, 7, ${ifPlugin hyprsplit "split:"}movetoworkspace, 7"
-          "$mod SHIFT, 8, ${ifPlugin hyprsplit "split:"}movetoworkspace, 8"
-          "$mod SHIFT, 9, ${ifPlugin hyprsplit "split:"}movetoworkspace, 9"
-          "$mod SHIFT, 0, ${ifPlugin hyprsplit "split:"}movetoworkspace, 0"
-          # Primary keys.
-          "$mod      , RETURN, ${ifPlugin hyprtasking "hyprtasking:if_not_active, "}exec${ifNotPlugin hyprtasking ","} ghostty"
-          "$mod      , SLASH, exec, ignis open-window ignis-app-launcher"
-          "$mod      , SPACE, togglesplit, # dwindle"
-          "$mod SHIFT, SPACE, togglefloating"
-          "$mod      , TAB, workspace, m+1"
-          "$mod      , B, exec, ${pkgs.blueman}/bin/blueman-manager"
-          "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
-          "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "$mod      , D, exec, ${pkgs.wdisplays}/bin/wdisplays"
-          "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
-          "$mod      , F, fullscreenstate, 1"
-          "$mod SHIFT, F, fullscreen"
-          "$mod      , M, exec, spotify"
-          "$mod      , N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
-          "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
-          "$mod      , R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
-          "$mod SHIFT, R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
-          "$mod      , P, workspace, previous"
-          "$mod      , Q, killactive"
-          "$mod SHIFT, Q, exec, os-logout-menu"
-          "$mod      , S, exec, ${os-screenshot}/bin/os-screenshot"
-          "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
-          "$mod      , W, exec, firefox"
-          "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
-          # Zoom.
-          "$mod CTRL, J, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor |  ${pkgs.jq}/bin/jq '[.float - ${toString zoomFactor}, 1.0] | max')"
-          "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + ${toString zoomFactor}')"
-          "$mod CTRL, H, exec, hyprctl keyword cursor:zoom_factor 1"
-        ];
+      bind = [
+        ",Delete, exec, os-lock & disown && sleep 1 && systemctl suspend"
+        # Function keys.
+        ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
+        ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
+        ",XF86AudioMute        , exec, ${pkgs.wireplumber}/bin/wpctl set-mute   @DEFAULT_SINK@ toggle"
+        ",XF86AudioLowerVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%-"
+        ",XF86AudioRaiseVolume , exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%+"
+        # Move focus in direction.
+        "$mod, H, movefocus, l"
+        "$mod, J, movefocus, d"
+        "$mod, K, movefocus, u"
+        "$mod, L, movefocus, r"
+        # Swap windows in direction.
+        "$mod SHIFT, H, movewindow, l"
+        "$mod SHIFT, J, movewindow, d"
+        "$mod SHIFT, K, movewindow, u"
+        "$mod SHIFT, L, movewindow, r"
+        # Move focus to workspace by ID.
+        "$mod, 1, workspace, 1"
+        "$mod, 2, workspace, 2"
+        "$mod, 3, workspace, 3"
+        "$mod, 4, workspace, 4"
+        "$mod, 5, workspace, 5"
+        "$mod, 6, workspace, 6"
+        "$mod, 7, workspace, 7"
+        "$mod, 8, workspace, 8"
+        "$mod, 9, workspace, 9"
+        "$mod, 0, workspace, 0"
+        # Move window to workspace by ID.
+        "$mod SHIFT, 1, movetoworkspace, 1"
+        "$mod SHIFT, 2, movetoworkspace, 2"
+        "$mod SHIFT, 3, movetoworkspace, 3"
+        "$mod SHIFT, 4, movetoworkspace, 4"
+        "$mod SHIFT, 5, movetoworkspace, 5"
+        "$mod SHIFT, 6, movetoworkspace, 6"
+        "$mod SHIFT, 7, movetoworkspace, 7"
+        "$mod SHIFT, 8, movetoworkspace, 8"
+        "$mod SHIFT, 9, movetoworkspace, 9"
+        "$mod SHIFT, 0, movetoworkspace, 0"
+        # Primary keys.
+        "$mod      , RETURN, exec, ghostty"
+        "$mod      , SLASH, exec, ignis open-window ignis-app-launcher"
+        "$mod      , SPACE, togglesplit, # dwindle"
+        "$mod SHIFT, SPACE, togglefloating"
+        "$mod      , TAB, workspace, m+1"
+        "$mod      , B, exec, ${pkgs.blueman}/bin/blueman-manager"
+        "$mod SHIFT, B, exec, ${os-toggle-menu-bar}/bin/os-toggle-menu-bar"
+        "$mod      , C, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
+        "$mod      , D, exec, ${pkgs.wdisplays}/bin/wdisplays"
+        "$mod      , E, exec, ${pkgs.emacs-pgtk}/bin/emacs"
+        "$mod      , F, fullscreenstate, 1"
+        "$mod SHIFT, F, fullscreen"
+        "$mod      , M, exec, spotify"
+        "$mod      , N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
+        "$mod      , O, exec, ${pkgs.ghostty}/bin/ghostty --command=${pkgs.yazi}/bin/yazi"
+        "$mod      , R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy"
+        "$mod SHIFT, R, exec, ${pkgs.hyprpicker}/bin/hyprpicker --autocopy --render-inactive"
+        "$mod      , P, workspace, previous"
+        "$mod      , Q, killactive"
+        "$mod SHIFT, Q, exec, os-logout-menu"
+        "$mod      , S, exec, ${os-screenshot}/bin/os-screenshot"
+        "$mod      , V, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
+        "$mod      , W, exec, firefox"
+        "$mod SHIFT, W, exec, ${pkgs.librewolf}/bin/librewolf"
+        # Zoom.
+        "$mod CTRL, J, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor |  ${pkgs.jq}/bin/jq '[.float - ${toString zoomFactor}, 1.0] | max')"
+        "$mod CTRL, K, exec, hyprctl keyword cursor:zoom_factor $(hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq '.float + ${toString zoomFactor}')"
+        "$mod CTRL, H, exec, hyprctl keyword cursor:zoom_factor 1"
+      ];
       bindl = [ ", switch:on:Lid Switch, exec, ${locks.swaylock}/bin/swaylock_ & disown && systemctl suspend" ];
       debug.disable_logs = false;
       decoration = {
@@ -278,12 +249,6 @@ in
       input.kb_options = "caps:swapescape";
       monitor = [ ", preferred, auto-up, 1.5" ];
       misc.disable_hyprland_logo = true;
-      "plugin:hyprtasking" = {
-        bg_color = "0xff${pkgs.lib.strings.removePrefix "#" palette.crust.hex}";
-        border_size = gap;
-        gap_size = gap;
-        gaps_use_aspect_ratio = true;
-      };
       windowrule = [
         "float true, match:class ^(org.pulseaudio.pavucontrol)$"
         "float true, match:class ^(.blueman-manager-wrapped)$"

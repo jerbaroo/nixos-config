@@ -13,14 +13,11 @@
   ghdashboardPort,
   hostname,
   hyprland,
-  hyprsplit,
-  hyprtasking,
   genericLinux,
   ignis,
   lib,
   nixgl,
   pkgs,
-  plugins,
   spicetify,
   stateVersion,
   system,
@@ -86,12 +83,9 @@ in
       inherit gap;
       inherit ghdashboardPort;
       inherit hyprland;
-      inherit hyprsplit;
-      inherit hyprtasking;
       inherit ignisPath;
       inherit palette;
       inherit pkgs;
-      inherit plugins;
       inherit system;
       inherit systemPAM;
       inherit temperature;

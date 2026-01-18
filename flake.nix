@@ -21,18 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:hyprwm/Hyprland";
     };
-    hyprland-plugins = {
-      inputs.hyprland.follows = "hyprland";
-      url = "github:hyprwm/hyprland-plugins";
-    };
-    hyprsplit = {
-      inputs.hyprland.follows = "hyprland";
-      url = "github:shezdy/hyprsplit";
-    };
-    hyprtasking = {
-      inputs.hyprland.follows = "hyprland";
-      url = "github:raybbian/hyprtasking";
-    };
     nixgl.url = "github:nix-community/nixGL";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
@@ -110,13 +98,8 @@
             color-schemes = inputs.color-schemes;
             genericLinux = true;
             hyprland = inputs.hyprland;
-            hyprsplit = null;
-            # hyprsplit = inputs.hyprsplit;
-            hyprtasking = null;
-            # hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
             nixgl = inputs.nixgl;
-            plugins = true;
             spicetify = inputs.spicetify;
             systemPAM = true;
             wrapGL = true;
