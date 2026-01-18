@@ -17,6 +17,8 @@
   ...
 }:
 let
+  defaultFloatSize = 0.8;
+  floatSize = fraction: "size (monitor_w*${toString(fraction)}) (monitor_h*${toString(fraction)})";
   ghdashboard = import ./ghdashboard/default.nix { inherit pkgs; };
   ghdashboardwithargs = pkgs.writeShellScriptBin "ghdashboardwithargs" "${ghdashboard}/bin/ghdashboard ${toString(ghdashboardPort)} /home/${username}/.config/read-gh-token.sh";
   hyprlock-systempam = (
@@ -39,6 +41,7 @@ let
       exec "$LOADER" --library-path "$LD_LIBRARY_PATH" "$REAL" "$@"
     ''
   );
+  lockAfterNotify = n: "notify-send --expire-time=1000 --icon=lock 'Locking in ${toString(n)} seconds' && paplay /usr/share/sounds/freedesktop/stereo/complete.oga";
   lockAfterSeconds = 60;
   locks = import ./lock.nix { inherit ignisPath; inherit palette; inherit pkgs; };
   os-current-monitor = pkgs.writeShellScriptBin "os-current-monitor" "hyprctl monitors | awk -F '[ ()]+' '/Monitor/ {id=$4} /focused: yes/ {print id; exit}'";
@@ -64,15 +67,15 @@ in
       };
       listener = [
         {
-          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 3 seconds'";
+          on-timeout = lockAfterNotify(3);
           timeout = lockAfterSeconds - 3;
         }
         {
-          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 2 seconds'";
+          on-timeout = lockAfterNotify(2);
           timeout = lockAfterSeconds - 2;
         }
         {
-          on-timeout = "notify-send --expire-time=1000 --icon=lock 'Locking in 1 second'";
+          on-timeout = lockAfterNotify(1);
           timeout = lockAfterSeconds - 1;
         }
         {
