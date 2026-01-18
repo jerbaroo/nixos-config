@@ -1,6 +1,7 @@
 {
   accent,
   allowUnfreePredicate,
+  borderSize,
   catppuccin,
   codeBackgroundOpacity,
   codeFontName,
@@ -17,13 +18,13 @@
   genericLinux,
   ignis,
   lib,
-  niri,
   nixgl,
   pkgs,
   plugins,
   spicetify,
   stateVersion,
   system,
+  systemFontSize,
   systemPAM,
   temperature,
   username,
@@ -39,7 +40,6 @@ in
   imports = [
     catppuccin.homeModules.catppuccin
     ignis.homeManagerModules.default
-    niri.homeModules.niri
     spicetify.homeManagerModules.default
 
     (import ./browser.nix { inherit ghdashboardPort; inherit pkgs; })
@@ -58,7 +58,7 @@ in
       inherit pkgs;
       inherit username;
     })
-    ./fonts.nix
+    (import ./fonts.nix { inherit pkgs; inherit systemFontSize; })
     (import ./ghostty.nix {
       inherit accent;
       inherit codeFontName;
@@ -80,6 +80,7 @@ in
     })
     (import ./hyprland.nix {
       inherit accent;
+      inherit borderSize;
       inherit config;
       inherit flavor;
       inherit gap;
@@ -116,7 +117,6 @@ in
     (import ./neovim.nix {
       inherit pkgs;
     })
-    ./niri.nix
     ./notifications.nix
     ./packages.nix
     ./quickshell.nix

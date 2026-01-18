@@ -1,5 +1,6 @@
 {
   accent,
+  borderSize,
   config,
   flavor,
   ghdashboardPort,
@@ -132,6 +133,7 @@ in
             ]
         )
         ++ [
+          ",Delete, exec, os-lock & disown && sleep 1 && systemctl suspend"
           # Function keys.
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
           ",XF86MonBrightnessUp  , exec, ${pkgs.brightnessctl}/bin/brightnessctl s +10%"
@@ -227,7 +229,7 @@ in
         "ignis init"
       ];
       general = {
-        border_size = 2;
+        border_size = borderSize;
         "col.active_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.${accent}.hex})";
         "col.inactive_border" = "rgb(${pkgs.lib.strings.removePrefix "#" palette.base.hex})";
         gaps_in = gap;

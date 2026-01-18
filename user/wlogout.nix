@@ -44,7 +44,7 @@ in {
     window {
       background-image: url("/home/jeremy-barisch-rooney/wallpaper-blurred.jpg");
       background-size: cover;
-      font-size: 18px;
+      font-size: 22px;
     }
 
     button {

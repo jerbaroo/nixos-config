@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, systemFontSize, ... }:
 {
   fonts.fontconfig.enable = true;
 
   gtk.font = {
     name = "Atkinson Hyperlegible";
     package = pkgs.atkinson-hyperlegible;
-    size = 10;
+    size = systemFontSize;
   };
 
   home.packages = with pkgs; [

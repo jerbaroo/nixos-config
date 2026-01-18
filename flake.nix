@@ -33,12 +33,7 @@
       inputs.hyprland.follows = "hyprland";
       url = "github:raybbian/hyprtasking";
     };
-    niri.url = "github:sodiboo/niri-flake";
     nixgl.url = "github:nix-community/nixGL";
-    nixos-cosmic = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:lilyinstarlight/nixos-cosmic";
-    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     spicetify.url = "github:Gerg-L/spicetify-nix";
@@ -50,16 +45,16 @@
       allowUnfreePredicate =
         let whitelist = map pkgs.lib.getName [ pkgs.spotify ];
         in  pkg: builtins.elem (pkgs.lib.getName pkg) whitelist;
+      borderSize = 2;
       codeBackgroundOpacity = 0.7;
       codeFontName = "Iosevka Nerd Font Mono";
-      codeFontSize = 11;
+      codeFontSize = 14;
       flavor = "mocha";
-      gap = 3;
+      gap = 5;
       ghdashboardPort = 1234;
       hostname = "nixos";
       pkgs = import inputs.nixpkgs {
         overlays = [
-            inputs.niri.overlays.niri
             inputs.nixgl.overlay
             inputs.nur.overlays.default
         ];
@@ -67,6 +62,7 @@
       };
       stateVersion = "25.05";
       system = "x86_64-linux";
+      systemFontSize = 16;
       temperature = 3000;
       username = "jeremy-barisch-rooney";
     in
@@ -78,7 +74,6 @@
             ./system/nixos.nix
             inputs.catppuccin.nixosModules.catppuccin
             inputs.home-manager.nixosModules.home-manager
-            inputs.nixos-cosmic.nixosModules.default
           ];
           specialArgs = {
             inherit accent;
@@ -98,6 +93,7 @@
           extraSpecialArgs = {
             inherit accent;
             inherit allowUnfreePredicate;
+            inherit borderSize;
             inherit codeBackgroundOpacity;
             inherit codeFontName;
             inherit codeFontSize;
@@ -107,6 +103,7 @@
             inherit hostname;
             inherit stateVersion;
             inherit system;
+            inherit systemFontSize;
             inherit temperature;
             inherit username;
             catppuccin = inputs.catppuccin;
@@ -118,7 +115,6 @@
             hyprtasking = null;
             # hyprtasking = inputs.hyprtasking;
             ignis = inputs.ignis;
-            niri = inputs.niri;
             nixgl = inputs.nixgl;
             plugins = true;
             spicetify = inputs.spicetify;
