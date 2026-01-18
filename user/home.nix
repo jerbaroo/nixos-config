@@ -52,6 +52,7 @@ in
       inherit flavor;
       inherit pkgs;
     })
+    ./eza.nix
     (import ./fish.nix {
       inherit accent;
       inherit lib;
@@ -109,7 +110,6 @@ in
       inherit pkgs;
       inherit wrapGL;
     })
-    ./lsd.nix
     (import ./neovim.nix {
       inherit pkgs;
     })

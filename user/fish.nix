@@ -168,7 +168,7 @@ in
       grep = "batgrep";
       f = "git_fixup";
       g = "git";
-      l = "lsd";
+      l = "eza";
       man = "batman";
       s = "git status";
       watch = "batwatch";
